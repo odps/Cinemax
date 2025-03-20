@@ -1,0 +1,42 @@
+=== Definición y supuestos sobre los que se trabaja. ===
+
+- La Web pertenece a UNA empresa. (No es un grupo empresarial ni se trabaja con otros operadores).
+
+- Esta empresa tiene varias salas de cine en franquicia distribuidas por la ciudad. (Franquicias)
+
+- Los servicios que ofrecen son de entretenimiento. (No incluidos alimentos ni otros servicios de valor añadido)
+
+- Por simplificar el sistema, las funciones de las salas de cine tendrán un tiempo estándar de 2hrs.
+
+- Los usuarios solo pueden dejar 1 al mismo tiempo, en caso de cambiar de opinión pueden modificar o eliminarla.
+
+- Las salas de cine, al ser franquicias, pueden variar en información fiscal (nif).
+
+- Un usuario puede comprar mas de un ticket para una misma función, dicho ticket contiene la información sobre la función atendida, el costo de la misma asi como el asiento que ocupa.
+
+- La información que se va a guardar sobre las peliculas es solo aquella que es de interés comercial para la empresa, es decir, nombre, genero, limite de edad, director y una breve descripción para mostrar en el sitio web.
+
+- Las salas de cine se considerar que todas cumplen con un tamaño mínimo estándar, por lo que la disposición de las mismas y la asignación de asientos no variara.
+
+=== El objetivo de este proyecto es la creación de un sitio web en el que los usuarios puedan adquirir los servicios de la empresa y a su vez la empresa pueda recopilar datos de interés para su actividad económica:
+
+=== Landing Page:
+Información genérica sobre la empresa, nuestros servicios, contact us, FAQ, login y register, promociones y demás...
+
+=== Los usuarios pueden:
+- Registrarse y acceder a una cuenta dentro de la plataforma.
+- Ver las salas de cines disponibles en la ciudad.
+- Pueden consultar y dejar reviews a la sala de cine (atención, limpieza, etc...)
+- Ver que peliculas están disponibles y en que sala se encuentran.
+- Ver los horarios de emisión de las peliculas.
+- Pueden ver en tiempo real los asientos disponibles y comprar/reservar.
+- La compra se puede realizar por métodos de pago seguros.
+- Tras la compra, se emite una factura que puede ser consultada en cualquier momento.
+
+=== Como admin de la empresa:
+- Quiero poder visualizar informacion relevante con un dashboard o alguna representación grafica de los datos.
+- Quiero poder consultar que salas de cine tienen mayor afluencia.
+- Consultar que peliculas son mas populares.
+- Saber cuanto se ha facturado.
+- Saber que fila/asiento es mas popular.
+- Saber que demográfica suele frecuentar las sesiones.
