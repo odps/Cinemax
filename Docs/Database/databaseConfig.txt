@@ -1,0 +1,19 @@
+ Haciendo uso de oracle express edition, antes de cualquier cosa debemos crear una "base de datos", en oracle no se gestiona como en otras RDS, para configurarlo seguimos los siguientes pasos:
+
+Nuestra base de datos se encuentra alojada en un contenedor de docker (el cual se puede obtener en los repositorios oficiales de oracle), por lo que los pasos siguientes estaran basados en este supuesto.
+
+Primero entramos en la consola interactiva del contenedor de docker, Nos logamos a la herramienta de sql como administradores de la base de datos con:
+
+docker exec -it <container_name_or_id> sqlplus sys as sysdba
+
+Luego creamos una pluggable database con:
+
+SELECT name, open_mode FROM v$pdbs;
+
+ALTER SESSION SET CONTAINER = XEPDB1; // o lo que haya devuelto el comando anterior
+
+CREATE USER cinemax IDENTIFIED BY tu-contrasena;
+GRANT CONNECT, RESOURCE TO cinemax;
+GRANT UNLIMITED TABLESPACE TO cinemax;
+
+Esto nos permite tener un usuario al cual poder acceder desde cualquier otra herramienta o entorno grafico que permita la gestion de bb.dd de Oracle (en nuestro caso SQLDeveloper)

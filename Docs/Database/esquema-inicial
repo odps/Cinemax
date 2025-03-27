@@ -1,0 +1,92 @@
+### Esquema de Base de Datos:
+
+1. **Usuario**
+   - `id_usuario` (PK): Identificador único del usuario.
+   - `nombre`: Nombre del usuario.
+   - `correo`: Correo electrónico del usuario (único).
+   - `contraseña`: Contraseña cifrada del usuario.
+   - `fecha_registro`: Fecha de registro del usuario.
+
+2. **Rol**
+   - `id_rol` (PK): Identificador único del rol.
+   - `nombre_rol`: Nombre del rol (ej. "Cliente", "Administrador").
+
+3. **Permiso**
+   - `id_permiso` (PK): Identificador único del permiso.
+   - `nombre_permiso`: Nombre del permiso (ej. "Gestionar películas", "Ver estadísticas").
+
+4. **Rol_Permiso** (Tabla intermedia para roles y permisos)
+   - `id_rol` (FK): Rol al que se asocia el permiso.
+   - `id_permiso` (FK): Permiso asociado al rol.
+
+5. **Review**
+   - `id_review` (PK): Identificador único de la review.
+   - `id_usuario` (FK): Usuario que realiza la review.
+   - `id_cine` (FK): Cine sobre el que se realiza la review.
+   - `puntuación`: Puntuación dada por el usuario (ej. 1-5).
+   - `comentario`: Comentario del usuario sobre el cine.
+   - `fecha_review`: Fecha en que se realizó la review.
+
+6. **Cine**
+   - `id_cine` (PK): Identificador único del cine.
+   - `nombre`: Nombre del cine.
+   - `dirección`: Dirección física del cine.
+   - `ciudad`: Ciudad donde se encuentra el cine.
+   - `NIF`: Número de identificación fiscal del cine.
+
+7. **Sala**
+   - `id_sala` (PK): Identificador único de la sala.
+   - `id_cine` (FK): Cine al que pertenece la sala.
+   - `nombre_sala`: Nombre o número de la sala.
+   - `capacidad`: Capacidad total de la sala (número de asientos).
+
+8. **Asiento**
+   - `id_asiento` (PK): Identificador único del asiento.
+   - `id_sala` (FK): Sala a la que pertenece el asiento.
+   - `fila`: Fila del asiento en la sala (ej. "A", "B", "C").
+   - `numero`: Número del asiento en la fila (ej. 1, 2, 3).
+
+9. **Disponibilidad_Asiento** (Tabla para gestionar la disponibilidad por función)
+   - `id_disponibilidad` (PK): Identificador único de la disponibilidad.
+   - `id_asiento` (FK): Asiento asociado.
+   - `id_funcion` (FK): Función asociada.
+   - `estado`: Estado del asiento (disponible, reservado, ocupado).
+   - `bloqueado_hasta`: Fecha y hora hasta la que el asiento está bloqueado
+
+10. **Película**
+    - `id_pelicula` (PK): Identificador único de la película.
+    - `titulo`: Título de la película.
+    - `genero`: Género de la película (ej. Acción, Comedia, Drama).
+    - `duracion`: Duración de la película en minutos.
+    - `limite_edad`: Límite de edad recomendado (ej. +18).
+    - `director`: Director de la película.
+    - `descripcion`: Breve descripción de la película.
+
+11. **Función**
+    - `id_funcion` (PK): Identificador único de la función.
+    - `id_pelicula` (FK): Película que se proyecta en la función.
+    - `id_sala` (FK): Sala donde se proyecta la función.
+    - `fecha_hora`: Fecha y hora de la función.
+    - `precio`: Precio de la entrada para esta función.
+
+12. **Ticket**
+    - `id_ticket` (PK): Identificador único del ticket.
+    - `id_usuario` (FK): Usuario que compró el ticket.
+    - `id_funcion` (FK): Función a la que corresponde el ticket.
+    - `id_asiento` (FK): Asiento reservado en la función.
+    - `fecha_compra`: Fecha y hora de la compra del ticket.
+
+14. **Factura**
+    - `id_factura` (PK): Identificador único de la factura.
+    - `id_ticket` (FK): Ticket asociado a la factura.
+    - `id_usuario` (FK): Usuario que realizó la compra.
+    - `fecha_emision`: Fecha de emisión de la factura.
+    - `monto_total`: Monto total de la factura.
+    - `metodo_pago`: Método de pago utilizado (ej. Stripe, PayPal).
+    - `estado`: Estado de la factura (pagada, cancelada).
+
+15. **Log** (Tabla para auditoría y registro de acciones)
+    - `id_log` (PK): Identificador único del log.
+    - `id_usuario` (FK): Usuario que realizó la acción.
+    - `accion`: Descripción de la acción (ej. "Inicio de sesión", "Compra de ticket").
+    - `fecha_accion`: Fecha y hora de la acción.
