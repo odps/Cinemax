@@ -44,7 +44,7 @@ CREATE TABLE Review (
     id_usuario NUMBER NOT NULL,
     id_cine NUMBER NOT NULL,
     puntuacion NUMBER(1) CHECK (puntuacion BETWEEN 1 AND 5) NOT NULL,
-    comentario CLOB,
+    comentario VARCHAR2(255),
     fecha_review TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
     FOREIGN KEY (id_cine) REFERENCES Cine(id_cine)
