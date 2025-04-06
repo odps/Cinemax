@@ -28,4 +28,60 @@ public class Sala {
     @OneToMany(mappedBy = "idSala")
     private List<Funcion> funciones;
 
+    public Sala(Cine cine, String nombre, Long capacidad) {
+        this.cine = cine;
+        this.nombre = nombre;
+        this.capacidad = capacidad;
+    }
+
+    public Sala() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Cine getCine() {
+        return cine;
+    }
+
+    public void setCine(Cine cine) {
+        this.cine = cine;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Long getCapacidad() {
+        return capacidad;
+    }
+
+    public void setCapacidad(Long capacidad) {
+        this.capacidad = capacidad;
+    }
+
+    public List<Asiento> getAsientos() {
+        return asientos;
+    }
+
+    public void setAsientos(List<Asiento> asientos) {
+        this.asientos = asientos;
+    }
+
+    public List<Funcion> getFunciones() {
+        return funciones;
+    }
+
+    public void setFunciones(List<Funcion> funciones) {
+        this.funciones = funciones;
+    }
 }

@@ -33,5 +33,69 @@ public class Funcion {
     @OneToMany(mappedBy = "funcion")
     private List<Ticket> tickets;
 
+    public Funcion(Pelicula idPelicula, Sala idSala, LocalDate fechaHora, long precio) {
+        this.idPelicula = idPelicula;
+        this.idSala = idSala;
+        this.fechaHora = fechaHora;
+        this.precio = precio;
+    }
 
+    public Funcion() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Pelicula getIdPelicula() {
+        return idPelicula;
+    }
+
+    public void setIdPelicula(Pelicula idPelicula) {
+        this.idPelicula = idPelicula;
+    }
+
+    public Sala getIdSala() {
+        return idSala;
+    }
+
+    public void setIdSala(Sala idSala) {
+        this.idSala = idSala;
+    }
+
+    public LocalDate getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(LocalDate fechaHora) {
+        this.fechaHora = fechaHora;
+    }
+
+    public long getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(long precio) {
+        this.precio = precio;
+    }
+
+    public List<DisponibilidadAsiento> getDispoAsientos() {
+        return dispoAsientos;
+    }
+
+    public void setDispoAsientos(List<DisponibilidadAsiento> dispoAsientos) {
+        this.dispoAsientos = dispoAsientos;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
 }

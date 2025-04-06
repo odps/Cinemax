@@ -26,5 +26,54 @@ public class DisponibilidadAsiento {
     @Column(name = "BLOQUEADO_HASTA")
     private LocalDate bloqueadoHasta;
 
+    public DisponibilidadAsiento(long id, Asiento idAsiento, Funcion idFuncion, String estado, LocalDate bloqueadoHasta) {
+        this.id = id;
+        this.idAsiento = idAsiento;
+        this.idFuncion = idFuncion;
+        this.estado = estado;
+        this.bloqueadoHasta = bloqueadoHasta;
+    }
 
+    public DisponibilidadAsiento() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Asiento getIdAsiento() {
+        return idAsiento;
+    }
+
+    public void setIdAsiento(Asiento idAsiento) {
+        this.idAsiento = idAsiento;
+    }
+
+    public Funcion getIdFuncion() {
+        return idFuncion;
+    }
+
+    public void setIdFuncion(Funcion idFuncion) {
+        this.idFuncion = idFuncion;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public LocalDate getBloqueadoHasta() {
+        return bloqueadoHasta;
+    }
+
+    public void setBloqueadoHasta(LocalDate bloqueadoHasta) {
+        this.bloqueadoHasta = bloqueadoHasta;
+    }
 }

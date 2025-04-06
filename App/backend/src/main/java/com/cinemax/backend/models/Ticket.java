@@ -28,5 +28,53 @@ public class Ticket {
     @CreationTimestamp
     @Column(name = "FECHA_COMPRA", nullable = false)
     private LocalDate fechaCompra;
-    
+
+    public Ticket(Usuario usuario, Funcion funcion, Asiento asiento) {
+        this.usuario = usuario;
+        this.funcion = funcion;
+        this.asiento = asiento;
+    }
+
+    public Ticket() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Funcion getFuncion() {
+        return funcion;
+    }
+
+    public void setFuncion(Funcion funcion) {
+        this.funcion = funcion;
+    }
+
+    public Asiento getAsiento() {
+        return asiento;
+    }
+
+    public void setAsiento(Asiento asiento) {
+        this.asiento = asiento;
+    }
+
+    public LocalDate getFechaCompra() {
+        return fechaCompra;
+    }
+
+    public void setFechaCompra(LocalDate fechaCompra) {
+        this.fechaCompra = fechaCompra;
+    }
 }

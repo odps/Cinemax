@@ -23,4 +23,42 @@ public class Log {
     @CreationTimestamp
     @Column(name = "FECHA_ACCION", nullable = false)
     private LocalDateTime fechaAccion;
+
+    public Log(Usuario usuario, String accion, LocalDateTime fechaAccion) {
+        this.usuario = usuario;
+        this.accion = accion;
+        this.fechaAccion = fechaAccion;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+
+    public LocalDateTime getFechaAccion() {
+        return fechaAccion;
+    }
+
+    public void setFechaAccion(LocalDateTime fechaAccion) {
+        this.fechaAccion = fechaAccion;
+    }
 }

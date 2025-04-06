@@ -32,4 +32,80 @@ public class Pelicula {
 
     @OneToMany(mappedBy = "idPelicula")
     private List<Funcion> funciones;
+
+    public Pelicula(String titulo, String genero, long duracion, String limiteEdad, String director, String descripcion) {
+        this.titulo = titulo;
+        this.genero = genero;
+        this.duracion = duracion;
+        this.limiteEdad = limiteEdad;
+        this.director = director;
+        this.descripcion = descripcion;
+    }
+
+    public Pelicula() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public long getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(long duracion) {
+        this.duracion = duracion;
+    }
+
+    public String getLimiteEdad() {
+        return limiteEdad;
+    }
+
+    public void setLimiteEdad(String limiteEdad) {
+        this.limiteEdad = limiteEdad;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public List<Funcion> getFunciones() {
+        return funciones;
+    }
+
+    public void setFunciones(List<Funcion> funciones) {
+        this.funciones = funciones;
+    }
 }

@@ -34,4 +34,71 @@ public class Factura {
     @Column(name = "ESTADO", nullable = false, length = 20)
     private String estado;
 
+    public Factura(Ticket ticket, Usuario usuario, LocalDate fechaEmision, long montoTotal, String metodoPago, String estado) {
+        this.ticket = ticket;
+        this.usuario = usuario;
+        this.fechaEmision = fechaEmision;
+        this.montoTotal = montoTotal;
+        this.metodoPago = metodoPago;
+        this.estado = estado;
+    }
+
+    public Factura() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public LocalDate getFechaEmision() {
+        return fechaEmision;
+    }
+
+    public void setFechaEmision(LocalDate fechaEmision) {
+        this.fechaEmision = fechaEmision;
+    }
+
+    public long getMontoTotal() {
+        return montoTotal;
+    }
+
+    public void setMontoTotal(long montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

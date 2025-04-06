@@ -28,5 +28,60 @@ public class Asiento {
     @OneToMany(mappedBy = "asiento")
     private List<Ticket> tickets;
 
+    public Asiento(Sala idSala, String fila, long numero) {
+        this.idSala = idSala;
+        this.fila = fila;
+        this.numero = numero;
+    }
 
+    public Asiento() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Sala getIdSala() {
+        return idSala;
+    }
+
+    public void setIdSala(Sala idSala) {
+        this.idSala = idSala;
+    }
+
+    public String getFila() {
+        return fila;
+    }
+
+    public void setFila(String fila) {
+        this.fila = fila;
+    }
+
+    public long getNumero() {
+        return numero;
+    }
+
+    public void setNumero(long numero) {
+        this.numero = numero;
+    }
+
+    public List<DisponibilidadAsiento> getDispoAsientos() {
+        return dispoAsientos;
+    }
+
+    public void setDispoAsientos(List<DisponibilidadAsiento> dispoAsientos) {
+        this.dispoAsientos = dispoAsientos;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
 }
