@@ -1,0 +1,97 @@
+<nav class="border-b border-gray-700">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo y menú -->
+      <div class="flex items-center">
+        <div class="flex items-center space-x-2 pl-0">
+          <img [src]="'assets/logo.png'" alt="logo" class="h-8 w-auto">
+          <span class="text-3xl font-bold text-gray-300">CineMaxx</span>
+        </div>
+        <!-- Menú escritorio -->
+        <div class="hidden md:flex space-x-4 ml-12">
+          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
+          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
+          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
+          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
+          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Contacto</a>
+        </div>
+      </div>
+
+      <!-- Barra de búsqueda y botón -->
+      <div class="flex items-center space-x-4">
+        <!-- Barra de búsqueda versión escritorio -->
+        <div class="hidden lg:block">
+          <p-iconfield iconPosition="left">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input
+              pInputText
+              type="text"
+              placeholder="Buscar..."
+              class="w-64 bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
+            />
+          </p-iconfield>
+        </div>
+
+        <!-- Búsqueda móvil/tablet -->
+        <div class="lg:hidden relative">
+          <button class="p-2 hover:bg-gray-700 rounded-lg" (click)="toggleSearch()">
+            <i class="pi pi-search text-gray-300"></i>
+          </button>
+          <!-- Input búsqueda móvil/tablet -->
+          <div *ngIf="isSearchOpen" class="absolute right-0 top-12 w-60 bg-[#0b1026] shadow-lg rounded-lg p-2 border border-gray-700">
+            <p-iconfield iconPosition="left">
+              <p-inputicon>
+                <i class="pi pi-search"></i>
+              </p-inputicon>
+              <input
+                pInputText
+                type="text"
+                placeholder="Buscar..."
+                class="w-full bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
+              />
+            </p-iconfield>
+          </div>
+        </div>
+      </div>
+
+        <!-- Botón login -->
+        <div class="flex items-center">
+          <!-- Versión escritorio -->
+          <p-button
+            icon="pi pi-user"
+            label="Iniciar sesión"
+            [raised]="true"
+            severity="info"
+            class="hidden xl:block">
+          </p-button>
+          <!-- Versión móvil/tablet -->
+          <p-button
+            icon="pi pi-user"
+            [rounded]="true"
+            [text]="true"
+            [raised]="true"
+            severity="info"
+            class="xl:hidden"
+            styleClass="p-button-rounded">
+          </p-button>
+        </div>
+
+        <!-- Botón menú móvil -->
+        <button class="md:hidden p-2 hover:bg-gray-700 rounded-lg" (click)="toggleMenu()">
+          <i class="pi pi-bars text-gray-300"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú móvil -->
+    <div class="md:hidden" [ngClass]="{'hidden': !isMenuOpen}">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
+        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Servicios</a>
+        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Acerca de</a>
+        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Contacto</a>
+      </div>
+    </div>
+</nav>
