@@ -5,6 +5,7 @@ import com.cinemax.backend.repositories.UsuarioRepo;
 import com.cinemax.backend.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Autowired
     UsuarioRepo usuarioRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<?> getUsuarios() {
@@ -41,6 +45,7 @@ public class UsuarioServiceImp implements UsuarioService {
         if (checkUsuario != null) {
             return ResponseEntity.badRequest().body("Email ocupado");
         } else {
+            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
             usuarioRepo.save(usuario);
             return ResponseEntity.ok(usuario);
         }

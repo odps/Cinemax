@@ -28,6 +28,7 @@ public class Pelicula {
     private String director;
 
     @Column(name = "DESCRIPCION")
+    @Lob
     private String descripcion;
 
     @OneToMany(mappedBy = "idPelicula")

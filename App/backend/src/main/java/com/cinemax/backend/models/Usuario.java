@@ -1,5 +1,6 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -31,6 +32,7 @@ public class Usuario {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_ROL", nullable = false)
+    @JsonIgnoreProperties({"usuarios"})
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario")

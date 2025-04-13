@@ -17,3 +17,22 @@ GRANT CONNECT, RESOURCE TO cinemax;
 GRANT UNLIMITED TABLESPACE TO cinemax;
 
 Esto nos permite tener un usuario al cual poder acceder desde cualquier otra herramienta o entorno grafico que permita la gestion de bb.dd de Oracle (en nuestro caso SQLDeveloper)
+
+----------
+
+Antes de cualquier cambio futuro a la base de datos, al entrar a sqlplus usamos
+
+SHOW CON_NAME;
+Si no estás en la base de datos pluggable correcta, cámbiala con:
+
+
+ALTER SESSION SET CONTAINER = XEPDB1;
+
+Podemos verificar la existencia de nuestro usuario anterior con
+
+SELECT USERNAME FROM DBA_USERS WHERE USERNAME = 'CINEMAX';
+
+En caso de que no nos permita modificar la BB.DD
+podemos asignar cuotas de usuario usando
+
+ALTER USER cinemax QUOTA UNLIMITED ON USERS;

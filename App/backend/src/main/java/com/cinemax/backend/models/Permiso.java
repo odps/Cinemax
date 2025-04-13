@@ -1,5 +1,6 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -17,6 +18,7 @@ public class Permiso {
     private String nombre;
 
     @ManyToMany(mappedBy = "permisos", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Rol> roles = new HashSet<>();
 
     public Permiso(String nombre) {
