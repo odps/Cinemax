@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -10,8 +10,9 @@ import {InputIcon} from 'primeng/inputicon';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   standalone: true,
-  imports: [CommonModule, ButtonModule, InputTextModule, IconFieldModule, InputIcon]
+  imports: [CommonModule, ButtonModule, InputTextModule, IconFieldModule, InputIcon, NgOptimizedImage]
 })
+
 export class NavbarComponent {
   isMenuOpen = false;
   isSearchOpen = false;
@@ -22,5 +23,9 @@ export class NavbarComponent {
 
   toggleSearch() {
     this.isSearchOpen = !this.isSearchOpen;
+  }
+
+  onSearchBlur() {
+    this.isSearchOpen = false;
   }
 }

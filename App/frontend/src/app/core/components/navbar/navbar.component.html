@@ -4,7 +4,7 @@
       <!-- Logo y menú -->
       <div class="flex items-center">
         <div class="flex items-center space-x-2 pl-0">
-          <img [src]="'assets/logo.png'" alt="logo" class="h-8 w-auto">
+          <img ngSrc="assets/logo.png" alt="logo" class="h-8 w-auto" height="484" width="702">
           <span class="text-3xl font-bold text-gray-300">CineMaxx</span>
         </div>
         <!-- Menú escritorio -->
@@ -13,7 +13,6 @@
           <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
           <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
           <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
-          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Contacto</a>
         </div>
       </div>
 
@@ -34,30 +33,37 @@
           </p-iconfield>
         </div>
 
-        <!-- Búsqueda móvil/tablet -->
-        <div class="lg:hidden relative">
-          <button class="p-2 hover:bg-gray-700 rounded-lg" (click)="toggleSearch()">
+        <!-- Búsqueda móvil/tablet transformable -->
+        <div class="lg:hidden flex items-center">
+          <!-- Icono de búsqueda (visible cuando no está activa la búsqueda) -->
+          <button *ngIf="!isSearchOpen" class="p-2 hover:bg-gray-700 rounded-lg" (click)="toggleSearch()">
             <i class="pi pi-search text-gray-300"></i>
           </button>
-          <!-- Input búsqueda móvil/tablet -->
-          <div *ngIf="isSearchOpen" class="absolute right-0 top-12 w-60 bg-[#0b1026] shadow-lg rounded-lg p-2 border border-gray-700">
-            <p-iconfield iconPosition="left">
+
+          <!-- Barra de búsqueda expandida (visible cuando se activa) -->
+          <div *ngIf="isSearchOpen" class="flex items-center">
+            <p-iconfield iconPosition="left" class="w-full">
               <p-inputicon>
                 <i class="pi pi-search"></i>
               </p-inputicon>
               <input
+                #searchInput
                 pInputText
                 type="text"
                 placeholder="Buscar..."
-                class="w-full bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
+                class="w-52 bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
+                (blur)="onSearchBlur()"
               />
             </p-iconfield>
+            <button class="ml-2 p-1 hover:bg-gray-700 rounded-lg" (click)="toggleSearch()">
+              <i class="pi pi-times text-gray-300"></i>
+            </button>
           </div>
         </div>
       </div>
 
-        <!-- Botón login -->
-        <div class="flex items-center">
+        <!-- Botón login - visible solo en pantallas md y superiores -->
+        <div class="hidden md:flex items-center">
           <!-- Versión escritorio -->
           <p-button
             icon="pi pi-user"
@@ -66,7 +72,7 @@
             severity="info"
             class="hidden xl:block">
           </p-button>
-          <!-- Versión móvil/tablet -->
+          <!-- Versión móvil/tablet (pero solo desde md hasta xl) -->
           <p-button
             icon="pi pi-user"
             [rounded]="true"
@@ -89,9 +95,12 @@
     <div class="md:hidden" [ngClass]="{'hidden': !isMenuOpen}">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
-        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Servicios</a>
-        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Acerca de</a>
-        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Contacto</a>
+        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
+        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
+        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
+        <a href="#" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">
+          <i class="pi pi-user mr-2"></i> Iniciar sesión
+        </a>
       </div>
     </div>
 </nav>

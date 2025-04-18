@@ -1,0 +1,65 @@
+<!-- Hero Section -->
+<section class="relative bg-gray-900 text-white">
+  <!-- Fondo con overlay -->
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/logo.png');">
+    <div class="absolute inset-0 bg-black opacity-60"></div>
+  </div>
+
+  <!-- Contenido Hero -->
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-36">
+    <div class="flex flex-col items-start space-y-6 max-w-3xl">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+        Disfruta del mejor cine en CineMaxx
+      </h1>
+      <p class="text-lg md:text-xl text-gray-200">
+        Las mejores películas, los mejores estrenos y la mejor experiencia cinematográfica te esperan en nuestras salas.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <p-button label="Ver cartelera" icon="pi pi-ticket" styleClass="p-button-lg" severity="info"></p-button>
+        <p-button label="Promociones" icon="pi pi-star" styleClass="p-button-lg" [outlined]="true"></p-button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sección de Artículos Relacionados -->
+<section class="bg-gray-800 py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Título de sección -->
+    <div class="mb-12 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white">Próximos Estrenos</h2>
+      <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
+        Descubre las películas que llegarán pronto a nuestras salas
+      </p>
+    </div>
+
+    <!-- Grid de artículos -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Artículos regulares -->
+      <app-movie-card
+        *ngFor="let movie of movies"
+        [imageUrl]="movie.imageUrl"
+        [title]="movie.title"
+        [releaseDate]="movie.releaseDate"
+        [genres]="movie.genres">
+      </app-movie-card>
+    </div>
+
+    <!-- Película destacada (ocupa toda la fila) -->
+    <div class="mt-8">
+      <app-movie-card
+        [imageUrl]="highlightedMovie.imageUrl"
+        [title]="highlightedMovie.title"
+        [releaseDate]="highlightedMovie.releaseDate"
+        [genres]="highlightedMovie.genres"
+        [isHighlighted]="true"
+        class="w-full">
+      </app-movie-card>
+    </div>
+
+    <!-- Ver más películas -->
+    <div class="mt-12 text-center">
+      <p-button label="Ver más películas" icon="pi pi-film" [outlined]="true" size="large"></p-button>
+    </div>
+  </div>
+</section>
