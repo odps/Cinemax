@@ -34,6 +34,19 @@
     </div>
 
     <!-- Grid de artículos -->
+
+    <!-- Película destacada (ocupa toda la fila) -->
+    <div class="mt-8 mb-8">
+      <app-movie-card
+        [imageUrl]="highlightedMovie.imageUrl"
+        [title]="highlightedMovie.title"
+        [releaseDate]="highlightedMovie.releaseDate"
+        [genres]="highlightedMovie.genres"
+        [isHighlighted]="true"
+        class="w-full">
+      </app-movie-card>
+    </div>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <!-- Artículos regulares -->
       <app-movie-card
@@ -45,17 +58,7 @@
       </app-movie-card>
     </div>
 
-    <!-- Película destacada (ocupa toda la fila) -->
-    <div class="mt-8">
-      <app-movie-card
-        [imageUrl]="highlightedMovie.imageUrl"
-        [title]="highlightedMovie.title"
-        [releaseDate]="highlightedMovie.releaseDate"
-        [genres]="highlightedMovie.genres"
-        [isHighlighted]="true"
-        class="w-full">
-      </app-movie-card>
-    </div>
+
 
     <!-- Ver más películas -->
     <div class="mt-12 text-center">

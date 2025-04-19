@@ -4,13 +4,14 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
   standalone: true,
-  imports: [CommonModule, ButtonModule, InputTextModule, IconFieldModule, InputIcon, NgOptimizedImage]
+  imports: [CommonModule, ButtonModule, InputTextModule, IconFieldModule, InputIcon, NgOptimizedImage, RouterLink, RouterLinkActive]
 })
 
 export class NavbarComponent {

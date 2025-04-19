@@ -9,10 +9,10 @@
         </div>
         <!-- Menú escritorio -->
         <div class="hidden md:flex space-x-4 ml-12">
-          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
-          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
-          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
-          <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
+          <a routerLink="/landing" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
+          <a routerLink="/cines" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
+          <a routerLink="/peliculas" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
+          <a routerLink="/promociones" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
         </div>
       </div>
 
@@ -94,10 +94,10 @@
     <!-- Menú móvil -->
     <div class="md:hidden" [ngClass]="{'hidden': !isMenuOpen}">
       <div class="px-2 pt-2 pb-3 space-y-1">
-        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
-        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
-        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
-        <a href="#" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
+        <a routerLink="/landing" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
+        <a routerLink="/cines" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
+        <a routerLink="/peliculas" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
+        <a routerLink="/promociones" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
         <a href="#" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">
           <i class="pi pi-user mr-2"></i> Iniciar sesión
         </a>

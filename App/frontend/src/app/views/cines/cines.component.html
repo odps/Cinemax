@@ -1,0 +1,88 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Hero Section con ubicación destacada -->
+  <section class="mb-12">
+    <div class="bg-gradient-to-r from-gray-900 to-indigo-900 rounded-xl overflow-hidden shadow-xl">
+      <div class="flex flex-col md:flex-row">
+        <!-- Imagen del cine destacado -->
+        <div class="md:w-1/2">
+          <img src="assets/logo.png" alt="Cine destacado" class="w-full h-full object-cover" style="min-height: 300px;">
+        </div>
+
+        <!-- Información del cine destacado -->
+        <div class="md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+          <div class="mb-2 flex items-center">
+            <i class="pi pi-star-fill text-yellow-400 mr-2"></i>
+            <span class="text-yellow-400 font-semibold">DESTACADO</span>
+          </div>
+          <h2 class="text-3xl font-bold text-white mb-2">CineMaxx Plaza Central</h2>
+          <div class="flex items-center mb-4">
+            <i class="pi pi-map-marker text-gray-300 mr-2"></i>
+            <p class="text-gray-300">Av. Principal 123, Centro Comercial Plaza Central</p>
+          </div>
+          <div class="space-y-3 mb-6">
+            <div class="flex items-center text-gray-300">
+              <i class="pi pi-phone mr-2"></i>
+              <span>+123 456 7890</span>
+            </div>
+            <div class="flex items-center text-gray-300">
+              <i class="pi pi-clock mr-2"></i>
+              <span>Abierto: 11:00 - 23:00</span>
+            </div>
+            <div class="flex items-start text-gray-300">
+              <i class="pi pi-info-circle mr-2 mt-1"></i>
+              <span>8 salas con tecnología de proyección 4K, sistema de sonido Dolby Atmos y asientos reclinables premium.</span>
+            </div>
+          </div>
+          <div class="flex space-x-3">
+            <p-button label="Ver cartelera" icon="pi pi-film" styleClass="p-button-raised"></p-button>
+            <p-button label="Ubicación" icon="pi pi-map-marker" styleClass="p-button-outlined" severity="secondary"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listado de cines -->
+  <section>
+    <h2 class="text-2xl font-bold text-gray-200 mb-6">Nuestros Cines</h2>
+
+    <div class="grid grid-cols-1 gap-6">
+      <!-- Tarjeta de cine (repetir para cada cine) -->
+      <div *ngFor="let i of [1, 2, 3, 4]" class="bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+        <div class="flex flex-col sm:flex-row">
+          <!-- Imagen del cine -->
+          <div class="sm:w-1/3">
+            <img src="assets/images/cine-{{i}}.jpg" alt="Cine {{i}}" class="w-full h-full object-cover" style="min-height: 200px;">
+          </div>
+
+          <!-- Información del cine -->
+          <div class="sm:w-2/3 p-5">
+            <h3 class="text-xl font-semibold text-white mb-2">CineMaxx {{i === 1 ? 'Norte' : i === 2 ? 'Sur' : i === 3 ? 'Este' : 'Oeste'}}</h3>
+            <div class="flex items-center mb-3">
+              <i class="pi pi-map-marker text-gray-400 mr-2"></i>
+              <p class="text-gray-400">Av. {{i === 1 ? 'Norte' : i === 2 ? 'Sur' : i === 3 ? 'Este' : 'Oeste'}} 456, Centro Comercial</p>
+            </div>
+            <div class="space-y-2 mb-4">
+              <div class="flex items-center text-gray-400">
+                <i class="pi pi-phone mr-2"></i>
+                <span>+123 456 78{{i}}0</span>
+              </div>
+              <div class="flex items-center text-gray-400">
+                <i class="pi pi-clock mr-2"></i>
+                <span>Abierto: 11:00 - 23:00</span>
+              </div>
+              <div class="flex items-start text-gray-400">
+                <i class="pi pi-info-circle mr-2 mt-1"></i>
+                <span>{{i + 4}} salas con tecnología moderna y cómodas instalaciones.</span>
+              </div>
+            </div>
+            <div class="flex space-x-2 pt-2">
+              <p-button label="Ver cartelera" icon="pi pi-film" styleClass="p-button-sm"></p-button>
+              <p-button label="Ubicación" icon="pi pi-map-marker" styleClass="p-button-outlined p-button-sm" severity="secondary"></p-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
