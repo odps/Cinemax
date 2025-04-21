@@ -61,26 +61,40 @@
           </div>
         </div>
 
-        <!-- Botón login - visible solo en pantallas md y superiores -->
+        <!-- Botón login / Menú usuario -->
         <div class="hidden md:flex items-center">
-          <p-button
-            icon="pi pi-user"
-            label="Iniciar sesión"
-            [raised]="true"
-            severity="info"
-            (click)="showLoginModal()"
-            class="hidden xl:block">
-          </p-button>
-          <p-button
-            icon="pi pi-user"
-            [rounded]="true"
-            [text]="true"
-            [raised]="true"
-            severity="info"
-            (click)="showLoginModal()"
-            class="xl:hidden"
-            styleClass="p-button-rounded">
-          </p-button>
+          <ng-container *ngIf="!isAuthenticated; else userMenu">
+            <p-button
+              icon="pi pi-user"
+              label="Iniciar sesión"
+              [raised]="true"
+              severity="info"
+              (click)="showLoginModal()"
+              class="hidden xl:block">
+            </p-button>
+            <p-button
+              icon="pi pi-user"
+              [rounded]="true"
+              [text]="true"
+              [raised]="true"
+              severity="info"
+              (click)="showLoginModal()"
+              class="xl:hidden"
+              styleClass="p-button-rounded">
+            </p-button>
+          </ng-container>
+
+          <ng-template #userMenu>
+            <p-menu #menu [model]="userMenuItems" [popup]="true"></p-menu>
+            <button
+              pButton
+              type="button"
+              class="p-button-text p-button-rounded p-button-info"
+              (click)="menu.toggle($event)">
+              <span class="hidden xl:inline-block mr-2">{{ currentUser?.nombre }}</span>
+              <i class="pi pi-user"></i>
+            </button>
+          </ng-template>
         </div>
 
         <!-- Botón menú móvil -->
@@ -95,11 +109,30 @@
       <div class="px-2 pt-2 pb-3 space-y-1">
         <a routerLink="/landing" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
         <a routerLink="/cines" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
-        <a routerLink="/peliculas" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
-        <a routerLink="/promociones" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
-        <a (click)="showLoginModal()" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer">
-          <i class="pi pi-user mr-2"></i> Iniciar sesión
-        </a>
+        <a routerLink="/peliculas" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
+        <a routerLink="/promociones" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
+
+        <!-- Opciones de autenticación en móvil -->
+        <ng-container *ngIf="!isAuthenticated; else mobileUserMenu">
+          <a (click)="showLoginModal()" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer">
+            <i class="pi pi-user mr-2"></i> Iniciar sesión
+          </a>
+        </ng-container>
+
+        <ng-template #mobileUserMenu>
+          <a class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md font-medium">
+            <i class="pi pi-user mr-2"></i> {{ currentUser?.nombre }}
+          </a>
+          <a routerLink="/perfil" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8">
+            <i class="pi pi-id-card mr-2"></i> Mi perfil
+          </a>
+          <a routerLink="/mis-tickets" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8">
+            <i class="pi pi-ticket mr-2"></i> Mis tickets
+          </a>
+          <a (click)="logout()" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8">
+            <i class="pi pi-sign-out mr-2"></i> Cerrar sesión
+          </a>
+        </ng-template>
       </div>
     </div>
   </div>

@@ -23,7 +23,7 @@
         <p-inputicon>
           <i class="pi pi-envelope"></i>
         </p-inputicon>
-        <input type="email" pInputText id="email" [(ngModel)]="loginForm.email" class="w-full bg-gray-700 text-white border-gray-600" placeholder="correo@ejemplo.com" />
+        <input type="email" pInputText id="email" [(ngModel)]="loginForm.correo" class="w-full bg-gray-700 text-white border-gray-600" placeholder="correo@ejemplo.com" />
       </p-iconfield>
     </div>
     <div class="field mb-5">
@@ -32,14 +32,14 @@
         <p-inputicon>
           <i class="pi pi-lock"></i>
         </p-inputicon>
-        <p-password id="password" [(ngModel)]="loginForm.password" [toggleMask]="true" [feedback]="false" styleClass="w-full bg-gray-700" inputStyleClass="bg-gray-700 text-white border-gray-600" placeholder="••••••••"></p-password>
+        <p-password id="password" [(ngModel)]="loginForm.contrasena" [toggleMask]="true" [feedback]="false" styleClass="w-full bg-gray-700" inputStyleClass="bg-gray-700 text-white border-gray-600" placeholder="••••••••"></p-password>
       </p-iconfield>
     </div>
     <div class="mb-4">
       <a class="text-blue-400 hover:text-blue-300 text-sm cursor-pointer">¿Olvidaste tu contraseña?</a>
     </div>
     <div class="flex flex-col gap-3">
-      <p-button label="Iniciar sesión" icon="pi pi-sign-in" (click)="login()" styleClass="w-full p-button-raised"></p-button>
+      <p-button label="Iniciar sesión" icon="pi pi-sign-in" (click)="login()" [loading]="loading" styleClass="w-full p-button-raised"></p-button>
       <div class="text-center text-gray-400 py-2">
         ¿No tienes cuenta?
         <a class="text-blue-400 hover:text-blue-300 cursor-pointer font-medium" (click)="switchToRegister()">Regístrate</a>
@@ -55,7 +55,7 @@
         <p-inputicon>
           <i class="pi pi-user"></i>
         </p-inputicon>
-        <input type="text" pInputText id="name" [(ngModel)]="registerForm.name" class="w-full bg-gray-700 text-white border-gray-600" placeholder="Tu nombre"/>
+        <input type="text" pInputText id="name" [(ngModel)]="registerForm.nombre" class="w-full bg-gray-700 text-white border-gray-600" placeholder="Tu nombre"/>
       </p-iconfield>
     </div>
     <div class="field mb-3">
@@ -64,7 +64,7 @@
         <p-inputicon>
           <i class="pi pi-envelope"></i>
         </p-inputicon>
-        <input type="email" pInputText id="reg-email" [(ngModel)]="registerForm.email" class="w-full bg-gray-700 text-white border-gray-600" placeholder="correo@ejemplo.com"/>
+        <input type="email" pInputText id="reg-email" [(ngModel)]="registerForm.correo" class="w-full bg-gray-700 text-white border-gray-600" placeholder="correo@ejemplo.com"/>
       </p-iconfield>
     </div>
     <div class="field mb-3">
@@ -73,7 +73,7 @@
         <p-inputicon>
           <i class="pi pi-lock"></i>
         </p-inputicon>
-        <p-password id="reg-password" [(ngModel)]="registerForm.password" [toggleMask]="true" styleClass="w-full bg-gray-700" inputStyleClass="bg-gray-700 text-white border-gray-600" placeholder="••••••••"></p-password>
+        <p-password id="reg-password" [(ngModel)]="registerForm.contrasena" [toggleMask]="true" styleClass="w-full bg-gray-700" inputStyleClass="bg-gray-700 text-white border-gray-600" placeholder="••••••••"></p-password>
       </p-iconfield>
     </div>
     <div class="field mb-5">
@@ -86,7 +86,7 @@
       </p-iconfield>
     </div>
     <div class="flex flex-col gap-3">
-      <p-button label="Crear cuenta" icon="pi pi-user-plus" (click)="register()" styleClass="w-full p-button-raised"></p-button>
+      <p-button label="Crear cuenta" icon="pi pi-user-plus" (click)="register()" [loading]="loading" styleClass="w-full p-button-raised"></p-button>
       <div class="text-center text-gray-400 py-2">
         ¿Ya tienes una cuenta?
         <a class="text-blue-400 hover:text-blue-300 cursor-pointer font-medium" (click)="switchToLogin()">Inicia sesión</a>
@@ -94,3 +94,4 @@
     </div>
   </div>
 </p-dialog>
+<p-toast></p-toast>

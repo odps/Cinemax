@@ -62,7 +62,7 @@ public class UsuarioServiceImp implements UsuarioService {
     public ResponseEntity<?> createUsuario(Usuario usuario) {
         Usuario checkUsuario = usuarioRepo.findByCorreo(usuario.getCorreo());
         if (checkUsuario != null) {
-            return ResponseEntity.badRequest().body("Email ocupado");
+            return ResponseEntity.badRequest().body("Email ya registrado");
         } else {
             Rol userRol = rolRepo.findByNombre("CLIENT");
             if (userRol == null) {

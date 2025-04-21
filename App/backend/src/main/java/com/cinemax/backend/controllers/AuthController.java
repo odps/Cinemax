@@ -34,12 +34,15 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> registerUser(@RequestBody Usuario usuario) {
         try {
-            usuarioService.createUsuario(usuario);
-            return "Usuario registrado exitosamente";
+            ResponseEntity<?> response = usuarioService.createUsuario(usuario);
+            if (response.getStatusCode().is4xxClientError()) {
+                return response;
+            }
+            return ResponseEntity.ok("Usuario registrado exitosamente");
         } catch (Exception e) {
-            return "Ha ocurrido un error al registrar el usuario: " + e.getMessage();
+            return ResponseEntity.status(500).body("Ha ocurrido un error al registrar el usuario: " + e.getMessage());
         }
     }
 
@@ -49,8 +52,7 @@ public class AuthController {
             System.out.println("=== Intentando autenticación para el usuario: " + authUsuario.getCorreo());
 
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authUsuario.getCorreo(), authUsuario.getContrasena())
-            );
+                    new UsernamePasswordAuthenticationToken(authUsuario.getCorreo(), authUsuario.getContrasena()));
 
             System.out.println("=== Autenticación exitosa");
 
