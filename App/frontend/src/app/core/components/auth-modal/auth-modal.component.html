@@ -1,0 +1,96 @@
+<p-dialog
+  [(visible)]="displayModal"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{width: '450px'}"
+  [showHeader]="false"
+  [closeOnEscape]="true"
+  [dismissableMask]="true"
+  styleClass="p-fluid auth-modal">
+
+  <div class="bg-gray-900 rounded-t-lg p-6 flex flex-col items-center">
+    <img src="assets/logo.png" alt="CineMaxx" class="h-14 mb-4">
+    <h2 class="text-2xl font-bold text-white mb-2">{{ isRegisterMode ? 'Crear cuenta' : 'Bienvenido' }}</h2>
+    <p class="text-gray-400 text-center text-sm mb-2">{{ isRegisterMode ? 'Completa tus datos para registrarte' : 'Ingresa tus datos para continuar' }}</p>
+  </div>
+
+  <!-- Formulario de Login -->
+  <div *ngIf="!isRegisterMode" class="p-6 bg-gray-800">
+    <div class="field mb-4">
+      <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Correo electrónico</label>
+      <p-iconfield iconPosition="left" class="w-full">
+        <p-inputicon>
+          <i class="pi pi-envelope"></i>
+        </p-inputicon>
+        <input type="email" pInputText id="email" [(ngModel)]="loginForm.email" class="w-full bg-gray-700 text-white border-gray-600" placeholder="correo@ejemplo.com" />
+      </p-iconfield>
+    </div>
+    <div class="field mb-5">
+      <label for="password" class="block text-sm font-medium text-gray-300 mb-1">Contraseña</label>
+      <p-iconfield iconPosition="left" class="w-full">
+        <p-inputicon>
+          <i class="pi pi-lock"></i>
+        </p-inputicon>
+        <p-password id="password" [(ngModel)]="loginForm.password" [toggleMask]="true" [feedback]="false" styleClass="w-full bg-gray-700" inputStyleClass="bg-gray-700 text-white border-gray-600" placeholder="••••••••"></p-password>
+      </p-iconfield>
+    </div>
+    <div class="mb-4">
+      <a class="text-blue-400 hover:text-blue-300 text-sm cursor-pointer">¿Olvidaste tu contraseña?</a>
+    </div>
+    <div class="flex flex-col gap-3">
+      <p-button label="Iniciar sesión" icon="pi pi-sign-in" (click)="login()" styleClass="w-full p-button-raised"></p-button>
+      <div class="text-center text-gray-400 py-2">
+        ¿No tienes cuenta?
+        <a class="text-blue-400 hover:text-blue-300 cursor-pointer font-medium" (click)="switchToRegister()">Regístrate</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario de Registro -->
+  <div *ngIf="isRegisterMode" class="p-6 bg-gray-800">
+    <div class="field mb-3">
+      <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Nombre completo</label>
+      <p-iconfield iconPosition="left" class="w-full">
+        <p-inputicon>
+          <i class="pi pi-user"></i>
+        </p-inputicon>
+        <input type="text" pInputText id="name" [(ngModel)]="registerForm.name" class="w-full bg-gray-700 text-white border-gray-600" placeholder="Tu nombre"/>
+      </p-iconfield>
+    </div>
+    <div class="field mb-3">
+      <label for="reg-email" class="block text-sm font-medium text-gray-300 mb-1">Correo electrónico</label>
+      <p-iconfield iconPosition="left" class="w-full">
+        <p-inputicon>
+          <i class="pi pi-envelope"></i>
+        </p-inputicon>
+        <input type="email" pInputText id="reg-email" [(ngModel)]="registerForm.email" class="w-full bg-gray-700 text-white border-gray-600" placeholder="correo@ejemplo.com"/>
+      </p-iconfield>
+    </div>
+    <div class="field mb-3">
+      <label for="reg-password" class="block text-sm font-medium text-gray-300 mb-1">Contraseña</label>
+      <p-iconfield iconPosition="left" class="w-full">
+        <p-inputicon>
+          <i class="pi pi-lock"></i>
+        </p-inputicon>
+        <p-password id="reg-password" [(ngModel)]="registerForm.password" [toggleMask]="true" styleClass="w-full bg-gray-700" inputStyleClass="bg-gray-700 text-white border-gray-600" placeholder="••••••••"></p-password>
+      </p-iconfield>
+    </div>
+    <div class="field mb-5">
+      <label for="confirm-password" class="block text-sm font-medium text-gray-300 mb-1">Confirmar contraseña</label>
+      <p-iconfield iconPosition="left" class="w-full">
+        <p-inputicon>
+          <i class="pi pi-lock"></i>
+        </p-inputicon>
+        <p-password id="confirm-password" [(ngModel)]="registerForm.confirmPassword" [toggleMask]="true" [feedback]="false" styleClass="w-full bg-gray-700" inputStyleClass="bg-gray-700 text-white border-gray-600" placeholder="••••••••"></p-password>
+      </p-iconfield>
+    </div>
+    <div class="flex flex-col gap-3">
+      <p-button label="Crear cuenta" icon="pi pi-user-plus" (click)="register()" styleClass="w-full p-button-raised"></p-button>
+      <div class="text-center text-gray-400 py-2">
+        ¿Ya tienes una cuenta?
+        <a class="text-blue-400 hover:text-blue-300 cursor-pointer font-medium" (click)="switchToLogin()">Inicia sesión</a>
+      </div>
+    </div>
+  </div>
+</p-dialog>

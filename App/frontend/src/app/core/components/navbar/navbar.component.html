@@ -63,21 +63,21 @@
 
         <!-- Botón login - visible solo en pantallas md y superiores -->
         <div class="hidden md:flex items-center">
-          <!-- Versión escritorio -->
           <p-button
             icon="pi pi-user"
             label="Iniciar sesión"
             [raised]="true"
             severity="info"
+            (click)="showLoginModal()"
             class="hidden xl:block">
           </p-button>
-          <!-- Versión móvil/tablet (pero solo desde md hasta xl) -->
           <p-button
             icon="pi pi-user"
             [rounded]="true"
             [text]="true"
             [raised]="true"
             severity="info"
+            (click)="showLoginModal()"
             class="xl:hidden"
             styleClass="p-button-rounded">
           </p-button>
@@ -97,10 +97,16 @@
         <a routerLink="/cines" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
         <a routerLink="/peliculas" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
         <a routerLink="/promociones" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
-        <a href="#" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">
+        <a (click)="showLoginModal()" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer">
           <i class="pi pi-user mr-2"></i> Iniciar sesión
         </a>
       </div>
     </div>
   </div>
 </nav>
+
+<!-- El componente modal debe estar solo una vez al final -->
+<app-auth-modal
+  (loginSuccess)="handleLoginSuccess($event)"
+  (registerSuccess)="handleRegisterSuccess($event)">
+</app-auth-modal>
