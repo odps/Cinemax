@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "FUNCION")
 public class Funcion {
@@ -15,10 +17,12 @@ public class Funcion {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_PELICULA", nullable = false)
+    @JsonIgnoreProperties("funciones")
     private Pelicula idPelicula;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_SALA", nullable = false)
+    @JsonIgnoreProperties("funciones")
     private Sala idSala;
 
     @Column(name = "FECHA_HORA", nullable = false)

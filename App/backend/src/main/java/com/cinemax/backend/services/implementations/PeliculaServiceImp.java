@@ -68,6 +68,9 @@ public class PeliculaServiceImp implements PeliculaService {
             if (pelicula.getDescripcion() != null) {
                 peliculaOld.setDescripcion(pelicula.getDescripcion());
             }
+            if (pelicula.getImagenUrl() != null) {
+                peliculaOld.setImagenUrl(pelicula.getImagenUrl());
+            }
             peliculaRepo.save(peliculaOld);
             return ResponseEntity.ok(peliculaOld);
         }

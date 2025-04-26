@@ -31,16 +31,21 @@ public class Pelicula {
     @Lob
     private String descripcion;
 
+    @Column(name = "IMAGENURL", length = 100)
+    private String imagenUrl;
+
     @OneToMany(mappedBy = "idPelicula")
     private List<Funcion> funciones;
 
-    public Pelicula(String titulo, String genero, long duracion, String limiteEdad, String director, String descripcion) {
+    public Pelicula(String titulo, String genero, long duracion, String limiteEdad, String director, String descripcion,
+            String imagenUrl) {
         this.titulo = titulo;
         this.genero = genero;
         this.duracion = duracion;
         this.limiteEdad = limiteEdad;
         this.director = director;
         this.descripcion = descripcion;
+        this.imagenUrl = imagenUrl;
     }
 
     public Pelicula() {
@@ -100,6 +105,14 @@ public class Pelicula {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
     public List<Funcion> getFunciones() {
