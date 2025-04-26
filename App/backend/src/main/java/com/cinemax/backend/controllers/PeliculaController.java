@@ -24,7 +24,6 @@ public class PeliculaController {
 
     // Obtener una película por ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getPeliculaById(@PathVariable long id) {
         return this.peliculaService.getPelicula(id);
     }
@@ -52,14 +51,12 @@ public class PeliculaController {
 
     // Obtener películas por género
     @GetMapping("/genero/{genero}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getPeliculasByGenero(@PathVariable String genero) {
         return this.peliculaService.getPeliculasByGenero(genero);
     }
 
     // Obtener películas por director
     @GetMapping("/director/{director}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getPeliculasByDirector(@PathVariable String director) {
         return this.peliculaService.getPeliculasByDirector(director);
     }
