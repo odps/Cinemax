@@ -18,7 +18,6 @@ public class PeliculaController {
 
     // Obtener todas las películas
     @GetMapping("/lista")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> listaPeliculas() {
         return this.peliculaService.getPeliculas();
     }

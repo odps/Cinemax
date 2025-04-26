@@ -3,5 +3,5 @@ export const environment = {
   apiUrl: 'http://localhost:8080'
 }
 export const assetsLocation = {
-  assetUrl: 'http://localhost:8080/assets'
+  assetUrl: 'http://localhost:4200/assets'
 }

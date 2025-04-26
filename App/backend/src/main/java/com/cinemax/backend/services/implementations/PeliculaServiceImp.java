@@ -40,6 +40,9 @@ public class PeliculaServiceImp implements PeliculaService {
         if (pelicula.getTitulo() == null || pelicula.getGenero() == null || pelicula.getDuracion() <= 0) {
             return ResponseEntity.badRequest().body("Datos de película inválidos");
         }
+        if (pelicula.getImagenUrl() == null) {
+            pelicula.setImagenUrl("placeholder.jpg");
+        }
         peliculaRepo.save(pelicula);
         return ResponseEntity.ok(pelicula);
     }

@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { Pelicula } from '../../interfaces/pelicula';
+import {assetsLocation} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-movie-card',
@@ -10,9 +12,7 @@ import { ButtonModule } from 'primeng/button';
   imports: [CommonModule, ButtonModule]
 })
 export class MovieCardComponent {
-  @Input() imageUrl: string = '';
-  @Input() title: string = '';
-  @Input() releaseDate: string = '';
-  @Input() genres: string = '';
+  @Input() pelicula!: Pelicula;
   @Input() isHighlighted: boolean = false;
+  protected readonly assetsLocation = assetsLocation;
 }

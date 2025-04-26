@@ -10,6 +10,9 @@ import { CalendarModule } from 'primeng/calendar';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { PaginatorModule } from 'primeng/paginator';
 import { MovieCardComponent } from '../../core/components/movie-card/movie-card.component';
+import { PeliculasService } from '../../core/services/peliculas.service';
+import { Pelicula } from '../../core/interfaces/pelicula';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-peliculas',
@@ -48,6 +51,7 @@ export class PeliculasComponent implements OnInit {
 
   calificacionMinima = 0;
   fechaEstreno: Date | null = null;
+  terminoBusqueda: string = '';
 
   opcionesOrden = [
     { id: 1, nombre: 'Más recientes' },
@@ -64,54 +68,71 @@ export class PeliculasComponent implements OnInit {
 
   vistaSeleccionada = 'grid';
 
-  peliculaDestacada = {
-    imageUrl: 'assets/images/pelicula-destacada.jpg',
-    title: 'Dune: Parte Dos',
-    releaseDate: '15/03/2024',
-    genres: 'Ciencia ficción, Aventura'
-  };
+  peliculas: Pelicula[] = [];
+  peliculaDestacada: Pelicula | null = null;
 
-  peliculas = [
-    {
-      imageUrl: 'assets/images/pelicula1.jpg',
-      title: 'Gladiador II',
-      releaseDate: '22/11/2024',
-      genres: 'Acción, Drama histórico'
-    },
-    {
-      imageUrl: 'assets/images/pelicula2.jpg',
-      title: 'Deadpool & Wolverine',
-      releaseDate: '26/07/2024',
-      genres: 'Acción, Comedia'
-    },
-    {
-      imageUrl: 'assets/images/pelicula3.jpg',
-      title: 'Furiosa',
-      releaseDate: '24/05/2024',
-      genres: 'Acción, Ciencia ficción'
-    },
-    {
-      imageUrl: 'assets/images/pelicula4.jpg',
-      title: 'Alien: Romulus',
-      releaseDate: '16/08/2024',
-      genres: 'Ciencia ficción, Terror'
-    },
-    {
-      imageUrl: 'assets/images/pelicula5.jpg',
-      title: 'Inside Out 2',
-      releaseDate: '14/06/2024',
-      genres: 'Animación, Comedia'
-    },
-    {
-      imageUrl: 'assets/images/pelicula6.jpg',
-      title: 'Kung Fu Panda 4',
-      releaseDate: '08/03/2024',
-      genres: 'Animación, Aventura'
-    }
-  ];
+  cargando: boolean = false;
+  totalPeliculas: number = 0;
 
-  totalPeliculas = 24;
+  currentPage: number = 0;
+  rowsPerPage: number = 9;
+
+  constructor(private peliculasService: PeliculasService) {}
 
   ngOnInit() {
+    this.cargarPeliculas();
+  }
+
+  cargarPeliculas() {
+    this.cargando = true;
+    this.peliculasService.getListaPeliculas()
+      .pipe(finalize(() => this.cargando = false))
+      .subscribe({
+        next: (peliculas: Pelicula[]) => {
+          this.peliculas = peliculas;
+          this.totalPeliculas = peliculas.length;
+
+          // Seleccionar una película destacada (por ejemplo, la primera)
+          if (peliculas.length > 0) {
+            this.peliculaDestacada = peliculas[0];
+          }
+        },
+        error: (error) => {
+          console.error('Error al cargar las películas:', error);
+          // Aquí podrías implementar una gestión de errores más elaborada
+        }
+      });
+  }
+
+  aplicarFiltros() {
+    // Aquí implementarías la lógica de filtrado
+    // Podrías crear un nuevo método en el servicio o filtrar localmente
+    console.log('Filtros aplicados');
+  }
+
+  limpiarFiltros() {
+    this.terminoBusqueda = '';
+    this.calificacionMinima = 0;
+    this.fechaEstreno = null;
+    this.cargarPeliculas();
+  }
+
+  buscarDirector(director: string) {
+    this.cargando = true;
+    this.peliculasService.buscarPeliculasPorDirector(director)
+      .pipe(finalize(() => this.cargando = false))
+      .subscribe({
+        next: (peliculas) => {
+          this.peliculas = peliculas;
+          this.totalPeliculas = peliculas.length;
+        },
+        error: (error) => console.error('Error al buscar por director:', error)
+      });
+  }
+
+  onPageChange(event: any) {
+    this.currentPage = event.page;
+    this.rowsPerPage = event.rows;
+    // Implementar paginación con el backend o hacer paginación local
   }
 }

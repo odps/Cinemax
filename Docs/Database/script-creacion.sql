@@ -77,7 +77,8 @@ CREATE TABLE Pelicula (
     duracion NUMBER NOT NULL CHECK (duracion > 0),
     limite_edad VARCHAR2(10),
     director VARCHAR2(100),
-    descripcion CLOB
+    descripcion CLOB,
+    imagenurl VARCHAR2(100)
 );
 
 -- Tabla Función

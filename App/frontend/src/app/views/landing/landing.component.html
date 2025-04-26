@@ -1,7 +1,7 @@
 <!-- Hero Section -->
 <section class="relative bg-gray-900 text-white">
   <!-- Fondo con overlay -->
-  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/logo.png');">
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/cinemaxLanding.jpg');">
     <div class="absolute inset-0 bg-black opacity-60"></div>
   </div>
 
@@ -15,14 +15,14 @@
         Las mejores películas, los mejores estrenos y la mejor experiencia cinematográfica te esperan en nuestras salas.
       </p>
       <div class="flex flex-wrap gap-4">
-        <p-button label="Ver cartelera" icon="pi pi-ticket" styleClass="p-button-lg" severity="info"></p-button>
+        <p-button label="Ver cartelera" icon="pi pi-ticket" styleClass="p-button-lg" severity="info" (click)="verCartelera()"></p-button>
         <p-button label="Promociones" icon="pi pi-star" styleClass="p-button-lg" [outlined]="true"></p-button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Sección de Artículos Relacionados -->
+<!-- Sección de Próximos Estrenos -->
 <section class="bg-gray-800 py-16">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Título de sección -->
@@ -33,36 +33,37 @@
       </p>
     </div>
 
-    <!-- Grid de artículos -->
-
-    <!-- Película destacada (ocupa toda la fila) -->
-    <div class="mt-8 mb-8">
-      <app-movie-card
-        [imageUrl]="highlightedMovie.imageUrl"
-        [title]="highlightedMovie.title"
-        [releaseDate]="highlightedMovie.releaseDate"
-        [genres]="highlightedMovie.genres"
-        [isHighlighted]="true"
-        class="w-full">
-      </app-movie-card>
+    <!-- Indicador de carga -->
+    <div *ngIf="cargando" class="flex justify-center py-16">
+      <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Artículos regulares -->
-      <app-movie-card
-        *ngFor="let movie of movies"
-        [imageUrl]="movie.imageUrl"
-        [title]="movie.title"
-        [releaseDate]="movie.releaseDate"
-        [genres]="movie.genres">
-      </app-movie-card>
-    </div>
+    <ng-container *ngIf="!cargando">
+      <!-- Película destacada (ocupa toda la fila) -->
+      <div class="mt-8 mb-8" *ngIf="highlightedMovie">
+        <app-movie-card
+          [pelicula]="highlightedMovie"
+          [isHighlighted]="true">
+        </app-movie-card>
+      </div>
 
+      <!-- Grid de películas -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" *ngIf="movies.length > 0">
+        <app-movie-card
+          *ngFor="let movie of movies"
+          [pelicula]="movie">
+        </app-movie-card>
+      </div>
 
+      <!-- Mensaje sin películas -->
+      <div *ngIf="movies.length === 0 && !highlightedMovie" class="text-center py-8">
+        <p class="text-gray-400 text-xl">No hay películas disponibles en este momento.</p>
+      </div>
 
-    <!-- Ver más películas -->
-    <div class="mt-12 text-center">
-      <p-button label="Ver más películas" icon="pi pi-film" [outlined]="true" size="large"></p-button>
-    </div>
+      <!-- Ver más películas -->
+      <div class="mt-12 text-center">
+        <p-button label="Ver más películas" icon="pi pi-film" [outlined]="true" size="large" (click)="verCartelera()"></p-button>
+      </div>
+    </ng-container>
   </div>
 </section>

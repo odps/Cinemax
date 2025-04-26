@@ -11,7 +11,7 @@
         <label class="block text-gray-300 mb-2">Buscar</label>
         <span class="p-input-icon-left w-full">
           <i class="pi pi-search"></i>
-          <input type="text" pInputText class="w-full bg-gray-700 text-white" placeholder="Título de película"/>
+          <input [(ngModel)]="terminoBusqueda" type="text" pInputText class="w-full bg-gray-700 text-white" placeholder="Título de película"/>
         </span>
       </div>
 
@@ -56,19 +56,21 @@
         </p-dropdown>
       </div>
 
-      <!-- Botón de aplicar filtros -->
+      <!-- Botones de filtros -->
       <p-button
         label="Aplicar filtros"
         icon="pi pi-filter"
         styleClass="w-full"
-        severity="info">
+        severity="info"
+        (click)="aplicarFiltros()">
       </p-button>
 
       <p-button
         label="Limpiar filtros"
         icon="pi pi-times"
         styleClass="w-full mt-3"
-        [outlined]="true">
+        [outlined]="true"
+        (click)="limpiarFiltros()">
       </p-button>
     </div>
 
@@ -77,7 +79,7 @@
       <!-- Controles de vista -->
       <div class="flex justify-between items-center mb-6">
         <div class="text-gray-300">
-          <span>{{ peliculas.length }} películas encontradas</span>
+          <span>{{ totalPeliculas }} películas encontradas</span>
         </div>
         <div class="flex gap-2 items-center">
           <p-dropdown
@@ -94,28 +96,37 @@
       <!-- Película destacada -->
       <div class="mb-8" *ngIf="peliculaDestacada">
         <app-movie-card
-          [imageUrl]="peliculaDestacada.imageUrl"
-          [title]="peliculaDestacada.title"
-          [releaseDate]="peliculaDestacada.releaseDate"
-          [genres]="peliculaDestacada.genres"
+          [pelicula]="peliculaDestacada"
           [isHighlighted]="true">
         </app-movie-card>
       </div>
 
+      <!-- Indicador de carga -->
+      <div *ngIf="cargando" class="flex justify-center py-16">
+        <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
+      </div>
+
       <!-- Grid de películas -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div *ngIf="!cargando" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         <app-movie-card
           *ngFor="let pelicula of peliculas"
-          [imageUrl]="pelicula.imageUrl"
-          [title]="pelicula.title"
-          [releaseDate]="pelicula.releaseDate"
-          [genres]="pelicula.genres">
+          [pelicula]="pelicula">
         </app-movie-card>
       </div>
 
+      <!-- Mensaje si no hay películas -->
+      <div *ngIf="!cargando && peliculas.length === 0" class="text-center py-16">
+        <p class="text-gray-400 text-xl">No se encontraron películas que coincidan con los criterios de búsqueda.</p>
+      </div>
+
       <!-- Paginación -->
-      <div class="flex justify-center mt-8">
-        <p-paginator [rows]="9" [totalRecords]="totalPeliculas" [rowsPerPageOptions]="[9, 18, 27]"></p-paginator>
+      <div class="flex justify-center mt-8" *ngIf="!cargando && peliculas.length > 0">
+        <p-paginator
+          [rows]="rowsPerPage"
+          [totalRecords]="totalPeliculas"
+          [rowsPerPageOptions]="[9, 18, 27]"
+          (onPageChange)="onPageChange($event)">
+        </p-paginator>
       </div>
     </div>
   </div>
