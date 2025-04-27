@@ -141,3 +141,22 @@ CREATE TABLE Log (
     fecha_accion TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );
+
+CREATE TABLE Promocion (
+    id_promocion NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    titulo VARCHAR2(100) NOT NULL,
+    descripcion VARCHAR2(500) NOT NULL,
+    tipo VARCHAR2(50) NOT NULL CHECK (tipo IN ('descuento', 'combo', '2x1', 'premium', 'otro')),
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    imagenurl VARCHAR2(100),
+    CONSTRAINT fecha_validez CHECK (fecha_fin >= fecha_inicio)
+);
+
+CREATE TABLE Cine_Promocion (
+    id_cine NUMBER NOT NULL,
+    id_promocion NUMBER NOT NULL,
+    PRIMARY KEY (id_cine, id_promocion),
+    FOREIGN KEY (id_cine) REFERENCES Cine(id_cine),
+    FOREIGN KEY (id_promocion) REFERENCES Promocion(id_promocion)
+);
