@@ -36,7 +36,10 @@ CREATE TABLE Cine (
     direccion VARCHAR2(200) NOT NULL,
     ciudad VARCHAR2(100) NOT NULL,
     NIF VARCHAR2(20) UNIQUE NOT NULL,
-    imagenurl VARCHAR2(100)
+    imagenurl VARCHAR2(100),
+    telefono VARCHAR2(12),
+    descripcion VARCHAR2(1000),
+    horario VARCHAR2(20)
 );
 
 -- Tabla Review

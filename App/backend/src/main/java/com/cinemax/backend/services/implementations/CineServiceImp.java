@@ -78,9 +78,19 @@ public class CineServiceImp implements CineService {
             }
             cineOld.setNif(cine.getNif());
         }
-
         if (cine.getImagenUrl() != null) {
             cineOld.setImagenUrl(cine.getImagenUrl());
+        }
+        if (cine.getTelefono() != null) {
+            cineOld.setTelefono(cine.getTelefono());
+        }
+
+        if (cine.getDescripcion() != null) {
+            cineOld.setDescripcion(cine.getDescripcion());
+        }
+
+        if (cine.getHorario() != null) {
+            cineOld.setHorario(cine.getHorario());
         }
 
         cineRepo.save(cineOld);

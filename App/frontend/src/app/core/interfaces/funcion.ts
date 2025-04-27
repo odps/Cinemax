@@ -3,10 +3,10 @@ import {Sala} from './sala';
 
 export interface Funcion {
   id?: number;
-  idPelicula: Pelicula;
+  idPelicula: any; // Podría ser la interfaz Pelicula
   idSala: Sala;
-  fechaHora: Date;
+  fechaHora: string;
   precio: number;
-  dispoAsientos: any[]; // Podría definirse una interfaz específica para asientos disponibles
-  tickets: any[]; // Podría definirse una interfaz específica para tickets
+  dispoAsientos: any[];
+  tickets: any[];
 }

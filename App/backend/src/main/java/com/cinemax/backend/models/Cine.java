@@ -27,12 +27,35 @@ public class Cine {
     @Column(name = "IMAGENURL", length = 100)
     private String imagenUrl;
 
+    @Column(name = "TELEFONO", length = 12)
+    private String telefono;
+
+    @Column(name = "DESCRIPCION", length = 1000)
+    private String descripcion;
+
+    @Column(name = "HORARIO", length = 20)
+    private String horario;
+
     @OneToMany(mappedBy = "cine")
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "cine")
     private List<Sala> salas;
 
+    // Updated constructor with all fields
+    public Cine(String nif, String ciudad, String direccion, String nombre, String imagenUrl,
+            String telefono, String descripcion, String horario) {
+        this.nif = nif;
+        this.ciudad = ciudad;
+        this.direccion = direccion;
+        this.nombre = nombre;
+        this.imagenUrl = imagenUrl;
+        this.telefono = telefono;
+        this.descripcion = descripcion;
+        this.horario = horario;
+    }
+
+    // Keep existing constructors for backward compatibility
     public Cine(String nif, String ciudad, String direccion, String nombre, String imagenUrl) {
         this.nif = nif;
         this.ciudad = ciudad;
@@ -51,6 +74,7 @@ public class Cine {
     public Cine() {
     }
 
+    // Existing getters and setters
     public long getId() {
         return id;
     }
@@ -97,6 +121,31 @@ public class Cine {
 
     public void setImagenUrl(String imagenUrl) {
         this.imagenUrl = imagenUrl;
+    }
+
+    // New getters and setters for the new fields
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getHorario() {
+        return horario;
+    }
+
+    public void setHorario(String horario) {
+        this.horario = horario;
     }
 
     public List<Review> getReviews() {
