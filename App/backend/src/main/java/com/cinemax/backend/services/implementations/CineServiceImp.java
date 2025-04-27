@@ -35,14 +35,20 @@ public class CineServiceImp implements CineService {
 
     @Override
     public ResponseEntity<?> createCine(Cine cine) {
-        if (cine.getNif() == null || cine.getNif().isEmpty() || cine.getNombre() == null || cine.getNombre().isEmpty() ||
-                cine.getDireccion() == null || cine.getDireccion().isEmpty() || cine.getCiudad() == null || cine.getCiudad().isEmpty()) {
+        if (cine.getNif() == null || cine.getNif().isEmpty() || cine.getNombre() == null || cine.getNombre().isEmpty()
+                ||
+                cine.getDireccion() == null || cine.getDireccion().isEmpty() || cine.getCiudad() == null
+                || cine.getCiudad().isEmpty()) {
             return ResponseEntity.badRequest().body("Datos de cine inválidos");
         }
 
         Cine existingCine = cineRepo.findByNif(cine.getNif());
         if (existingCine != null) {
             return ResponseEntity.badRequest().body("NIF ya registrado");
+        }
+
+        if (cine.getImagenUrl() == null) {
+            cine.setImagenUrl("placeholder.jpg");
         }
 
         cineRepo.save(cine);
@@ -71,6 +77,10 @@ public class CineServiceImp implements CineService {
                 return ResponseEntity.badRequest().body("NIF ya registrado");
             }
             cineOld.setNif(cine.getNif());
+        }
+
+        if (cine.getImagenUrl() != null) {
+            cineOld.setImagenUrl(cine.getImagenUrl());
         }
 
         cineRepo.save(cineOld);

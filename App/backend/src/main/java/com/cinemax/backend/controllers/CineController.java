@@ -18,14 +18,12 @@ public class CineController {
 
     // Obtener todos los cines
     @GetMapping("/lista")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> listaCines() {
         return this.cineService.getCines();
     }
 
     // Obtener un cine por ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getCineById(@PathVariable long id) {
         return this.cineService.getCine(id);
     }
@@ -53,7 +51,6 @@ public class CineController {
 
     // Obtener cines por ciudad
     @GetMapping("/ciudad/{ciudad}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getCinesByCiudad(@PathVariable String ciudad) {
         return this.cineService.getCinesByCiudad(ciudad);
     }

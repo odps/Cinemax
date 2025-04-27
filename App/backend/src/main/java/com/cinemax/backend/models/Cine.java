@@ -24,11 +24,22 @@ public class Cine {
     @Column(name = "NIF", nullable = false, length = 20, unique = true)
     private String nif;
 
+    @Column(name = "IMAGENURL", length = 100)
+    private String imagenUrl;
+
     @OneToMany(mappedBy = "cine")
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "cine")
     private List<Sala> salas;
+
+    public Cine(String nif, String ciudad, String direccion, String nombre, String imagenUrl) {
+        this.nif = nif;
+        this.ciudad = ciudad;
+        this.direccion = direccion;
+        this.nombre = nombre;
+        this.imagenUrl = imagenUrl;
+    }
 
     public Cine(String nif, String ciudad, String direccion, String nombre) {
         this.nif = nif;
@@ -78,6 +89,14 @@ public class Cine {
 
     public void setNif(String nif) {
         this.nif = nif;
+    }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
     public List<Review> getReviews() {
