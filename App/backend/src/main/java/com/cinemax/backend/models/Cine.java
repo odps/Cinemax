@@ -42,6 +42,9 @@ public class Cine {
     @OneToMany(mappedBy = "cine")
     private List<Sala> salas;
 
+    @ManyToMany(mappedBy = "cines")
+    private List<Promocion> promociones;
+
     // Updated constructor with all fields
     public Cine(String nif, String ciudad, String direccion, String nombre, String imagenUrl,
             String telefono, String descripcion, String horario) {
@@ -123,7 +126,6 @@ public class Cine {
         this.imagenUrl = imagenUrl;
     }
 
-    // New getters and setters for the new fields
     public String getTelefono() {
         return telefono;
     }
@@ -162,5 +164,13 @@ public class Cine {
 
     public void setSalas(List<Sala> salas) {
         this.salas = salas;
+    }
+
+    public List<Promocion> getPromociones() {
+        return promociones;
+    }
+
+    public void setPromociones(List<Promocion> promociones) {
+        this.promociones = promociones;
     }
 }
