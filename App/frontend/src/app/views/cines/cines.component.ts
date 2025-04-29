@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { CineCardComponent } from '../../core/components/cine-card/cine-card.component';
-import { CineService } from '../../core/services/cine.sevice';
+import { CineService } from '../../core/services/cine.service';
 import { Cine } from '../../core/interfaces/cine';
 
 @Component({

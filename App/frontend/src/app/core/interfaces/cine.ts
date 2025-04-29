@@ -1,3 +1,4 @@
+import { Review } from './review';
 import {Sala} from './sala';
 export interface Cine {
   id?: number;
@@ -9,6 +10,6 @@ export interface Cine {
   telefono?: string | null;
   descripcion?: string | null;
   horario?: string | null;
-  reviews: any[]; // Podría definirse una interfaz específica para reviews
+  reviews: Review[];
   salas?: Sala[];
 }

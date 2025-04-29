@@ -3,7 +3,7 @@ import {Sala} from './sala';
 
 export interface Funcion {
   id?: number;
-  idPelicula: any; // Podría ser la interfaz Pelicula
+  idPelicula: Pelicula;
   idSala: Sala;
   fechaHora: string;
   precio: number;
