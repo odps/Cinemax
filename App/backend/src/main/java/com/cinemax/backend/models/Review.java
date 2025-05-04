@@ -3,11 +3,13 @@ package com.cinemax.backend.models;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "REVIEW", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"ID_USUARIO", "ID_CINE"})
+        @UniqueConstraint(columnNames = { "ID_USUARIO", "ID_CINE" })
 })
 public class Review {
     @Id
@@ -17,10 +19,12 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonIgnoreProperties("reviews")
     private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "ID_CINE", nullable = false)
+    @JsonIgnoreProperties("reviews")
     private Cine cine;
 
     @Column(name = "PUNTUACION", nullable = false)

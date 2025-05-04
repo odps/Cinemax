@@ -32,7 +32,7 @@ public class Usuario {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_ROL", nullable = false)
-    @JsonIgnoreProperties({"usuarios"})
+    @JsonIgnoreProperties({ "usuarios" })
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario")

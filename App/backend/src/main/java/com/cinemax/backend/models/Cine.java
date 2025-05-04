@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "CINE")
 public class Cine {
@@ -45,7 +48,6 @@ public class Cine {
     @ManyToMany(mappedBy = "cines")
     private List<Promocion> promociones;
 
-    // Updated constructor with all fields
     public Cine(String nif, String ciudad, String direccion, String nombre, String imagenUrl,
             String telefono, String descripcion, String horario) {
         this.nif = nif;
@@ -58,7 +60,6 @@ public class Cine {
         this.horario = horario;
     }
 
-    // Keep existing constructors for backward compatibility
     public Cine(String nif, String ciudad, String direccion, String nombre, String imagenUrl) {
         this.nif = nif;
         this.ciudad = ciudad;
@@ -77,7 +78,6 @@ public class Cine {
     public Cine() {
     }
 
-    // Existing getters and setters
     public long getId() {
         return id;
     }
