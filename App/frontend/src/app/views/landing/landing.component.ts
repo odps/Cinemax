@@ -55,4 +55,8 @@ export class LandingComponent implements OnInit {
   verCartelera(): void {
     this.router.navigate(['/peliculas']);
   }
+
+  verPromociones(): void {
+    this.router.navigate(['/promociones']);
+  }
 }

@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../core/services/auth.service';
 import { UsuarioService } from '../../core/services/usuario.service';
 import { Usuario } from '../../core/interfaces/usuario';
-import {Card} from 'primeng/card';
-import {TableModule} from 'primeng/table';
-import {Menu} from 'primeng/menu';
-import {Button} from 'primeng/button';
-import {Password} from 'primeng/password';
-import {DatePipe, NgIf} from '@angular/common';
-import {InputText} from 'primeng/inputtext';
+import { Card } from 'primeng/card';
+import { TableModule } from 'primeng/table';
+import { Menu } from 'primeng/menu';
+import { Button } from 'primeng/button';
+import { Password } from 'primeng/password';
+import { DatePipe, NgIf } from '@angular/common';
+import { InputText } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-perfil',
@@ -41,14 +41,13 @@ export class PerfilComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
     private usuarioService: UsuarioService,
     private messageService: MessageService
   ) {
     // Inicializar formulario de perfil
     this.userForm = this.fb.group({
-      nombre: ['', [Validators.required]],
-      correo: ['', [Validators.required, Validators.email]],
+      nombre: [{value: '', disabled: false}, [Validators.required]],
+      correo: [{value: '', disabled: false}, [Validators.required, Validators.email]],
       fechaRegistro: [{value: '', disabled: true}],
       rol: [{value: '', disabled: true}]
     });
@@ -67,16 +66,19 @@ export class PerfilComponent implements OnInit {
       {
         label: 'Información Personal',
         icon: 'pi pi-user',
+        styleClass: 'text-gray-300',
         command: () => this.cambiarSeccion('informacion')
       },
       {
         label: 'Seguridad',
-        icon: 'pi pi-lock',
+        icon: 'pi pi-shield',
+        styleClass: 'text-gray-300',
         command: () => this.cambiarSeccion('seguridad')
       },
       {
         label: 'Actividad Reciente',
         icon: 'pi pi-history',
+        styleClass: 'text-gray-300',
         command: () => this.cambiarSeccion('actividad')
       }
     ];
@@ -86,49 +88,53 @@ export class PerfilComponent implements OnInit {
     this.cargarDatosUsuario();
   }
 
-  cargarDatosUsuario(): void {
-    this.loading = true;
+cargarDatosUsuario(): void {
+  this.loading = true;
 
-    // Obtener el ID del usuario del localStorage
-    const userIdStr = localStorage.getItem('userId');
-    if (userIdStr) {
-      this.userId = parseInt(userIdStr, 10);
+  // Obtener el ID del usuario del localStorage
+  const userIdStr = localStorage.getItem('userId');
 
-      this.usuarioService.getUsuarioPorId(this.userId).subscribe({
-        next: (usuario) => {
-          this.userData = usuario;
-          this.userForm.patchValue({
-            nombre: usuario.nombre,
-            correo: usuario.correo,
-            fechaRegistro: new Date(usuario.fechaRegistro).toLocaleDateString(),
-            rol: usuario.rol?.nombre || 'Cliente'
-          });
-          this.loading = false;
-        },
-        error: (err) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudieron cargar los datos del usuario'
-          });
-          this.loading = false;
-        }
-      });
-    }
+  if (userIdStr) {
+    this.userId = parseInt(userIdStr, 10);
+
+    this.usuarioService.getMiPerfil().subscribe({
+      next: (usuario) => {
+        this.userData = usuario;
+
+        // Formatear correctamente la fecha y asegurar que se muestre el rol
+        this.userForm.patchValue({
+          nombre: usuario.nombre,
+          correo: usuario.correo,
+          fechaRegistro: usuario.fechaRegistro,
+          rol: usuario.rol?.nombre || 'Cliente'
+        });
+
+        this.loading = false;
+      },
+      error: (err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron cargar los datos del usuario'
+        });
+        this.loading = false;
+      }
+    });
   }
+}
 
   cambiarSeccion(seccion: string): void {
     this.currentSection = seccion;
   }
 
   guardarCambios(): void {
-    if (this.userForm.valid && this.userId) {
+    if (this.userForm.valid) {
       const datosActualizados = {
         nombre: this.userForm.get('nombre')?.value,
         correo: this.userForm.get('correo')?.value
       };
 
-      this.usuarioService.actualizarUsuario(this.userId, datosActualizados).subscribe({
+      this.usuarioService.actualizarMiPerfil(datosActualizados).subscribe({
         next: (response) => {
           // Actualizar los datos en localStorage
           const userData = JSON.parse(localStorage.getItem('userData') || '{}');
@@ -144,7 +150,6 @@ export class PerfilComponent implements OnInit {
             detail: 'Perfil actualizado correctamente'
           });
 
-          // Marcar el formulario como "pristine" después de guardar
           this.userForm.markAsPristine();
         },
         error: (err) => {
@@ -160,22 +165,35 @@ export class PerfilComponent implements OnInit {
 
   cambiarContrasena(): void {
     if (this.passwordForm.valid) {
-      // Aquí implementarías la lógica para cambiar la contraseña
-      // Normalmente harías una llamada a un endpoint de cambio de contraseña
+      const datosContrasena = {
+        contrasenaActual: this.passwordForm.get('currentPassword')?.value,
+        contrasenaNueva: this.passwordForm.get('newPassword')?.value
+      };
 
-      // Simulación de cambio exitoso
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Éxito',
-        detail: 'Contraseña actualizada correctamente'
+      // Implementación real para cambiar contraseña
+      this.usuarioService.actualizarMiPerfil({
+        contrasena: datosContrasena.contrasenaNueva
+      }).subscribe({
+        next: (response) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Contraseña actualizada correctamente'
+          });
+          this.passwordForm.reset();
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo actualizar la contraseña'
+          });
+        }
       });
-
-      // Resetear el formulario
-      this.passwordForm.reset();
     }
   }
 
-  passwordMatchValidator(formGroup: FormGroup) {
+  passwordMatchValidator(formGroup: FormGroup): { [key: string]: boolean } | null {
     const newPassword = formGroup.get('newPassword')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
 

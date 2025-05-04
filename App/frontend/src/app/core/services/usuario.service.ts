@@ -46,4 +46,18 @@ export class UsuarioService {
   eliminarUsuario(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/eliminar/${id}`);
   }
+
+  /**
+   * Obtiene el perfil del usuario autenticado actualmente
+   */
+  getMiPerfil(): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.apiUrl}/perfil`);
+  }
+
+  /**
+   * Actualiza el perfil del usuario autenticado actualmente
+   */
+  actualizarMiPerfil(datos: Partial<Usuario>): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.apiUrl}/perfil`, datos);
+  }
 }

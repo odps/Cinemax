@@ -1,129 +1,146 @@
-<div class="flex flex-col md:flex-row min-h-screen bg-gray-50">
-  <!-- Menú de navegación lateral -->
-  <div class="w-full md:w-80 bg-white shadow-md">
-    <div class="p-4 border-b">
-      <h2 class="text-2xl font-semibold text-gray-800">Mi Perfil</h2>
-      <p class="text-sm text-gray-500">Gestiona tu información personal</p>
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-white mb-6">Mi Perfil</h1>
+
+  <div class="flex flex-col lg:flex-row gap-6">
+    <!-- Columna de navegación (izquierda) -->
+    <div class="w-full lg:w-1/4 bg-gray-800 rounded-lg p-5">
+      <h2 class="text-xl font-bold text-white mb-4">Gestión de Cuenta</h2>
+
+      <p-menu [model]="menuItems" styleClass="w-full bg-gray-800 border-none"></p-menu>
     </div>
 
-    <p-menu [model]="menuItems" styleClass="w-full border-none"></p-menu>
-  </div>
+    <!-- Contenido principal (derecha) -->
+    <div class="w-full lg:w-3/4">
+      <!-- Información Personal -->
+      <div *ngIf="currentSection === 'informacion'" class="animate-fadeIn">
+        <div class="mb-6">
+          <h3 class="text-xl font-bold text-white mb-4">Información Personal</h3>
 
-  <!-- Contenido principal -->
-  <div class="flex-1 p-6">
-    <div *ngIf="currentSection === 'informacion'" class="fade-in">
-      <div class="mb-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Información Personal</h3>
+          <p-card styleClass="bg-gray-800 border-0">
+            <form [formGroup]="userForm" (ngSubmit)="guardarCambios()" class="p-fluid">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="field">
+                  <label for="nombre" class="block text-gray-300 mb-2">Nombre</label>
+                  <input pInputText id="nombre" formControlName="nombre" class="bg-gray-700 text-white" />
+                  <small *ngIf="userForm.get('nombre')?.invalid && userForm.get('nombre')?.touched" class="p-error">
+                    El nombre es requerido
+                  </small>
+                </div>
 
-        <p-card>
-          <form [formGroup]="userForm" (ngSubmit)="guardarCambios()" class="p-fluid">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="field">
+                  <label for="correo" class="block text-gray-300 mb-2">Correo Electrónico</label>
+                  <input pInputText id="correo" formControlName="correo" type="email" class="bg-gray-700 text-white" />
+                  <small *ngIf="userForm.get('correo')?.invalid && userForm.get('correo')?.touched" class="p-error">
+                    Ingrese un correo electrónico válido
+                  </small>
+                </div>
+
+                <div class="field">
+                  <label for="fechaRegistro" class="block text-gray-300 mb-2">Fecha de Registro</label>
+                  <input pInputText id="fechaRegistro" [value]="userData?.fechaRegistro | date:'dd/MM/yyyy'" readonly class="bg-gray-700 text-white" />
+                </div>
+
+                <div class="field">
+                  <label for="rol" class="block text-gray-300 mb-2">Rol</label>
+                  <input pInputText id="rol" [value]="userData?.rol?.nombre || 'Cliente'" readonly class="bg-gray-700 text-white" />
+                </div>
+
+
+              </div>
+
+              <div class="flex justify-end mt-4">
+                <p-button type="submit" label="Guardar Cambios" [disabled]="userForm.invalid || !userForm.dirty"
+                  icon="pi pi-save" styleClass="p-button-info"></p-button>
+              </div>
+            </form>
+          </p-card>
+        </div>
+      </div>
+
+      <!-- Seguridad -->
+      <div *ngIf="currentSection === 'seguridad'" class="animate-fadeIn">
+        <div class="mb-6">
+          <h3 class="text-xl font-bold text-white mb-4">Cambiar Contraseña</h3>
+
+          <p-card styleClass="bg-gray-800 border-0">
+            <form [formGroup]="passwordForm" (ngSubmit)="cambiarContrasena()" class="p-fluid">
               <div class="field">
-                <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-                <input pInputText id="nombre" formControlName="nombre" />
-                <small *ngIf="userForm.get('nombre')?.invalid && userForm.get('nombre')?.touched" class="p-error">
-                  El nombre es requerido
+                <label for="currentPassword" class="block text-gray-300 mb-2">Contraseña Actual</label>
+                <p-password id="currentPassword" formControlName="currentPassword" [toggleMask]="true"
+                  styleClass="w-full" inputStyleClass="bg-gray-700 text-white w-full"></p-password>
+                <small *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched" class="p-error">
+                  La contraseña actual es requerida
                 </small>
               </div>
 
               <div class="field">
-                <label for="correo" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
-                <input pInputText id="correo" formControlName="correo" type="email" />
-                <small *ngIf="userForm.get('correo')?.invalid && userForm.get('correo')?.touched" class="p-error">
-                  Ingrese un correo electrónico válido
+                <label for="newPassword" class="block text-gray-300 mb-2">Nueva Contraseña</label>
+                <p-password id="newPassword" formControlName="newPassword" [toggleMask]="true"
+                  styleClass="w-full" inputStyleClass="bg-gray-700 text-white w-full"></p-password>
+                <small *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched" class="p-error">
+                  La contraseña debe tener al menos 8 caracteres
                 </small>
               </div>
 
               <div class="field">
-                <label for="fechaRegistro" class="block text-sm font-medium text-gray-700 mb-1">Fecha de Registro</label>
-                <input pInputText id="fechaRegistro" formControlName="fechaRegistro" readonly />
+                <label for="confirmPassword" class="block text-gray-300 mb-2">Confirmar Nueva Contraseña</label>
+                <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true"
+                  styleClass="w-full" inputStyleClass="bg-gray-700 text-white w-full"></p-password>
+                <small *ngIf="passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched" class="p-error">
+                  Por favor confirme la contraseña
+                </small>
+                <small *ngIf="passwordForm.hasError('passwordMismatch')" class="p-error">
+                  Las contraseñas no coinciden
+                </small>
               </div>
 
-              <div class="field">
-                <label for="rol" class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
-                <input pInputText id="rol" formControlName="rol" readonly />
+              <div class="flex justify-end mt-4">
+                <p-button type="submit" label="Cambiar Contraseña" [disabled]="passwordForm.invalid"
+                  icon="pi pi-lock" styleClass="p-button-info"></p-button>
               </div>
-            </div>
-
-            <div class="flex justify-end mt-4">
-              <p-button type="submit" label="Guardar Cambios" [disabled]="userForm.invalid || !userForm.dirty" icon="pi pi-save" styleClass="p-button-primary"></p-button>
-            </div>
-          </form>
-        </p-card>
+            </form>
+          </p-card>
+        </div>
       </div>
-    </div>
 
-    <div *ngIf="currentSection === 'seguridad'" class="fade-in">
-      <div class="mb-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Cambiar Contraseña</h3>
+      <!-- Actividad Reciente -->
+      <div *ngIf="currentSection === 'actividad'" class="animate-fadeIn">
+        <div class="mb-6">
+          <h3 class="text-xl font-bold text-white mb-4">Actividad Reciente</h3>
 
-        <p-card>
-          <form [formGroup]="passwordForm" (ngSubmit)="cambiarContrasena()" class="p-fluid">
-            <div class="field">
-              <label for="currentPassword" class="block text-sm font-medium text-gray-700 mb-1">Contraseña Actual</label>
-              <p-password id="currentPassword" formControlName="currentPassword" [toggleMask]="true"></p-password>
-              <small *ngIf="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched" class="p-error">
-                La contraseña actual es requerida
-              </small>
+          <p-card styleClass="bg-gray-800 border-0">
+            <!-- Indicador de carga -->
+            <div *ngIf="loading" class="flex justify-center py-8">
+              <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
             </div>
 
-            <div class="field">
-              <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-1">Nueva Contraseña</label>
-              <p-password id="newPassword" formControlName="newPassword" [toggleMask]="true"></p-password>
-              <small *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched" class="p-error">
-                La contraseña debe tener al menos 8 caracteres
-              </small>
-            </div>
-
-            <div class="field">
-              <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirmar Nueva Contraseña</label>
-              <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true"></p-password>
-              <small *ngIf="passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched" class="p-error">
-                Por favor confirme la contraseña
-              </small>
-              <small *ngIf="passwordForm.errors?.['passwordMismatch']" class="p-error">
-                Las contraseñas no coinciden
-              </small>
-            </div>
-
-            <div class="flex justify-end mt-4">
-              <p-button type="submit" label="Cambiar Contraseña" [disabled]="passwordForm.invalid" icon="pi pi-lock" styleClass="p-button-primary"></p-button>
-            </div>
-          </form>
-        </p-card>
-      </div>
-    </div>
-
-    <div *ngIf="currentSection === 'actividad'" class="fade-in">
-      <div class="mb-6">
-        <h3 class="text-xl font-semibold text-gray-800 mb-4">Actividad Reciente</h3>
-
-        <p-card>
-          <p-table [value]="userData?.logs || []" [paginator]="true" [rows]="5" styleClass="p-datatable-sm" [showCurrentPageReport]="true"
-                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
-                 [rowsPerPageOptions]="[5,10,20]" [responsive]="true"
-                 [globalFilterFields]="['id','descripcion']">
-            <ng-template pTemplate="header">
-              <tr>
-                <th>ID</th>
-                <th>Fecha</th>
-                <th>Descripción</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-log>
-              <tr>
-                <td>{{log.id}}</td>
-                <td>{{log.fecha | date:'medium'}}</td>
-                <td>{{log.descripcion}}</td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-              <tr>
-                <td colspan="3" class="text-center p-4">No hay registros de actividad disponibles</td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </p-card>
+            <p-table *ngIf="!loading" [value]="userData?.logs || []" [paginator]="true" [rows]="5"
+                     styleClass="p-datatable-sm bg-gray-800 text-white"
+                     [showCurrentPageReport]="true"
+                     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+                     [rowsPerPageOptions]="[5,10,20]" [responsive]="true">
+              <ng-template pTemplate="header">
+                <tr class="bg-gray-700">
+                  <th class="text-gray-300">ID</th>
+                  <th class="text-gray-300">Fecha</th>
+                  <th class="text-gray-300">Descripción</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-log>
+                <tr class="hover:bg-gray-700">
+                  <td>{{log.id}}</td>
+                  <td>{{log.fecha | date:'medium'}}</td>
+                  <td>{{log.descripcion}}</td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="3" class="text-center p-4 text-gray-400">No hay registros de actividad disponibles</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-card>
+        </div>
       </div>
     </div>
   </div>

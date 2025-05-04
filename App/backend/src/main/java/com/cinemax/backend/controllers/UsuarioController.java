@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @EnableMethodSecurity
@@ -16,7 +17,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioServiceImp usuarioService;
 
-    //Recoger informacion de los usuarios
+    @Autowired
+
+    // Recoger informacion de los usuarios
     @GetMapping("/lista")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> listaUsuarios() {
@@ -29,25 +32,37 @@ public class UsuarioController {
         return this.usuarioService.getUsuario(id);
     }
 
-    //Crear Usuarios
+    // Crear Usuarios
     @PostMapping("/crear")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> crearUsuario(@RequestBody Usuario usuario) {
         return this.usuarioService.createUsuario(usuario);
     }
 
-    //Modificar Usuarios
+    // Modificar Usuarios
     @PutMapping("/editar/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> modificarUsuario(@RequestBody Usuario usuario, @PathVariable long id) {
         return this.usuarioService.updateUsuario(usuario, id);
     }
 
-    //Eliminar Usuarios
+    // Eliminar Usuarios
     @DeleteMapping("/eliminar/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> eliminarUsuario(@PathVariable long id) {
         return this.usuarioService.deleteUsuario(id);
     }
 
+    // Controladores para permitir al usuario gestionar sus propios datos
+    @GetMapping("/perfil")
+    public ResponseEntity<?> obtenerPerfilUsuario(Authentication authentication) {
+        String correo = authentication.getName();
+        return this.usuarioService.getUsuarioByCorreo(correo);
+    }
+
+    @PutMapping("/perfil")
+    public ResponseEntity<?> actualizarPerfilUsuario(@RequestBody Usuario usuario, Authentication authentication) {
+        String correo = authentication.getName();
+        return this.usuarioService.updatePerfilUsuario(usuario, correo);
+    }
 }

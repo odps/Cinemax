@@ -15,4 +15,6 @@ public interface UsuarioService {
     ResponseEntity<?> deleteUsuario(long id);
 
     ResponseEntity<?> getUsuarioByCorreo(String correo);
+
+    ResponseEntity<?> updatePerfilUsuario(Usuario usuario, String correoActual);
 }

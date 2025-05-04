@@ -101,6 +101,9 @@ public class UsuarioServiceImp implements UsuarioService {
             if (usuario.getNombre() != null) {
                 userOld.setNombre(usuario.getNombre());
             }
+            if (usuario.getContrasena() != null) {
+                userOld.setContrasena(usuario.getContrasena());
+            }
             usuarioRepo.save(userOld);
             return ResponseEntity.ok(userOld);
         }
@@ -124,5 +127,36 @@ public class UsuarioServiceImp implements UsuarioService {
         } else {
             return ResponseEntity.ok(usuario);
         }
+    }
+
+    @Override
+    public ResponseEntity<?> updatePerfilUsuario(Usuario usuario, String correoActual) {
+        Usuario usuarioExistente = usuarioRepo.findByCorreo(correoActual);
+        if (usuarioExistente == null) {
+            return ResponseEntity.badRequest().body("Usuario no encontrado");
+        }
+
+        usuario.setId(usuarioExistente.getId());
+
+        if (usuario.getCorreo() == null || usuario.getCorreo().isEmpty()) {
+            usuario.setCorreo(usuarioExistente.getCorreo());
+        } else {
+            Usuario emailCheck = usuarioRepo.findByCorreo(usuario.getCorreo());
+            if (emailCheck != null && emailCheck.getId() != usuarioExistente.getId()) {
+                return ResponseEntity.badRequest().body("El correo ya está en uso por otro usuario");
+            }
+        }
+
+        usuario.setRol(usuarioExistente.getRol());
+        usuario.setFechaRegistro(usuarioExistente.getFechaRegistro());
+
+        if (usuario.getContrasena() != null && !usuario.getContrasena().isEmpty()) {
+            usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
+        } else {
+            usuario.setContrasena(usuarioExistente.getContrasena());
+        }
+
+        usuarioRepo.save(usuario);
+        return ResponseEntity.ok(usuario);
     }
 }

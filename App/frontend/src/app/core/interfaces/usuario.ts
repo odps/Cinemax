@@ -9,6 +9,7 @@ export interface Usuario {
   nombre: string;
   correo: string;
   fechaRegistro: string;
+  contrasena?: string;
   rol: Rol;
   reviews: Review[];
   tickets: Ticket[];
