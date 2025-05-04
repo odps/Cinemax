@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -40,6 +41,7 @@ public class Cine {
     private String horario;
 
     @OneToMany(mappedBy = "cine")
+    @JsonIgnore
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "cine")
