@@ -1,7 +1,11 @@
 <div class="container mx-auto px-4 py-8">
   <!-- Hero Section con ubicación destacada -->
   <section class="mb-12" *ngIf="cineDestacado">
-    <app-cine-card [cine]="cineDestacado" [isHighlighted]="true"></app-cine-card>
+    <app-cine-card
+      [cine]="cineDestacado"
+      [isHighlighted]="true"
+      (verDetalles)="abrirModalDetalles($event)"
+    ></app-cine-card>
   </section>
 
   <!-- Listado de cines -->
@@ -9,7 +13,179 @@
     <h2 class="text-2xl font-bold text-gray-200 mb-6">Nuestros Cines</h2>
 
     <div class="grid grid-cols-1 gap-6">
-      <app-cine-card *ngFor="let cine of cines" [cine]="cine"></app-cine-card>
+      <app-cine-card
+        *ngFor="let cine of cines"
+        [cine]="cine"
+        (verDetalles)="abrirModalDetalles($event)"
+      ></app-cine-card>
     </div>
   </section>
+
+  <!-- Modal de detalles -->
+  <p-dialog
+    [(visible)]="modalVisible"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '90vw', maxWidth: '900px' }"
+    [showHeader]="false"
+    [dismissableMask]="true"
+    styleClass="p-fluid cine-modal"
+  >
+    <div *ngIf="cineSeleccionado" class="bg-gray-900 p-0">
+      <!-- Imagen de cabecera -->
+      <div class="relative h-64 md:h-80 overflow-hidden">
+        <img
+          [src]="
+            cineSeleccionado.imagenUrl
+              ? 'assets/' + cineSeleccionado.imagenUrl
+              : 'assets/cine-placeholder.jpg'
+          "
+          [alt]="cineSeleccionado.nombre"
+          class="w-full h-full object-cover"
+        />
+        <div
+          class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-6"
+        >
+          <h2 class="text-3xl font-bold text-white mb-2">
+            {{ cineSeleccionado.nombre }}
+          </h2>
+          <div class="flex items-center">
+            <i class="pi pi-map text-white mr-2"></i>
+            <p class="text-white">{{ cineSeleccionado.ciudad }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contenido del modal -->
+      <div class="p-6">
+        <!-- Información principal -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <h3 class="text-xl font-bold text-white mb-4">Información</h3>
+
+            <div class="space-y-3">
+              <div class="flex items-start">
+                <i class="pi pi-map-marker text-gray-400 mr-3 mt-1"></i>
+                <p class="text-gray-300">
+                  {{ cineSeleccionado.direccion }},
+                  {{ cineSeleccionado.ciudad }}
+                </p>
+              </div>
+
+              <div *ngIf="cineSeleccionado.telefono" class="flex items-start">
+                <i class="pi pi-phone text-gray-400 mr-3 mt-1"></i>
+                <p class="text-gray-300">{{ cineSeleccionado.telefono }}</p>
+              </div>
+
+              <div *ngIf="cineSeleccionado.horario" class="flex items-start">
+                <i class="pi pi-clock text-gray-400 mr-3 mt-1"></i>
+                <p class="text-gray-300">{{ cineSeleccionado.horario }}</p>
+              </div>
+
+              <div *ngIf="cineSeleccionado.nif" class="flex items-start">
+                <i class="pi pi-id-card text-gray-400 mr-3 mt-1"></i>
+                <p class="text-gray-300">NIF: {{ cineSeleccionado.nif }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="cineSeleccionado.descripcion">
+            <h3 class="text-xl font-bold text-white mb-4">Descripción</h3>
+            <p class="text-gray-300">{{ cineSeleccionado.descripcion }}</p>
+          </div>
+        </div>
+
+        <!-- Salas -->
+        <div
+          *ngIf="cineSeleccionado.salas && cineSeleccionado.salas.length > 0"
+          class="mb-6"
+        >
+          <h3 class="text-xl font-bold text-white mb-4">Salas</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div
+              *ngFor="let sala of cineSeleccionado.salas"
+              class="bg-gray-800 rounded-lg p-4"
+            >
+              <div class="flex justify-between items-center mb-2">
+                <h4 class="font-bold text-white">{{ sala.nombre }}</h4>
+                <p-tag
+                  [value]="sala.capacidad + ' asientos'"
+                  severity="info"
+                ></p-tag>
+              </div>
+              <div
+                *ngIf="sala.funciones && sala.funciones.length > 0"
+                class="mt-2"
+              >
+                <p class="text-sm text-gray-400 mb-1">Próximas funciones:</p>
+                <div class="space-y-2">
+                  <div
+                    *ngFor="let funcion of sala.funciones"
+                    class="flex items-center"
+                  >
+                    <i class="pi pi-calendar text-gray-500 mr-2"></i>
+                    <span class="text-gray-300">{{
+                      funcion.fechaHora | date : "dd/MM/yyyy"
+                    }}</span>
+                    <span class="mx-2 text-gray-500">-</span>
+                    <span class="text-white">{{
+                      funcion.idPelicula?.titulo
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promociones -->
+        <div
+          *ngIf="
+            cineSeleccionado.promociones &&
+            cineSeleccionado.promociones.length > 0
+          "
+          class="mb-6"
+        >
+          <h3 class="text-xl font-bold text-white mb-4">Promociones</h3>
+          <div class="space-y-3">
+            <div
+              *ngFor="let promo of cineSeleccionado.promociones"
+              class="bg-gray-800 rounded-lg p-4"
+            >
+              <h4 class="font-bold text-white mb-1">{{ promo.titulo }}</h4>
+              <p class="text-gray-300">{{ promo.descripcion }}</p>
+              <div class="flex justify-between items-center mt-2">
+                <p-tag [value]="promo.tipo" severity="warn"></p-tag>
+                <span class="text-sm text-gray-400"
+                  >Válido: {{ promo.fechaInicio | date : "dd/MM/yyyy" }} -
+                  {{ promo.fechaFin | date : "dd/MM/yyyy" }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex justify-end space-x-4 mt-6">
+          <p-button
+            label="Ver cartelera"
+            icon="pi pi-film"
+            severity="info"
+          ></p-button>
+          <p-button
+            label="Cerrar"
+            icon="pi pi-times"
+            (click)="cerrarModal()"
+            [outlined]="true"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="!cineSeleccionado && cargando" class="p-6 flex justify-center">
+      <i class="pi pi-spin pi-spinner text-4xl text-blue-500"></i>
+    </div>
+  </p-dialog>
 </div>

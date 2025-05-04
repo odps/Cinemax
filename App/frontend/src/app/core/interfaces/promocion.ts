@@ -1,3 +1,5 @@
+import { Cine } from './cine';
+
 export interface Promocion {
   id: number;
   titulo: string;
@@ -7,4 +9,5 @@ export interface Promocion {
   fechaFin: string;
   imagenUrl: string;
   destacada?: boolean;
+  cines?: Cine[] | undefined;
 }
