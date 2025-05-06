@@ -18,14 +18,12 @@ public class FuncionController {
 
     // Obtener todas las funciones
     @GetMapping("/lista")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> listaFunciones() {
         return this.funcionService.getFunciones();
     }
 
     // Obtener una función por ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getFuncionById(@PathVariable long id) {
         return this.funcionService.getFuncion(id);
     }
@@ -53,14 +51,12 @@ public class FuncionController {
 
     // Obtener funciones por ID de película
     @GetMapping("/pelicula/{idPelicula}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getFuncionesByIdPelicula(@PathVariable long idPelicula) {
         return this.funcionService.getFuncionesByIdPeliculaId(idPelicula);
     }
 
     // Obtener funciones por ID de sala
     @GetMapping("/sala/{idSala}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getFuncionesByIdSala(@PathVariable long idSala) {
         return this.funcionService.getFuncionesByIdSalaId(idSala);
     }

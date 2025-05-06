@@ -5,6 +5,7 @@
       [cine]="cineDestacado"
       [isHighlighted]="true"
       (verDetalles)="abrirModalDetalles($event)"
+      (verCartelera)="verCartelera($event)"
     ></app-cine-card>
   </section>
 
@@ -17,6 +18,7 @@
         *ngFor="let cine of cines"
         [cine]="cine"
         (verDetalles)="abrirModalDetalles($event)"
+        (verCartelera)="verCartelera($event)"
       ></app-cine-card>
     </div>
   </section>
@@ -102,7 +104,7 @@
           class="mb-6"
         >
           <h3 class="text-xl font-bold text-white mb-4">Salas</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div class="grid grid-cols-1 gap-3">
             <div
               *ngFor="let sala of cineSeleccionado.salas"
               class="bg-gray-800 rounded-lg p-4"
@@ -185,30 +187,6 @@
                   >({{ reviews.length }} opiniones)</span
                 >
               </ng-container>
-            </div>
-          </div>
-
-          <!-- Form para añadir/editar review -->
-          <div *ngIf="isAuthenticated && !reviewFormVisible" class="mb-4">
-            <div *ngIf="!userReview" class="flex justify-center">
-              <p-button
-                label="Escribir una opinión"
-                icon="pi pi-pencil"
-                (click)="mostrarFormularioReview()"
-              ></p-button>
-            </div>
-            <div *ngIf="userReview" class="flex justify-center space-x-2">
-              <p-button
-                label="Editar tu opinión"
-                icon="pi pi-pencil"
-                (click)="mostrarFormularioReview()"
-              ></p-button>
-              <p-button
-                label="Eliminar"
-                icon="pi pi-trash"
-                severity="danger"
-                (click)="eliminarReview()"
-              ></p-button>
             </div>
           </div>
 
@@ -317,6 +295,30 @@
           </div>
         </div>
 
+        <!-- Form para añadir/editar review -->
+        <div *ngIf="isAuthenticated && !reviewFormVisible" class="mb-4 mt-4">
+          <div *ngIf="!userReview" class="flex justify-center">
+            <p-button
+              label="Escribir una opinión"
+              icon="pi pi-pencil"
+              (click)="mostrarFormularioReview()"
+            ></p-button>
+          </div>
+          <div *ngIf="userReview" class="flex justify-center space-x-2">
+            <p-button
+              label="Editar tu opinión"
+              icon="pi pi-pencil"
+              (click)="mostrarFormularioReview()"
+            ></p-button>
+            <p-button
+              label="Eliminar"
+              icon="pi pi-trash"
+              severity="danger"
+              (click)="eliminarReview()"
+            ></p-button>
+          </div>
+        </div>
+
         <!-- Botones de acción -->
         <div class="flex justify-end space-x-4 mt-6">
           <p-button
@@ -337,6 +339,68 @@
     <!-- Loading state -->
     <div *ngIf="!cineSeleccionado && cargando" class="p-6 flex justify-center">
       <i class="pi pi-spin pi-spinner text-4xl text-blue-500"></i>
+    </div>
+  </p-dialog>
+
+  <!-- Modal de cartelera -->
+  <p-dialog
+    [(visible)]="carteleraModalVisible"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '90vw', maxWidth: '900px' }"
+    [showHeader]="false"
+    [dismissableMask]="true"
+    styleClass="p-fluid cine-modal"
+  >
+    <div *ngIf="cineCarteleraSeleccionado" class="bg-gray-900 p-6">
+      <h2 class="text-3xl font-bold text-white mb-6">
+        Cartelera de {{ cineCarteleraSeleccionado.nombre }}
+      </h2>
+      <div class="grid grid-cols-1 gap-6">
+        <div
+          *ngFor="let item of cineCarteleraSeleccionado.cartelera"
+          class="bg-gray-800 rounded-lg p-4"
+        >
+          <h3 class="text-xl font-bold text-white mb-2">
+            Sala: {{ item.sala.nombre }}
+          </h3>
+          <div class="grid grid-cols-1 gap-4">
+            <div
+              *ngFor="let funcion of item.funciones"
+              class="bg-gray-800 rounded-lg p-4 flex flex-col md:flex-row justify-between items-start md:items-center"
+            >
+              <div class="mb-4 md:mb-0">
+                <h4 class="text-lg font-bold text-white">
+                  {{ funcion.idPelicula?.titulo }}
+                </h4>
+                <p class="text-gray-300">
+                  <i class="pi pi-calendar text-gray-500 mr-2"></i>
+                  {{ funcion.fechaHora | date : "dd/MM/yyyy HH:mm" }}
+                </p>
+                <p class="text-gray-300">
+                  <i class="pi pi-dollar text-gray-500 mr-2"></i>
+                  Precio: {{ funcion.precio | currency : "EUR" }}
+                </p>
+              </div>
+              <p-button
+                label="Comprar Ticket"
+                icon="pi pi-ticket"
+                (click)="comprarTicket(funcion)"
+                class="p-button-success"
+              ></p-button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end mt-6">
+        <p-button
+          label="Cerrar"
+          icon="pi pi-times"
+          (click)="cerrarCarteleraModal()"
+          [outlined]="true"
+        ></p-button>
+      </div>
     </div>
   </p-dialog>
 </div>

@@ -35,7 +35,11 @@
           <span>{{ cine?.horario }}</span>
         </div>
         <div class="flex space-x-3 mt-3">
-          <p-button label="Ver cartelera" icon="pi pi-film"></p-button>
+          <p-button
+            label="Ver cartelera"
+            icon="pi pi-film"
+            (click)="mostrarCartelera()"
+          ></p-button>
           <p-button
             label="Detalles"
             icon="pi pi-info-circle"
@@ -91,6 +95,7 @@
             label="Ver cartelera"
             icon="pi pi-film"
             severity="danger"
+            (click)="mostrarCartelera()"
           ></p-button>
           <p-button
             label="Detalles"

@@ -15,9 +15,14 @@ export class CineCardComponent {
   @Input() cine!: Cine;
   @Input() isHighlighted: boolean = false;
   @Output() verDetalles = new EventEmitter<Cine>();
+  @Output() verCartelera = new EventEmitter<Cine>();
   protected readonly assetsLocation = assetsLocation;
 
   mostrarDetalles(): void {
     this.verDetalles.emit(this.cine);
+  }
+
+  mostrarCartelera(): void {
+    this.verCartelera.emit(this.cine);
   }
 }

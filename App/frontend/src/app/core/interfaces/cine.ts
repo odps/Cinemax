@@ -1,6 +1,7 @@
 import { Promocion } from './promocion';
 import { Review } from './review';
 import { Sala } from './sala';
+
 export interface Cine {
   id?: number;
   nombre: string;
@@ -14,4 +15,5 @@ export interface Cine {
   reviews?: Review[];
   promociones?: Promocion[];
   salas?: Sala[];
+  cartelera?: { sala: Sala; funciones: any[] }[];
 }

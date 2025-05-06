@@ -12,6 +12,9 @@ import { ReviewService } from '../../core/services/review.service';
 import { AuthService } from '../../core/services/auth.service';
 import { Cine } from '../../core/interfaces/cine';
 import { Review } from '../../core/interfaces/review';
+import { Sala } from '../../core/interfaces/sala';
+import { FuncionService } from '../../core/services/funcion.service';
+import { Funcion } from '../../core/interfaces/funcion';
 
 @Component({
   selector: 'app-cines',
@@ -37,7 +40,7 @@ export class CinesComponent implements OnInit {
   cargando: boolean = false;
 
   // Variables para reviews
-  reviews: Review[] = []; // Ensure this is always initialized as an empty array
+  reviews: Review[] = [];
   isAuthenticated = false;
   currentUser: any;
   newReview: { puntuacion: number; comentario: string } = {
@@ -48,10 +51,15 @@ export class CinesComponent implements OnInit {
   isEditingReview = false;
   reviewFormVisible = false;
 
+  cartelera: { sala: Sala; funciones: any[] }[] = [];
+  carteleraModalVisible: boolean = false;
+  cineCarteleraSeleccionado: Cine | null = null;
+
   constructor(
     private cineService: CineService,
     private reviewService: ReviewService,
-    private authService: AuthService
+    private authService: AuthService,
+    private funcionService: FuncionService
   ) {}
 
   ngOnInit(): void {
@@ -93,7 +101,6 @@ export class CinesComponent implements OnInit {
       this.modalVisible = true;
       this.cargarReviews(cine.id);
     } else {
-      // Check if cine.id exists
       if (!cine.id) {
         console.error('Error: ID de cine no definido');
         this.cineSeleccionado = cine;
@@ -175,13 +182,11 @@ export class CinesComponent implements OnInit {
       this.newReview.comentario = this.userReview.comentario;
     } else {
       this.isEditingReview = false;
-      // Initialize with default values for a new review
       this.newReview = {
         puntuacion: 5,
         comentario: '',
       };
     }
-    // Always set the form to visible
     this.reviewFormVisible = true;
   }
 
@@ -295,5 +300,43 @@ export class CinesComponent implements OnInit {
       0
     );
     return Math.round((total / this.reviews.length) * 10) / 10;
+  }
+
+  verCartelera(cine: Cine): void {
+    console.log('Ver Cartelera triggered for cine:', cine);
+    if (!cine.salas || cine.salas.length === 0) {
+      console.error('El cine no tiene salas asociadas.');
+      return;
+    }
+
+    cine.cartelera = [];
+    cine.salas.forEach((sala) => {
+      this.funcionService.getFuncionesBySala(sala.id!).subscribe({
+        next: (funciones) => {
+          cine.cartelera!.push({ sala, funciones });
+        },
+        error: (error) => {
+          console.error(
+            `Error al obtener funciones para la sala ${sala.nombre}`,
+            error
+          );
+        },
+      });
+    });
+
+    this.cineCarteleraSeleccionado = cine;
+    this.carteleraModalVisible = true;
+  }
+
+  cerrarCarteleraModal(): void {
+    this.carteleraModalVisible = false;
+    this.cineCarteleraSeleccionado = null;
+  }
+
+  comprarTicket(funcion: Funcion): void {
+    console.log('Comprar Ticket clicked for function:', funcion);
+    alert(
+      `Ticket purchase for ${funcion.idPelicula.titulo} at ${funcion.fechaHora} is not yet implemented.`
+    );
   }
 }
