@@ -1,2 +1,899 @@
-// Here goes a table with administration options, such as edit create and update
-using the services
+<div class="container mx-auto px-4 py-8">
+  <!--notifications -->
+  <p-toast></p-toast>
+
+  <!-- Confirmacion Dialog -->
+  <p-confirmDialog
+    [style]="{ width: '450px' }"
+    acceptButtonStyleClass="p-button-danger"
+    rejectButtonStyleClass="p-button-text"
+  ></p-confirmDialog>
+
+  <h1 class="text-3xl font-bold text-white mb-6">Panel de Administración</h1>
+
+  <p-tabView [(activeIndex)]="activeTabIndex">
+    <!-- ===== CINES TAB ===== -->
+    <p-tabPanel header="Cines">
+      <div class="admin-tab-content">
+        <div class="flex justify-between mb-4">
+          <h2 class="text-2xl font-bold text-white">Gestión de Cines</h2>
+          <p-button
+            label="Nuevo Cine"
+            icon="pi pi-plus"
+            (click)="openNewCine()"
+          ></p-button>
+        </div>
+
+        <!-- Cines Tabla -->
+        <p-table
+          [value]="cines"
+          [loading]="loadingCines"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[5, 10, 25]"
+          [rowHover]="true"
+          styleClass="p-datatable-sm"
+          responsiveLayout="scroll"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} cines"
+          [showCurrentPageReport]="true"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="id">
+                ID <p-sortIcon field="id"></p-sortIcon>
+              </th>
+              <th pSortableColumn="nombre">
+                Nombre <p-sortIcon field="nombre"></p-sortIcon>
+              </th>
+              <th pSortableColumn="ciudad">
+                Ciudad <p-sortIcon field="ciudad"></p-sortIcon>
+              </th>
+              <th pSortableColumn="direccion">
+                Dirección <p-sortIcon field="direccion"></p-sortIcon>
+              </th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-cine>
+            <tr class="bg-gray-800 border-b border-gray-700">
+              <td>{{ cine.id }}</td>
+              <td>{{ cine.nombre }}</td>
+              <td>{{ cine.ciudad }}</td>
+              <td>{{ cine.direccion }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-text p-button-sm text-yellow-500"
+                    pTooltip="Editar"
+                    tooltipPosition="top"
+                    (click)="editCine(cine)"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-text p-button-sm text-red-500"
+                    pTooltip="Eliminar"
+                    tooltipPosition="top"
+                    (click)="deleteCine(cine)"
+                  ></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5" class="text-center p-4">
+                No hay cines disponibles.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+
+    <!-- ===== PELÍCULAS TAB ===== -->
+    <p-tabPanel header="Películas">
+      <div class="admin-tab-content">
+        <div class="flex justify-between mb-4">
+          <h2 class="text-2xl font-bold text-white">Gestión de Películas</h2>
+          <p-button
+            label="Nueva Película"
+            icon="pi pi-plus"
+            (click)="openNewPelicula()"
+          ></p-button>
+        </div>
+
+        <!-- Películas Tabla -->
+        <p-table
+          [value]="peliculas"
+          [loading]="loadingPeliculas"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[5, 10, 25]"
+          [rowHover]="true"
+          styleClass="p-datatable-sm"
+          responsiveLayout="scroll"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} películas"
+          [showCurrentPageReport]="true"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="id">
+                ID <p-sortIcon field="id"></p-sortIcon>
+              </th>
+              <th pSortableColumn="titulo">
+                Título <p-sortIcon field="titulo"></p-sortIcon>
+              </th>
+              <th pSortableColumn="genero">
+                Género <p-sortIcon field="genero"></p-sortIcon>
+              </th>
+              <th pSortableColumn="duracion">
+                Duración <p-sortIcon field="duracion"></p-sortIcon>
+              </th>
+              <th pSortableColumn="calificacion">
+                Calificación <p-sortIcon field="calificacion"></p-sortIcon>
+              </th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-pelicula>
+            <tr class="bg-gray-800 border-b border-gray-700">
+              <td>{{ pelicula.id }}</td>
+              <td>{{ pelicula.titulo }}</td>
+              <td>{{ pelicula.genero }}</td>
+              <td>{{ pelicula.duracion }} min</td>
+              <td>{{ pelicula.calificacion }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-text p-button-sm text-yellow-500"
+                    pTooltip="Editar"
+                    tooltipPosition="top"
+                    (click)="editPelicula(pelicula)"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-text p-button-sm text-red-500"
+                    pTooltip="Eliminar"
+                    tooltipPosition="top"
+                    (click)="deletePelicula(pelicula)"
+                  ></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="text-center p-4">
+                No hay películas disponibles.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+
+    <!-- ===== PROMOCIONES TAB ===== -->
+    <p-tabPanel header="Promociones">
+      <div class="admin-tab-content">
+        <div class="flex justify-between mb-4">
+          <h2 class="text-2xl font-bold text-white">Gestión de Promociones</h2>
+          <p-button
+            label="Nueva Promoción"
+            icon="pi pi-plus"
+            (click)="openNewPromocion()"
+          ></p-button>
+        </div>
+
+        <!-- Promociones Tabla -->
+        <p-table
+          [value]="promociones"
+          [loading]="loadingPromociones"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[5, 10, 25]"
+          [rowHover]="true"
+          styleClass="p-datatable-sm"
+          responsiveLayout="scroll"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} promociones"
+          [showCurrentPageReport]="true"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="id">
+                ID <p-sortIcon field="id"></p-sortIcon>
+              </th>
+              <th pSortableColumn="titulo">
+                Título <p-sortIcon field="titulo"></p-sortIcon>
+              </th>
+              <th pSortableColumn="tipo">
+                Tipo <p-sortIcon field="tipo"></p-sortIcon>
+              </th>
+              <th pSortableColumn="fechaInicio">
+                Fecha Inicio <p-sortIcon field="fechaInicio"></p-sortIcon>
+              </th>
+              <th pSortableColumn="fechaFin">
+                Fecha Fin <p-sortIcon field="fechaFin"></p-sortIcon>
+              </th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-promocion>
+            <tr class="bg-gray-800 border-b border-gray-700">
+              <td>{{ promocion.id }}</td>
+              <td>{{ promocion.titulo }}</td>
+              <td>{{ promocion.tipo }}</td>
+              <td>{{ promocion.fechaInicio }}</td>
+              <td>{{ promocion.fechaFin }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-text p-button-sm text-yellow-500"
+                    pTooltip="Editar"
+                    tooltipPosition="top"
+                    (click)="editPromocion(promocion)"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-text p-button-sm text-red-500"
+                    pTooltip="Eliminar"
+                    tooltipPosition="top"
+                    (click)="deletePromocion(promocion)"
+                  ></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="text-center p-4">
+                No hay promociones disponibles.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+
+    <!-- ===== SALAS TAB ===== -->
+    <p-tabPanel header="Salas">
+      <div class="admin-tab-content">
+        <div class="flex justify-between mb-4">
+          <h2 class="text-2xl font-bold text-white">Gestión de Salas</h2>
+          <p-button
+            label="Nueva Sala"
+            icon="pi pi-plus"
+            (click)="openNewSala()"
+          ></p-button>
+        </div>
+
+        <!-- Salas Tabla -->
+        <p-table
+          [value]="salas"
+          [loading]="loadingSalas"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[5, 10, 25]"
+          [rowHover]="true"
+          styleClass="p-datatable-sm"
+          responsiveLayout="scroll"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} salas"
+          [showCurrentPageReport]="true"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="id">
+                ID <p-sortIcon field="id"></p-sortIcon>
+              </th>
+              <th pSortableColumn="nombre">
+                Nombre <p-sortIcon field="nombre"></p-sortIcon>
+              </th>
+              <th pSortableColumn="capacidad">
+                Capacidad <p-sortIcon field="capacidad"></p-sortIcon>
+              </th>
+              <th pSortableColumn="cine.nombre">
+                Cine <p-sortIcon field="cine.nombre"></p-sortIcon>
+              </th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-sala>
+            <tr class="bg-gray-800 border-b border-gray-700">
+              <td>{{ sala.id }}</td>
+              <td>{{ sala.nombre }}</td>
+              <td>{{ sala.capacidad }}</td>
+              <td>{{ sala.cine?.nombre || "N/A" }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-text p-button-sm text-yellow-500"
+                    pTooltip="Editar"
+                    tooltipPosition="top"
+                    (click)="editSala(sala)"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-text p-button-sm text-red-500"
+                    pTooltip="Eliminar"
+                    tooltipPosition="top"
+                    (click)="deleteSala(sala)"
+                  ></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5" class="text-center p-4">
+                No hay salas disponibles.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+
+    <!-- ===== FUNCIONES TAB ===== -->
+    <p-tabPanel header="Funciones">
+      <div class="admin-tab-content">
+        <div class="flex justify-between mb-4">
+          <h2 class="text-2xl font-bold text-white">Gestión de Funciones</h2>
+          <p-button
+            label="Nueva Función"
+            icon="pi pi-plus"
+            (click)="openNewFuncion()"
+          ></p-button>
+        </div>
+
+        <!-- Funciones Tabla -->
+        <p-table
+          [value]="funciones"
+          [loading]="loadingFunciones"
+          [paginator]="true"
+          [rows]="10"
+          [rowsPerPageOptions]="[5, 10, 25]"
+          [rowHover]="true"
+          styleClass="p-datatable-sm"
+          responsiveLayout="scroll"
+          currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} funciones"
+          [showCurrentPageReport]="true"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="id">
+                ID <p-sortIcon field="id"></p-sortIcon>
+              </th>
+              <th pSortableColumn="idPelicula.titulo">
+                Película <p-sortIcon field="idPelicula.titulo"></p-sortIcon>
+              </th>
+              <th pSortableColumn="idSala.nombre">
+                Sala <p-sortIcon field="idSala.nombre"></p-sortIcon>
+              </th>
+              <th pSortableColumn="fechaHora">
+                Fecha y Hora <p-sortIcon field="fechaHora"></p-sortIcon>
+              </th>
+              <th pSortableColumn="precio">
+                Precio <p-sortIcon field="precio"></p-sortIcon>
+              </th>
+              <th>Acciones</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-funcion>
+            <tr class="bg-gray-800 border-b border-gray-700">
+              <td>{{ funcion.id }}</td>
+              <td>{{ funcion.idPelicula?.titulo || "N/A" }}</td>
+              <td>{{ funcion.idSala?.nombre || "N/A" }}</td>
+              <td>{{ funcion.fechaHora | date : "dd/MM/yyyy HH:mm" }}</td>
+              <td>{{ funcion.precio | currency : "EUR" : "symbol" }}</td>
+              <td>
+                <div class="flex gap-2">
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-pencil"
+                    class="p-button-rounded p-button-text p-button-sm text-yellow-500"
+                    pTooltip="Editar"
+                    tooltipPosition="top"
+                    (click)="editFuncion(funcion)"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    icon="pi pi-trash"
+                    class="p-button-rounded p-button-text p-button-sm text-red-500"
+                    pTooltip="Eliminar"
+                    tooltipPosition="top"
+                    (click)="deleteFuncion(funcion)"
+                  ></button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="text-center p-4">
+                No hay funciones disponibles.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+
+  <!-- ===== DIALOGS ===== -->
+  <!-- Cine Dialog -->
+  <p-dialog
+    [(visible)]="cineDialog"
+    [style]="{ width: '500px' }"
+    header="Detalles del Cine"
+    [modal]="true"
+    styleClass="p-fluid bg-gray-900"
+  >
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="nombre" class="text-gray-300">Nombre</label>
+        <input
+          type="text"
+          pInputText
+          id="nombre"
+          [(ngModel)]="selectedCine!.nombre"
+          required
+          autofocus
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="nif" class="text-gray-300">NIF</label>
+        <input
+          type="text"
+          pInputText
+          id="nif"
+          [(ngModel)]="selectedCine!.nif"
+          required
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="ciudad" class="text-gray-300">Ciudad</label>
+        <input
+          type="text"
+          pInputText
+          id="ciudad"
+          [(ngModel)]="selectedCine!.ciudad"
+          required
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="direccion" class="text-gray-300">Dirección</label>
+        <input
+          type="text"
+          pInputText
+          id="direccion"
+          [(ngModel)]="selectedCine!.direccion"
+          required
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="telefono" class="text-gray-300">Teléfono</label>
+        <input
+          type="text"
+          pInputText
+          id="telefono"
+          [(ngModel)]="selectedCine!.telefono"
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="horario" class="text-gray-300">Horario</label>
+        <input
+          type="text"
+          pInputText
+          id="horario"
+          [(ngModel)]="selectedCine!.horario"
+          placeholder="Ej: 10:00 - 23:00"
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="descripcion" class="text-gray-300">Descripción</label>
+        <textarea
+          pInputTextarea
+          id="descripcion"
+          [(ngModel)]="selectedCine!.descripcion"
+          rows="3"
+          class="bg-gray-800 text-white"
+        ></textarea>
+      </div>
+      <div class="field">
+        <label for="imagenUrl" class="text-gray-300">URL de Imagen</label>
+        <input
+          type="text"
+          pInputText
+          id="imagenUrl"
+          [(ngModel)]="selectedCine!.imagenUrl"
+          placeholder="Ej: cinemax_plaza.jpg"
+          class="bg-gray-800 text-white"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog('cine')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="saveCine()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Película Dialog -->
+  <p-dialog
+    [(visible)]="peliculaDialog"
+    [style]="{ width: '500px' }"
+    header="Detalles de la Película"
+    [modal]="true"
+    styleClass="p-fluid bg-gray-900"
+  >
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="titulo" class="text-gray-300">Título</label>
+        <input
+          type="text"
+          pInputText
+          id="titulo"
+          [(ngModel)]="selectedPelicula!.titulo"
+          required
+          autofocus
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="genero" class="text-gray-300">Género</label>
+        <input
+          type="text"
+          pInputText
+          id="genero"
+          [(ngModel)]="selectedPelicula!.genero"
+          required
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="director" class="text-gray-300">Director</label>
+        <input
+          type="text"
+          pInputText
+          id="director"
+          [(ngModel)]="selectedPelicula!.director"
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="duracion" class="text-gray-300">Duración (minutos)</label>
+        <p-inputNumber
+          id="duracion"
+          [(ngModel)]="selectedPelicula!.duracion"
+          [min]="1"
+          class="bg-gray-800 text-white"
+        ></p-inputNumber>
+      </div>
+      <div class="field">
+        <label for="limiteEdad" class="text-gray-300">Límite de edad</label>
+        <input
+          type="text"
+          pInputText
+          id="limiteEdad"
+          [(ngModel)]="selectedPelicula!.limiteEdad"
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="descripcion" class="text-gray-300">Sinopsis</label>
+        <textarea
+          pInputTextarea
+          id="descripcion"
+          [(ngModel)]="selectedPelicula!.descripcion"
+          rows="3"
+          class="bg-gray-800 text-white"
+        ></textarea>
+      </div>
+      <div class="field">
+        <label for="imagenUrl" class="text-gray-300">URL del Póster</label>
+        <input
+          type="text"
+          pInputText
+          id="imagenUrl"
+          [(ngModel)]="selectedPelicula!.imagenUrl"
+          class="bg-gray-800 text-white"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog('pelicula')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="savePelicula()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Promoción Dialog -->
+  <p-dialog
+    [(visible)]="promocionDialog"
+    [style]="{ width: '500px' }"
+    header="Detalles de la Promoción"
+    [modal]="true"
+    styleClass="p-fluid bg-gray-900"
+  >
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="titulo" class="text-gray-300">Título</label>
+        <input
+          type="text"
+          pInputText
+          id="titulo"
+          [(ngModel)]="selectedPromocion!.titulo"
+          required
+          autofocus
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="descripcion" class="text-gray-300">Descripción</label>
+        <textarea
+          pInputTextarea
+          id="descripcion"
+          [(ngModel)]="selectedPromocion!.descripcion"
+          rows="3"
+          required
+          class="bg-gray-800 text-white"
+        ></textarea>
+      </div>
+      <div class="field">
+        <label for="tipo" class="text-gray-300">Tipo</label>
+        <p-dropdown
+          [options]="tiposPromocion"
+          [(ngModel)]="selectedPromocion!.tipo"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Seleccione un tipo de promoción"
+          appendTo="body"
+          required
+          class="bg-gray-800 text-white w-full"
+        ></p-dropdown>
+      </div>
+      <div class="field">
+        <label for="fechaInicio" class="text-gray-300">Fecha de Inicio</label>
+        <p-calendar
+          [(ngModel)]="selectedPromocion!.fechaInicio"
+          dateFormat="dd/mm/yy"
+          inputId="fechaInicio"
+          class="bg-gray-800 text-white"
+        ></p-calendar>
+      </div>
+      <div class="field">
+        <label for="fechaFin" class="text-gray-300">Fecha de Fin</label>
+        <p-calendar
+          [(ngModel)]="selectedPromocion!.fechaFin"
+          dateFormat="dd/mm/yy"
+          inputId="fechaFin"
+          class="bg-gray-800 text-white"
+        ></p-calendar>
+      </div>
+      <div class="field">
+        <label for="imagenUrl" class="text-gray-300">URL de Imagen</label>
+        <input
+          type="text"
+          pInputText
+          id="imagenUrl"
+          [(ngModel)]="selectedPromocion!.imagenUrl"
+          class="bg-gray-800 text-white"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog('promocion')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="savePromocion()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Sala Dialog -->
+  <p-dialog
+    [(visible)]="salaDialog"
+    [style]="{ width: '500px' }"
+    header="Detalles de la Sala"
+    [modal]="true"
+    styleClass="p-fluid bg-gray-900"
+  >
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="nombre" class="text-gray-300">Nombre</label>
+        <input
+          type="text"
+          pInputText
+          id="nombre"
+          [(ngModel)]="selectedSala!.nombre"
+          required
+          autofocus
+          class="bg-gray-800 text-white"
+        />
+      </div>
+      <div class="field">
+        <label for="capacidad" class="text-gray-300">Capacidad</label>
+        <p-inputNumber
+          id="capacidad"
+          [(ngModel)]="selectedSala!.capacidad"
+          [min]="1"
+          required
+          class="bg-gray-800 text-white"
+        ></p-inputNumber>
+      </div>
+      <div class="field">
+        <label for="cine" class="text-gray-300">Cine</label>
+        <p-dropdown
+          [options]="cines"
+          [(ngModel)]="selectedSala!.cine"
+          optionLabel="nombre"
+          [filter]="true"
+          filterBy="nombre"
+          placeholder="Seleccione un cine"
+          appendTo="body"
+          class="bg-gray-800 text-white"
+        ></p-dropdown>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog('sala')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="saveSala()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Función Dialog -->
+  <p-dialog
+    [(visible)]="funcionDialog"
+    [style]="{ width: '500px' }"
+    header="Detalles de la Función"
+    [modal]="true"
+    styleClass="p-fluid bg-gray-900"
+  >
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="pelicula" class="text-gray-300">Película</label>
+        <p-dropdown
+          [options]="peliculas"
+          [(ngModel)]="selectedFuncion!.idPelicula"
+          optionLabel="titulo"
+          [filter]="true"
+          filterBy="titulo"
+          placeholder="Seleccione una película"
+          appendTo="body"
+          class="bg-gray-800 text-white"
+        ></p-dropdown>
+      </div>
+      <div class="field">
+        <label for="sala" class="text-gray-300">Sala</label>
+        <p-dropdown
+          [options]="salas"
+          [(ngModel)]="selectedFuncion!.idSala"
+          optionLabel="nombre"
+          [filter]="true"
+          filterBy="nombre"
+          placeholder="Seleccione una sala"
+          appendTo="body"
+          class="bg-gray-800 text-white"
+        ></p-dropdown>
+      </div>
+      <div class="field">
+        <label for="fechaHora" class="text-gray-300">Fecha y Hora</label>
+        <p-calendar
+          [(ngModel)]="selectedFuncion!.fechaHora"
+          [showTime]="true"
+          dateFormat="dd/mm/yy"
+          inputId="fechaHora"
+          class="bg-gray-800 text-white"
+        ></p-calendar>
+      </div>
+      <div class="field">
+        <label for="precio" class="text-gray-300">Precio</label>
+        <p-inputNumber
+          id="precio"
+          [(ngModel)]="selectedFuncion!.precio"
+          [min]="0"
+          mode="currency"
+          currency="EUR"
+          locale="es-ES"
+          class="bg-gray-800 text-white"
+        ></p-inputNumber>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideDialog('funcion')"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Guardar"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="saveFuncion()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+</div>

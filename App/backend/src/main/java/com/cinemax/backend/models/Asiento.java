@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "ASIENTO")
 public class Asiento {
@@ -14,6 +16,7 @@ public class Asiento {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_SALA", nullable = false)
+    @JsonIgnoreProperties("asientos")
     private Sala idSala;
 
     @Column(name = "FILA", nullable = false, length = 2)

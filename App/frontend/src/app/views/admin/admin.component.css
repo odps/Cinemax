@@ -1,0 +1,217 @@
+/* Admin panel styling */
+.admin-tab-content {
+  padding: 1.5rem 0;
+}
+
+/* Table styling enhancements */
+:host ::ng-deep .p-datatable {
+  background: transparent;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-header {
+  background: #1f2937;
+  color: #f3f4f6;
+  border: 1px solid #374151;
+  border-bottom: 0;
+}
+
+:host ::ng-deep .p-datatable .p-paginator {
+  background: #1f2937;
+  color: #f3f4f6;
+  border: 1px solid #374151;
+  border-top: 0;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background: #1f2937;
+  color: #f3f4f6;
+  border: 1px solid #374151;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr {
+  background: #1f2937;
+  color: #f3f4f6;
+  transition: background-color 0.2s;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+  background: #2d3748;
+}
+
+:host ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  border: 1px solid #374151;
+  padding: 0.75rem 1rem;
+}
+
+/* Dialog styling */
+:host ::ng-deep .p-dialog .p-dialog-header {
+  background: #1f2937;
+  color: #f3f4f6;
+  border-bottom: 1px solid #374151;
+  padding: 1rem 1.5rem;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+  background: #1f2937;
+  color: #f3f4f6;
+  padding: 1.5rem;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer {
+  background: #1f2937;
+  color: #f3f4f6;
+  border-top: 1px solid #374151;
+  padding: 1rem 1.5rem;
+}
+
+:host ::ng-deep .p-dropdown {
+  background: #1f2937;
+  border: 1px solid #374151;
+}
+
+:host ::ng-deep .p-dropdown-panel {
+  background: #1f2937;
+  border: 1px solid #374151;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+  color: #f3f4f6;
+}
+
+:host ::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item:hover {
+  background: #2d3748;
+}
+
+:host ::ng-deep .p-calendar .p-inputtext {
+  background: #1f2937;
+  color: #f3f4f6;
+  border: 1px solid #374151;
+}
+
+:host ::ng-deep .p-calendar .p-datepicker {
+  background: #1f2937;
+  color: #f3f4f6;
+  border: 1px solid #374151;
+}
+
+:host ::ng-deep .p-calendar .p-datepicker-header {
+  background: #2d3748;
+  color: #f3f4f6;
+  border-bottom: 1px solid #374151;
+}
+
+:host ::ng-deep .p-calendar .p-datepicker-calendar td > span {
+  color: #f3f4f6;
+}
+
+:host ::ng-deep .p-calendar .p-datepicker-calendar td > span:hover {
+  background: #4b5563;
+}
+
+:host ::ng-deep .p-inputnumber-input {
+  background: #1f2937;
+  color: #f3f4f6;
+  border: 1px solid #374151;
+}
+
+:host ::ng-deep .p-inputtextarea {
+  background: #1f2937;
+  color: #f3f4f6;
+  border: 1px solid #374151;
+}
+
+/* TabView styling */
+:host ::ng-deep .p-tabview .p-tabview-nav {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #374151;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  background: #1f2937;
+  color: #9ca3af;
+  border: 1px solid #374151;
+  border-bottom: none;
+  margin-right: 0.25rem;
+  transition: background-color 0.2s, color 0.2s;
+  border-top-right-radius: 0.375rem;
+  border-top-left-radius: 0.375rem;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-panels {
+  background: transparent;
+  border: none;
+  padding: 1.5rem 0;
+}
+
+/* Toast styling */
+:host ::ng-deep .p-toast .p-toast-message {
+  border-radius: 0.375rem;
+}
+
+:host ::ng-deep .p-toast .p-toast-message.p-toast-message-success {
+  background: #065f46;
+  border-left: 6px solid #10b981;
+}
+
+:host ::ng-deep .p-toast .p-toast-message.p-toast-message-error {
+  background: #7f1d1d;
+  border-left: 6px solid #ef4444;
+}
+
+:host ::ng-deep .p-toast .p-toast-message.p-toast-message-info {
+  background: #1e3a8a;
+  border-left: 6px solid #3b82f6;
+}
+
+:host ::ng-deep .p-toast .p-toast-message.p-toast-message-warn {
+  background: #854d0e;
+  border-left: 6px solid #f59e0b;
+}
+
+/* Confirm dialog styling */
+:host ::ng-deep .p-confirm-dialog .p-dialog-content {
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .p-confirm-dialog .p-dialog-content .p-confirm-dialog-icon {
+  color: #f59e0b;
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+:host ::ng-deep .p-confirm-dialog .p-dialog-footer .p-button.p-button-danger {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+:host
+  ::ng-deep
+  .p-confirm-dialog
+  .p-dialog-footer
+  .p-button.p-button-danger:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+:host ::ng-deep .p-confirm-dialog .p-dialog-footer .p-button.p-button-text {
+  color: #9ca3af;
+}
+
+:host
+  ::ng-deep
+  .p-confirm-dialog
+  .p-dialog-footer
+  .p-button.p-button-text:hover {
+  background: #374151;
+  color: #f3f4f6;
+}

@@ -22,7 +22,7 @@ public class Funcion {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_SALA", nullable = false)
-    @JsonIgnoreProperties("funciones")
+    @JsonIgnoreProperties({ "funciones", "asientos" })
     private Sala idSala;
 
     @Column(name = "FECHA_HORA", nullable = false)

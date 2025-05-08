@@ -1,22 +1,35 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Cine } from '../interfaces/cine';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CineService {
   private apiUrl = `${environment.apiUrl}/cine`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Obtiene la lista completa de cines
    */
   getListaCines(): Observable<Cine[]> {
-    return this.http.get<Cine[]>(`${this.apiUrl}/lista`);
+    return this.http.get(`${this.apiUrl}/lista`, { responseType: 'text' }).pipe(
+      map((response) => {
+        try {
+          let jsonStr = response.trim();
+          return JSON.parse(jsonStr) as Cine[];
+        } catch (error) {
+          console.error('Error parsing cines JSON:', error);
+          console.log('Raw response:', response);
+          return [];
+        }
+      }),
+      catchError(this.handleError)
+    );
   }
 
   /**
@@ -30,7 +43,9 @@ export class CineService {
    * Obtiene cines por ciudad
    */
   getCinesPorCiudad(ciudad: string): Observable<Cine[]> {
-    return this.http.get<Cine[]>(`${this.apiUrl}/ciudad/${encodeURIComponent(ciudad)}`);
+    return this.http.get<Cine[]>(
+      `${this.apiUrl}/ciudad/${encodeURIComponent(ciudad)}`
+    );
   }
 
   /**
@@ -52,5 +67,10 @@ export class CineService {
    */
   eliminarCine(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/eliminar/${id}`);
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('API error:', error);
+    return throwError(() => error);
   }
 }
