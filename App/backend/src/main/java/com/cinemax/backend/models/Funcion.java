@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -22,7 +23,7 @@ public class Funcion {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_SALA", nullable = false)
-    @JsonIgnoreProperties({ "funciones", "asientos" })
+    @JsonIgnoreProperties({ "funciones", "asientos", "dispoAsientos" })
     private Sala idSala;
 
     @Column(name = "FECHA_HORA", nullable = false)
@@ -32,6 +33,7 @@ public class Funcion {
     private long precio;
 
     @OneToMany(mappedBy = "idFuncion")
+    @JsonBackReference
     private List<DisponibilidadAsiento> dispoAsientos;
 
     @OneToMany(mappedBy = "funcion")

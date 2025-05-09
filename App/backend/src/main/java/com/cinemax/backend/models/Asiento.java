@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -26,9 +27,11 @@ public class Asiento {
     private long numero;
 
     @OneToMany(mappedBy = "idAsiento")
+    @JsonIgnore
     private List<DisponibilidadAsiento> dispoAsientos;
 
     @OneToMany(mappedBy = "asiento")
+    @JsonIgnore
     private List<Ticket> tickets;
 
     public Asiento(Sala idSala, String fila, long numero) {

@@ -26,9 +26,11 @@ public class Sala {
     private Long capacidad;
 
     @OneToMany(mappedBy = "idSala")
+    @JsonIgnoreProperties("idSala")
     private List<Asiento> asientos;
 
     @OneToMany(mappedBy = "idSala")
+    @JsonIgnoreProperties("idSala")
     private List<Funcion> funciones;
 
     public Sala(Cine cine, String nombre, Long capacidad) {

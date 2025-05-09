@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "DISPONIBILIDAD_ASIENTO")
 public class DisponibilidadAsiento {
@@ -18,6 +20,7 @@ public class DisponibilidadAsiento {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_FUNCION", nullable = false)
+    @JsonManagedReference
     private Funcion idFuncion;
 
     @Column(name = "ESTADO", nullable = false, length = 20)
@@ -26,7 +29,8 @@ public class DisponibilidadAsiento {
     @Column(name = "BLOQUEADO_HASTA")
     private LocalDate bloqueadoHasta;
 
-    public DisponibilidadAsiento(long id, Asiento idAsiento, Funcion idFuncion, String estado, LocalDate bloqueadoHasta) {
+    public DisponibilidadAsiento(long id, Asiento idAsiento, Funcion idFuncion, String estado,
+            LocalDate bloqueadoHasta) {
         this.id = id;
         this.idAsiento = idAsiento;
         this.idFuncion = idFuncion;
