@@ -1,4 +1,11 @@
+import { Asiento } from './asiento';
+import { Funcion } from './funcion';
+import { Usuario } from './usuario';
+
 export interface Ticket {
   id: number;
-  // Otros campos que pueda tener un ticket
+  usuario: Usuario;
+  funcion: Funcion;
+  asiento: Asiento;
+  fechaCompra: Date;
 }
