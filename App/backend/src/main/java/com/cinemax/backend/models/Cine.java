@@ -1,12 +1,10 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "CINE")
@@ -45,13 +43,14 @@ public class Cine {
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "cine")
+    @JsonIgnoreProperties({"cine", "funciones", "asientos"})
     private List<Sala> salas;
 
     @ManyToMany(mappedBy = "cines")
     private List<Promocion> promociones;
 
     public Cine(String nif, String ciudad, String direccion, String nombre, String imagenUrl,
-            String telefono, String descripcion, String horario) {
+                String telefono, String descripcion, String horario) {
         this.nif = nif;
         this.ciudad = ciudad;
         this.direccion = direccion;

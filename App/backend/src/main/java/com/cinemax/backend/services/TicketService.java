@@ -17,4 +17,6 @@ public interface TicketService {
     ResponseEntity<?> getTicketsByUsuarioId(long usuarioId);
 
     ResponseEntity<?> getTicketsByFuncionId(long funcionId);
+
+    ResponseEntity<?> comprarTicket(Ticket ticket);
 }

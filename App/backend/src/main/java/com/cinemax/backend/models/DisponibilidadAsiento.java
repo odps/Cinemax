@@ -1,10 +1,10 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "DISPONIBILIDAD_ASIENTO")
@@ -16,11 +16,13 @@ public class DisponibilidadAsiento {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_ASIENTO", nullable = false)
+    @JsonIgnoreProperties({"dispoAsientos", "tickets"})
     private Asiento idAsiento;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_FUNCION", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
+    @JsonIgnoreProperties({"dispoAsientos", "idSala"})
     private Funcion idFuncion;
 
     @Column(name = "ESTADO", nullable = false, length = 20)
@@ -30,7 +32,7 @@ public class DisponibilidadAsiento {
     private LocalDate bloqueadoHasta;
 
     public DisponibilidadAsiento(long id, Asiento idAsiento, Funcion idFuncion, String estado,
-            LocalDate bloqueadoHasta) {
+                                 LocalDate bloqueadoHasta) {
         this.id = id;
         this.idAsiento = idAsiento;
         this.idFuncion = idFuncion;

@@ -1,12 +1,11 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "FUNCION")
@@ -23,7 +22,7 @@ public class Funcion {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_SALA", nullable = false)
-    @JsonIgnoreProperties({ "funciones", "asientos", "dispoAsientos" })
+    @JsonIgnoreProperties({"funciones", "asientos", "cine"})
     private Sala idSala;
 
     @Column(name = "FECHA_HORA", nullable = false)
@@ -33,7 +32,8 @@ public class Funcion {
     private long precio;
 
     @OneToMany(mappedBy = "idFuncion")
-    @JsonBackReference
+    @JsonManagedReference
+    @JsonIgnoreProperties({"idFuncion", "idAsiento"})
     private List<DisponibilidadAsiento> dispoAsientos;
 
     @OneToMany(mappedBy = "funcion")

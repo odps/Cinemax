@@ -1,5 +1,6 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -35,10 +36,11 @@ public class Pelicula {
     private String imagenUrl;
 
     @OneToMany(mappedBy = "idPelicula")
+    @JsonIgnoreProperties({"idPelicula", "dispoAsientos", "tickets"})
     private List<Funcion> funciones;
 
     public Pelicula(String titulo, String genero, long duracion, String limiteEdad, String director, String descripcion,
-            String imagenUrl) {
+                    String imagenUrl) {
         this.titulo = titulo;
         this.genero = genero;
         this.duracion = duracion;

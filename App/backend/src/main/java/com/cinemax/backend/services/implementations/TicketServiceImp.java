@@ -1,6 +1,8 @@
 package com.cinemax.backend.services.implementations;
 
+import com.cinemax.backend.models.DisponibilidadAsiento;
 import com.cinemax.backend.models.Ticket;
+import com.cinemax.backend.repositories.DisponibilidadAsientoRepo;
 import com.cinemax.backend.repositories.TicketRepo;
 import com.cinemax.backend.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ public class TicketServiceImp implements TicketService {
 
     @Autowired
     TicketRepo ticketRepo;
+
+    @Autowired
+    private DisponibilidadAsientoRepo disponibilidadAsientoRepo;
 
     @Override
     public ResponseEntity<?> getTickets() {
@@ -89,5 +94,25 @@ public class TicketServiceImp implements TicketService {
         } else {
             return ResponseEntity.ok(tickets);
         }
+    }
+
+    @Override
+    // Posibles estados de asiento: ('disponible', 'reservado', 'ocupado')
+    public ResponseEntity<?> comprarTicket(Ticket ticket) {
+
+        DisponibilidadAsiento asiento = disponibilidadAsientoRepo.findById(ticket.getAsiento().getId()).orElse(null);
+
+        if (asiento == null) {
+            return ResponseEntity.badRequest().body("Ha ocurrido un error, Asiento no disponible.");
+        }
+
+        if (!"disponible".equals(asiento.getEstado())) {
+            return ResponseEntity.badRequest().body("El asiento no está disponible.");
+        }
+
+        asiento.setEstado("ocupado");
+        ticketRepo.save(ticket);
+        return ResponseEntity.ok(ticket);
+
     }
 }

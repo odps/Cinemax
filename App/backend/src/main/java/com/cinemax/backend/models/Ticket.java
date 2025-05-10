@@ -1,5 +1,6 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -15,14 +16,17 @@ public class Ticket {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonIgnoreProperties({"tickets", "reviews"})
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_FUNCION", nullable = false)
+    @JsonIgnoreProperties({"tickets", "dispoAsientos"})
     private Funcion funcion;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_ASIENTO", nullable = false)
+    @JsonIgnoreProperties({"tickets", "dispoAsientos"})
     private Asiento asiento;
 
     @CreationTimestamp
