@@ -4,15 +4,41 @@
       <!-- Logo y menú -->
       <div class="flex items-center">
         <div class="flex items-center space-x-2 pl-0">
-          <img ngSrc="assets/logo.png" alt="logo" class="h-8 w-auto" height="484" width="702">
+          <img
+            ngSrc="assets/logo.png"
+            alt="logo"
+            class="h-8 w-auto"
+            height="484"
+            width="702"
+          />
           <span class="text-3xl font-bold text-gray-300">CineMaxx</span>
         </div>
         <!-- Menú escritorio -->
         <div class="hidden md:flex space-x-4 ml-12">
-          <a routerLink="/landing" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
-          <a routerLink="/cines" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
-          <a routerLink="/peliculas" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
-          <a routerLink="/promociones" routerLinkActive="bg-gray-700 text-white" class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
+          <a
+            routerLink="/landing"
+            routerLinkActive="bg-gray-700 text-white"
+            class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
+            >Inicio</a
+          >
+          <a
+            routerLink="/cines"
+            routerLinkActive="bg-gray-700 text-white"
+            class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
+            >Cines</a
+          >
+          <a
+            routerLink="/peliculas"
+            routerLinkActive="bg-gray-700 text-white"
+            class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
+            >Peliculas</a
+          >
+          <a
+            routerLink="/promociones"
+            routerLinkActive="bg-gray-700 text-white"
+            class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
+            >Promociones</a
+          >
         </div>
       </div>
 
@@ -36,7 +62,11 @@
         <!-- Búsqueda móvil/tablet transformable -->
         <div class="lg:hidden flex items-center">
           <!-- Icono de búsqueda (visible cuando no está activa la búsqueda) -->
-          <button *ngIf="!isSearchOpen" class="p-2 hover:bg-gray-700 rounded-lg" (click)="toggleSearch()">
+          <button
+            *ngIf="!isSearchOpen"
+            class="p-2 hover:bg-gray-700 rounded-lg"
+            (click)="toggleSearch()"
+          >
             <i class="pi pi-search text-gray-300"></i>
           </button>
 
@@ -55,7 +85,10 @@
                 (blur)="onSearchBlur()"
               />
             </p-iconfield>
-            <button class="ml-2 p-1 hover:bg-gray-700 rounded-lg" (click)="toggleSearch()">
+            <button
+              class="ml-2 p-1 hover:bg-gray-700 rounded-lg"
+              (click)="toggleSearch()"
+            >
               <i class="pi pi-times text-gray-300"></i>
             </button>
           </div>
@@ -70,7 +103,8 @@
               [raised]="true"
               severity="info"
               (click)="showLoginModal()"
-              class="hidden xl:block">
+              class="hidden xl:block"
+            >
             </p-button>
             <p-button
               icon="pi pi-user"
@@ -80,7 +114,8 @@
               severity="info"
               (click)="showLoginModal()"
               class="xl:hidden"
-              styleClass="p-button-rounded">
+              styleClass="p-button-rounded"
+            >
             </p-button>
           </ng-container>
 
@@ -90,46 +125,106 @@
               pButton
               type="button"
               class="p-button-text p-button-rounded p-button-info"
-              (click)="menu.toggle($event)">
-              <span class="hidden xl:inline-block mr-2">{{ currentUser?.nombre }}</span>
+              (click)="menu.toggle($event)"
+            >
+              <span class="hidden xl:inline-block mr-2">{{
+                currentUser?.nombre
+              }}</span>
               <i class="pi pi-user"></i>
             </button>
           </ng-template>
+
+          <!-- Admin Panel-->
+          <button
+            *ngIf="hasAdminRole()"
+            pButton
+            type="button"
+            class="p-button-rounded p-button-warn ml-1"
+            routerLink="/admin"
+            title="Admin Panel"
+          >
+            <i class="pi pi-cog"></i>
+          </button>
         </div>
 
         <!-- Botón menú móvil -->
-        <button class="md:hidden p-2 hover:bg-gray-700 rounded-lg" (click)="toggleMenu()">
+        <button
+          class="md:hidden p-2 hover:bg-gray-700 rounded-lg"
+          (click)="toggleMenu()"
+        >
           <i class="pi pi-bars text-gray-300"></i>
         </button>
       </div>
     </div>
 
     <!-- Menú móvil -->
-    <div class="md:hidden" [ngClass]="{'hidden': !isMenuOpen}">
+    <div class="md:hidden" [ngClass]="{ hidden: !isMenuOpen }">
       <div class="px-2 pt-2 pb-3 space-y-1">
-        <a routerLink="/landing" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Inicio</a>
-        <a routerLink="/cines" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Cines</a>
-        <a routerLink="/peliculas" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Peliculas</a>
-        <a routerLink="/promociones" routerLinkActive="bg-gray-700 text-white" class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium">Promociones</a>
+        <a
+          routerLink="/landing"
+          routerLinkActive="bg-gray-700 text-white"
+          class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
+          >Inicio</a
+        >
+        <a
+          routerLink="/cines"
+          routerLinkActive="bg-gray-700 text-white"
+          class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
+          >Cines</a
+        >
+        <a
+          routerLink="/peliculas"
+          routerLinkActive="bg-gray-700 text-white"
+          class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
+          >Peliculas</a
+        >
+        <a
+          routerLink="/promociones"
+          routerLinkActive="bg-gray-700 text-white"
+          class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
+          >Promociones</a
+        >
 
         <!-- Opciones de autenticación en móvil -->
         <ng-container *ngIf="!isAuthenticated; else mobileUserMenu">
-          <a (click)="showLoginModal()" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer">
+          <a
+            (click)="showLoginModal()"
+            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer"
+          >
             <i class="pi pi-user mr-2"></i> Iniciar sesión
           </a>
         </ng-container>
 
         <ng-template #mobileUserMenu>
-          <a class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md font-medium">
+          <a
+            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md font-medium"
+          >
             <i class="pi pi-user mr-2"></i> {{ currentUser?.nombre }}
           </a>
-          <a routerLink="/perfil" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8">
+          <a
+            routerLink="/perfil"
+            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8"
+          >
             <i class="pi pi-id-card mr-2"></i> Mi perfil
           </a>
-          <a routerLink="/mis-tickets" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8">
+          <a
+            routerLink="/mis-tickets"
+            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8"
+          >
             <i class="pi pi-ticket mr-2"></i> Mis tickets
           </a>
-          <a (click)="logout()" class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8">
+          <a
+            *ngIf="hasAdminRole()"
+            routerLink="/admin"
+            routerLinkActive="bg-gray-700 text-white"
+            class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
+          >
+            Admin Panel
+          </a>
+          <a
+            (click)="logout()"
+            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8"
+          >
             <i class="pi pi-sign-out mr-2"></i> Cerrar sesión
           </a>
         </ng-template>
@@ -141,5 +236,6 @@
 <!-- El componente modal debe estar solo una vez al final -->
 <app-auth-modal
   (loginSuccess)="handleLoginSuccess($event)"
-  (registerSuccess)="handleRegisterSuccess($event)">
+  (registerSuccess)="handleRegisterSuccess($event)"
+>
 </app-auth-modal>

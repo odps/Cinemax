@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthModalComponent } from '../auth-modal/auth-modal.component';
 import { MenuItem } from 'primeng/api';
 import { MenuModule } from 'primeng/menu';
@@ -26,8 +26,8 @@ import { Subscription } from 'rxjs';
     RouterLink,
     RouterLinkActive,
     AuthModalComponent,
-    MenuModule
-  ]
+    MenuModule,
+  ],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   @ViewChild(AuthModalComponent) authModal!: AuthModalComponent;
@@ -42,18 +42,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
     {
       label: 'Mi perfil',
       icon: 'pi pi-user',
-      routerLink: '/perfil'
+      routerLink: '/perfil',
     },
     {
       label: 'Mis tickets',
       icon: 'pi pi-ticket',
-      routerLink: '/mis-tickets'
+      routerLink: '/mis-tickets',
     },
     {
       label: 'Cerrar sesión',
       icon: 'pi pi-sign-out',
-      command: () => this.logout()
-    }
+      command: () => this.logout(),
+    },
   ];
 
   private authSubscription: Subscription = new Subscription();
@@ -63,11 +63,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authSubscription = this.authService.isAuthenticated$.subscribe(
-      isAuth => this.isAuthenticated = isAuth
+      (isAuth) => (this.isAuthenticated = isAuth)
     );
 
     this.userSubscription = this.authService.currentUser$.subscribe(
-      user => this.currentUser = user
+      (user) => (this.currentUser = user)
     );
   }
 
@@ -108,5 +108,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.authService.handleAuthResponse(response);
     // Cerrar menú móvil si está abierto
     this.isMenuOpen = false;
+  }
+
+  hasAdminRole(): boolean {
+    return this.currentUser?.rol?.nombre === 'ADMIN';
   }
 }
