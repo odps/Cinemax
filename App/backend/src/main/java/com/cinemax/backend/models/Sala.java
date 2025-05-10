@@ -15,7 +15,7 @@ public class Sala {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_CINE", nullable = false)
-    @JsonIgnoreProperties({"nombre", "direccion", "ciudad", "nif", "imagenUrl", "telefono", "descripcion", "horario", "salas", "promociones", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({"direccion", "ciudad", "nif", "imagenUrl", "telefono", "descripcion", "horario", "salas", "promociones", "hibernateLazyInitializer"})
     private Cine cine;
 
     @Column(name = "NOMBRE_SALA", nullable = false, length = 50)
