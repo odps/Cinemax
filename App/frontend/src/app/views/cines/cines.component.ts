@@ -15,6 +15,7 @@ import { Review } from '../../core/interfaces/review';
 import { Sala } from '../../core/interfaces/sala';
 import { FuncionService } from '../../core/services/funcion.service';
 import { Funcion } from '../../core/interfaces/funcion';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cines',
@@ -59,7 +60,8 @@ export class CinesComponent implements OnInit {
     private cineService: CineService,
     private reviewService: ReviewService,
     private authService: AuthService,
-    private funcionService: FuncionService
+    private funcionService: FuncionService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -334,9 +336,6 @@ export class CinesComponent implements OnInit {
   }
 
   comprarTicket(funcion: Funcion): void {
-    console.log('Comprar Ticket clicked for function:', funcion);
-    alert(
-      `Ticket purchase for ${funcion.idPelicula.titulo} at ${funcion.fechaHora} is not yet implemented.`
-    );
+    this.router.navigate(['compra']);
   }
 }

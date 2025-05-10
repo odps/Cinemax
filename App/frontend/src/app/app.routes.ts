@@ -5,6 +5,7 @@ import { PeliculasComponent } from './views/peliculas/peliculas.component';
 import { PromocionesComponent } from './views/promociones/promociones.component';
 import { PerfilComponent } from './views/perfil/perfil.component';
 import { AdminComponent } from './views/admin/admin.component';
+import { CompraComponent } from './views/compra/compra.component';
 
 export const routes: Routes = [
   { path: 'landing', component: LandingComponent },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'promociones', component: PromocionesComponent },
   { path: 'perfil', component: PerfilComponent },
   { path: 'admin', component: AdminComponent },
+  { path: 'compra', component: CompraComponent },
   { path: '**', component: LandingComponent },
 ];

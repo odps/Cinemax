@@ -3,32 +3,43 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasValidToken());
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(
+    this.hasValidToken()
+  );
   private currentUserSubject = new BehaviorSubject<any>(this.getUserData());
 
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.checkAuthStatus();
   }
 
-  login(credentials: { correo: string, contrasena: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials)
+  login(credentials: { correo: string; contrasena: string }): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/login`, credentials)
       .pipe(tap(this.handleAuthResponse.bind(this)));
   }
 
-  register(userData: { nombre: string, correo: string, contrasena: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData, { responseType: 'text' });
+  register(userData: {
+    nombre: string;
+    correo: string;
+    contrasena: string;
+  }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, userData, {
+      responseType: 'text',
+    });
   }
 
   logout(): void {
+    this.router.navigate(['landing']);
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData');
     localStorage.removeItem('userId');
