@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { DispoAsientoService } from './dispoAsiento.service';
+import { DisponibilidadAsiento } from '../interfaces/disponibilidad-asiento';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,10 @@ import { environment } from '../../../environments/environment';
 export class FuncionService {
   private apiUrl = `${environment.apiUrl}/funcion`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private dispoAsientoService: DispoAsientoService
+  ) {}
 
   getFunciones(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/lista`);
@@ -37,5 +42,11 @@ export class FuncionService {
 
   getFuncionesBySala(idSala: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/sala/${idSala}`);
+  }
+
+  getDisponibilidadAsientosByFuncionId(
+    funcionId: number
+  ): Observable<DisponibilidadAsiento[]> {
+    return this.dispoAsientoService.getDisponibilidadesPorFuncionId(funcionId);
   }
 }

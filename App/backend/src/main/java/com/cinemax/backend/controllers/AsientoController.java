@@ -18,14 +18,14 @@ public class AsientoController {
 
     // Obtener todos los asientos
     @GetMapping("/lista")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> listaAsientos() {
         return this.asientoService.getAsientos();
     }
 
     // Obtener un asiento por ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getAsientoById(@PathVariable long id) {
         return this.asientoService.getAsiento(id);
     }
@@ -53,7 +53,7 @@ public class AsientoController {
 
     // Obtener asientos por ID de sala
     @GetMapping("/sala/{idSala}")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getAsientosBySalaId(@PathVariable long idSala) {
         return this.asientoService.getAsientosBySalaId(idSala);
     }

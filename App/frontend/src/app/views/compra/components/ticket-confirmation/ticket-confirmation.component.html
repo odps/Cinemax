@@ -1,0 +1,167 @@
+<div class="confirmation-container">
+  <div class="success-header">
+    <i class="pi pi-check-circle"></i>
+    <h2>¡Compra realizada con éxito!</h2>
+    <p>Tu ticket ha sido generado y está listo para usar.</p>
+  </div>
+
+  <div class="ticket-details">
+    <h3>Resumen de la compra</h3>
+
+    <div class="details-grid">
+      <div class="detail-item">
+        <p class="label">ID del Ticket:</p>
+        <p class="value">{{ ticket?.id }}</p>
+      </div>
+
+      <div class="detail-item">
+        <p class="label">Fecha de compra:</p>
+        <p class="value">
+          {{ ticket?.fechaCompra | date : "dd/MM/yyyy HH:mm" }}
+        </p>
+      </div>
+
+      <div class="detail-item">
+        <p class="label">Película:</p>
+        <p class="value">{{ pelicula?.titulo }}</p>
+      </div>
+
+      <div class="detail-item">
+        <p class="label">Cine:</p>
+        <p class="value">{{ sala?.cine?.nombre }}</p>
+      </div>
+
+      <div class="detail-item">
+        <p class="label">Sala:</p>
+        <p class="value">{{ sala?.nombre }}</p>
+      </div>
+
+      <div class="detail-item">
+        <p class="label">Asiento:</p>
+        <p class="value">
+          Fila {{ ticket?.asiento?.idAsiento?.fila }} - Asiento
+          {{ ticket?.asiento?.idAsiento?.numero }}
+        </p>
+      </div>
+
+      <div class="detail-item">
+        <p class="label">Fecha y Hora de la Función:</p>
+        <p class="value">
+          {{ ticket?.funcion?.fechaHora | date : "dd/MM/yyyy HH:mm" }}
+        </p>
+      </div>
+
+      <div class="detail-item">
+        <p class="label">Total pagado:</p>
+        <p class="value price">{{ ticket?.precio | currency : "EUR" }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button
+      pButton
+      type="button"
+      label="Imprimir ticket"
+      icon="pi pi-print"
+      class="p-button-outlined"
+      (click)="printTicket()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="Ver cartelera"
+      icon="pi pi-list"
+      class="p-button-outlined"
+      (click)="viewMovies()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="Volver a inicio"
+      icon="pi pi-home"
+      class="p-button-outlined"
+      (click)="backToHome()"
+    ></button>
+  </div>
+</div>
+
+<!-- Print Dialog -->
+<p-dialog
+  [(visible)]="showPrintDialog"
+  [modal]="true"
+  [style]="{ width: '90%', maxWidth: '600px' }"
+  [showHeader]="false"
+  [closable]="true"
+  [dismissableMask]="true"
+  styleClass="print-dialog"
+>
+  <div class="printable-ticket">
+    <div class="ticket-header">
+      <h2>CINEMAX</h2>
+      <p>Ticket Electrónico</p>
+    </div>
+
+    <div class="ticket-content">
+      <div class="ticket-grid">
+        <div class="ticket-item">
+          <p class="label">Película:</p>
+          <p>{{ pelicula?.titulo }}</p>
+        </div>
+
+        <div class="ticket-item">
+          <p class="label">Fecha y Hora:</p>
+          <p>{{ ticket?.funcion?.fechaHora | date : "dd/MM/yyyy HH:mm" }}</p>
+        </div>
+
+        <div class="ticket-item">
+          <p class="label">Cine:</p>
+          <p>{{ sala?.cine?.nombre }}</p>
+        </div>
+
+        <div class="ticket-item">
+          <p class="label">Sala:</p>
+          <p>{{ sala?.nombre }}</p>
+        </div>
+
+        <div class="ticket-item">
+          <p class="label">Asiento:</p>
+          <p>
+            Fila {{ ticket?.asiento?.idAsiento?.fila }} - Asiento
+            {{ ticket?.asiento?.idAsiento?.numero }}
+          </p>
+        </div>
+
+        <div class="ticket-item">
+          <p class="label">Precio:</p>
+          <p>{{ ticket?.precio | currency : "EUR" }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticket-footer">
+      <p class="ticket-id">ID del Ticket: {{ ticket?.id }}</p>
+      <p>
+        Fecha de compra: {{ ticket?.fechaCompra | date : "dd/MM/yyyy HH:mm" }}
+      </p>
+
+      <div class="barcode"></div>
+
+      <p class="note">Presenta este ticket en la entrada del cine.</p>
+      <p class="thanks">¡Gracias por elegir Cinemax!</p>
+    </div>
+  </div>
+
+  <div class="print-actions">
+    <button
+      pButton
+      type="button"
+      label="Imprimir"
+      icon="pi pi-print"
+      class="p-button-success"
+      (click)="executePrint()"
+    ></button>
+  </div>
+</p-dialog>

@@ -1,0 +1,97 @@
+<div class="seat-selection-container">
+  <h3 class="section-title">Selecciona tu asiento</h3>
+
+  <!-- Toast notifications -->
+  <p-toast></p-toast>
+
+  <!-- Loading indicator -->
+  <div class="loading-section" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Cargando asientos...</p>
+  </div>
+
+  <!-- Error display -->
+  <div class="error-section" *ngIf="error && !loading">
+    <div class="error-message">
+      <i class="pi pi-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+    </div>
+  </div>
+
+  <div class="seat-map-content" *ngIf="!loading && !error">
+    <!-- Screen representation -->
+    <div class="screen">
+      <span class="screen-label">PANTALLA</span>
+    </div>
+
+    <!-- Seat legend -->
+    <div class="seat-legend">
+      <div class="legend-item">
+        <div class="seat-example seat-available"></div>
+        <span>Disponible</span>
+      </div>
+      <div class="legend-item">
+        <div class="seat-example seat-selected"></div>
+        <span>Seleccionado</span>
+      </div>
+      <div class="legend-item">
+        <div class="seat-example seat-reserved"></div>
+        <span>Reservado</span>
+      </div>
+      <div class="legend-item">
+        <div class="seat-example seat-occupied"></div>
+        <span>Ocupado</span>
+      </div>
+    </div>
+
+    <!-- Seat map -->
+    <div class="seat-map-container">
+      <div class="seat-map">
+        <div class="seat-row" *ngFor="let row of rows">
+          <div class="row-label">{{ row }}</div>
+
+          <div class="seats">
+            <div
+              *ngFor="let seat of seatsPerRow[row]"
+              [class]="seat.styleClass"
+              (click)="onSeatClick(seat)"
+            >
+              {{ seat.numero }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected seat information -->
+    <div class="selected-seat-info" *ngIf="selectedSeatDisplay">
+      <h4>Asiento seleccionado:</h4>
+      <p>
+        Fila {{ selectedSeatDisplay.fila }} - Asiento
+        {{ selectedSeatDisplay.numero }}
+      </p>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-buttons">
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        icon="pi pi-times"
+        class="p-button-outlined"
+        (click)="handleCancelSelection()"
+      ></button>
+
+      <button
+        pButton
+        type="button"
+        label="Continuar al pago"
+        icon="pi pi-arrow-right"
+        iconPos="right"
+        [disabled]="!selectedSeatDisplay"
+        (click)="handleContinueToPayment()"
+      ></button>
+    </div>
+  </div>
+</div>

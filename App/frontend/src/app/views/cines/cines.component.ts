@@ -336,6 +336,12 @@ export class CinesComponent implements OnInit {
   }
 
   comprarTicket(funcion: Funcion): void {
-    this.router.navigate(['compra']);
+    this.router.navigate(['compra'], {
+      queryParams: {
+        funcionId: funcion.id,
+        peliculaId: funcion.idPelicula?.id,
+        salaId: funcion.idSala?.id,
+      },
+    });
   }
 }

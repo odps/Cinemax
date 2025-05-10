@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Sala } from '../interfaces/sala';
+import { Asiento } from '../interfaces/asiento';
+import { AsientoService } from './asiento.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,10 @@ import { Sala } from '../interfaces/sala';
 export class SalaService {
   private apiUrl = `${environment.apiUrl}/sala`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private asientoService: AsientoService
+  ) {}
 
   /**
    * Obtiene la lista completa de salas
@@ -52,5 +57,12 @@ export class SalaService {
    */
   getSalasPorCine(idCine: number): Observable<Sala[]> {
     return this.http.get<Sala[]>(`${this.apiUrl}/cine/${idCine}`);
+  }
+
+  /**
+   * Obtiene asientos por el ID de la sala
+   */
+  getAsientosBySalaId(salaId: number): Observable<Asiento[]> {
+    return this.asientoService.getAsientosPorSalaId(salaId);
   }
 }

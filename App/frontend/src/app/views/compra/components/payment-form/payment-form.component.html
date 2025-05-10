@@ -1,0 +1,101 @@
+<div class="payment-form-container">
+  <p-toast></p-toast>
+
+  <div class="payment-methods">
+    <p-dropdown
+      [options]="paymentMethods"
+      [(ngModel)]="paymentData.paymentMethod"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Selecciona el método de pago"
+    >
+    </p-dropdown>
+  </div>
+
+  <!-- Credit card form -->
+  <div *ngIf="paymentData.paymentMethod === 'card'" class="card-form">
+    <div class="form-group">
+      <label for="cardNumber">Número de tarjeta</label>
+      <input
+        pInputText
+        id="cardNumber"
+        type="text"
+        [(ngModel)]="paymentData.cardNumber"
+        placeholder="XXXX XXXX XXXX XXXX"
+        maxlength="19"
+        class="w-full"
+      />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="cardholderName">Nombre del titular</label>
+        <input
+          pInputText
+          id="cardholderName"
+          type="text"
+          [(ngModel)]="paymentData.cardholderName"
+          placeholder="Como aparece en la tarjeta"
+          class="w-full"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="expirationDate">Fecha de expiración</label>
+        <input
+          pInputText
+          id="expirationDate"
+          type="text"
+          [(ngModel)]="paymentData.expirationDate"
+          placeholder="MM/AA"
+          maxlength="5"
+          class="w-full"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="cvv">Código de seguridad (CVV)</label>
+      <input
+        pInputText
+        id="cvv"
+        type="password"
+        [(ngModel)]="paymentData.cvv"
+        placeholder="123"
+        maxlength="4"
+        class="w-full"
+      />
+    </div>
+  </div>
+
+  <!-- PayPal option -->
+  <div *ngIf="paymentData.paymentMethod === 'paypal'" class="paypal-option">
+    <div class="paypal-message">
+      <p>Serás redirigido a PayPal para completar el pago.</p>
+      <img src="assets/paypal-logo.png" alt="PayPal" class="paypal-logo" />
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="button-container">
+    <button
+      pButton
+      type="button"
+      label="Volver"
+      icon="pi pi-arrow-left"
+      class="p-button-outlined"
+      (click)="cancel()"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="Pagar"
+      icon="pi pi-check"
+      iconPos="right"
+      class="p-button-success"
+      [loading]="processing"
+      (click)="submitPayment()"
+    ></button>
+  </div>
+</div>

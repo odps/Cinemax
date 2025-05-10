@@ -1,0 +1,44 @@
+<div class="movie-function-container">
+  <div class="movie-poster" *ngIf="pelicula">
+    <img
+      [src]="'assets/' + (pelicula.imagenUrl || 'placeholder.jpg')"
+      [alt]="pelicula.titulo"
+      class="poster-image"
+    />
+  </div>
+
+  <div class="movie-details">
+    <h2 class="movie-title">{{ pelicula?.titulo }}</h2>
+    <div class="movie-meta">
+      <span *ngIf="pelicula?.genero">{{ pelicula?.genero }} | </span>
+      <span *ngIf="pelicula?.duracion">{{ pelicula?.duracion }} min | </span>
+      <span *ngIf="pelicula?.limiteEdad">{{ pelicula?.limiteEdad }}</span>
+    </div>
+
+    <div class="details-grid">
+      <div class="detail-item">
+        <span class="label">Cine:</span>
+        <span class="value">{{ sala?.cine?.nombre }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">Sala:</span>
+        <span class="value">{{ sala?.nombre }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">Fecha y Hora:</span>
+        <span class="value">{{
+          funcion?.fechaHora | date : "dd/MM/yyyy HH:mm"
+        }}</span>
+      </div>
+
+      <div class="detail-item">
+        <span class="label">Precio:</span>
+        <span class="value price">{{
+          funcion?.precio | currency : "EUR"
+        }}</span>
+      </div>
+    </div>
+  </div>
+</div>

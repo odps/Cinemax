@@ -1,11 +1,10 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "ASIENTO")
@@ -17,7 +16,7 @@ public class Asiento {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_SALA", nullable = false)
-    @JsonIgnoreProperties("asientos")
+    @JsonIgnoreProperties({"nombre", "capacidad", "funciones", "asientos", "hibernateLazyInitializer"})
     private Sala idSala;
 
     @Column(name = "FILA", nullable = false, length = 2)
