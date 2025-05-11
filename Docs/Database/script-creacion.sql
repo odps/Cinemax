@@ -77,11 +77,11 @@ CREATE TABLE Asiento (
 CREATE TABLE Pelicula (
     id_pelicula NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     titulo VARCHAR2(200) NOT NULL,
-    genero VARCHAR2(50) NOT NULL,
+    genero VARCHAR2(50) NOT NULL CHECK (genero IN ('Accion', 'Romance', 'Comedia', 'Horror', 'Drama', 'Ciencia Ficcion', 'Aventura', 'Fantasia')),
     duracion NUMBER NOT NULL CHECK (duracion > 0),
-    limite_edad VARCHAR2(10),
+    limite_edad VARCHAR2(10) CHECK (limite_edad IN ('PEGI 7', 'PEGI 13', 'PEGI 16', 'PEGI 18')),
     director VARCHAR2(100),
-    descripcion CLOB,
+    descripcion VARCHAR2(2500),
     imagenurl VARCHAR2(100)
 );
 
