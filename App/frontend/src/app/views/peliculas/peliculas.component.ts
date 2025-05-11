@@ -36,11 +36,14 @@ import { CineService } from '../../core/services/cine.service';
 })
 export class PeliculasComponent implements OnInit {
   generos = [
-    { id: 1, nombre: 'Acción' },
-    { id: 2, nombre: 'Comedia' },
-    { id: 3, nombre: 'Drama' },
-    { id: 4, nombre: 'Ciencia ficción' },
-    { id: 5, nombre: 'Terror' },
+    { id: 1, nombre: 'Accion' },
+    { id: 2, nombre: 'Romance' },
+    { id: 3, nombre: 'Comedia' },
+    { id: 4, nombre: 'Horror' },
+    { id: 5, nombre: 'Drama' },
+    { id: 6, nombre: 'Ciencia Ficcion' },
+    { id: 7, nombre: 'Aventura' },
+    { id: 8, nombre: 'Fantasia' },
   ];
 
   cines: { id: number; nombre: string }[] = [];

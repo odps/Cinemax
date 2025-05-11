@@ -684,13 +684,15 @@
             class="text-yellow-400 font-semibold flex items-center gap-2"
             ><i class="pi pi-ban"></i> Límite de edad</label
           >
-          <input
-            type="text"
-            pInputText
+          <p-dropdown
             id="limiteEdad"
+            [options]="limitesEdadOptions"
             [(ngModel)]="selectedPelicula!.limiteEdad"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Selecciona el límite de edad"
             class="bg-gray-800 text-white rounded-lg"
-          />
+          ></p-dropdown>
         </div>
         <div class="flex flex-col gap-1">
           <label

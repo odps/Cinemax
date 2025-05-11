@@ -1,241 +1,110 @@
-<nav class="border-b border-gray-700">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
-      <!-- Logo y menú -->
-      <div class="flex items-center">
-        <div class="flex items-center space-x-2 pl-0">
-          <img
-            ngSrc="assets/logo.png"
-            alt="logo"
-            class="h-8 w-auto"
-            height="484"
-            width="702"
-          />
-          <span class="text-3xl font-bold text-gray-300">CineMaxx</span>
-        </div>
-        <!-- Menú escritorio -->
-        <div class="hidden md:flex space-x-4 ml-12">
-          <a
-            routerLink="/landing"
-            routerLinkActive="bg-gray-700 text-white"
-            class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
-            >Inicio</a
-          >
-          <a
-            routerLink="/cines"
-            routerLinkActive="bg-gray-700 text-white"
-            class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
-            >Cines</a
-          >
-          <a
-            routerLink="/peliculas"
-            routerLinkActive="bg-gray-700 text-white"
-            class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
-            >Peliculas</a
-          >
-          <a
-            routerLink="/promociones"
-            routerLinkActive="bg-gray-700 text-white"
-            class="text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
-            >Promociones</a
-          >
-        </div>
+<nav class="navbar-container">
+  <div class="navbar-inner">
+    <!-- Logo and desktop menu -->
+    <div class="navbar-logo">
+      <img src="assets/logo.png" alt="CineMaxx logo" />
+      <span>CineMaxx</span>
+    </div>
+    <div class="navbar-links hidden md:flex">
+      <a routerLink="/landing" routerLinkActive="active" class="navbar-link"
+        >Inicio</a
+      >
+      <a routerLink="/cines" routerLinkActive="active" class="navbar-link"
+        >Cines</a
+      >
+      <a routerLink="/peliculas" routerLinkActive="active" class="navbar-link"
+        >Películas</a
+      >
+      <a routerLink="/promociones" routerLinkActive="active" class="navbar-link"
+        >Promociones</a
+      >
+    </div>
+    <div class="navbar-actions">
+      <!-- Search bar (desktop) -->
+      <div class="hidden lg:block">
+        <p-iconfield iconPosition="left">
+          <!-- ...search input here if needed... -->
+        </p-iconfield>
       </div>
-
-      <!-- Barra de búsqueda y botón -->
-      <div class="flex items-center space-x-4">
-        <!-- Barra de búsqueda versión escritorio -->
-        <div class="hidden lg:block">
-          <p-iconfield iconPosition="left">
-            <p-inputicon>
-              <i class="pi pi-search"></i>
-            </p-inputicon>
-            <input
-              pInputText
-              type="text"
-              placeholder="Buscar..."
-              class="w-64 bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
-            />
-          </p-iconfield>
-        </div>
-
-        <!-- Búsqueda móvil/tablet transformable -->
-        <div class="lg:hidden flex items-center">
-          <!-- Icono de búsqueda (visible cuando no está activa la búsqueda) -->
-          <button
-            *ngIf="!isSearchOpen"
-            class="p-2 hover:bg-gray-700 rounded-lg"
-            (click)="toggleSearch()"
-          >
-            <i class="pi pi-search text-gray-300"></i>
+      <!-- Auth/User menu (desktop) -->
+      <div class="hidden md:flex items-center">
+        <ng-container *ngIf="!isAuthenticated; else userMenu">
+          <button class="navbar-btn" (click)="openAuthModal('login')">
+            <i class="pi pi-user"></i> Iniciar sesión
           </button>
-
-          <!-- Barra de búsqueda expandida (visible cuando se activa) -->
-          <div *ngIf="isSearchOpen" class="flex items-center">
-            <p-iconfield iconPosition="left" class="w-full">
-              <p-inputicon>
-                <i class="pi pi-search"></i>
-              </p-inputicon>
-              <input
-                #searchInput
-                pInputText
-                type="text"
-                placeholder="Buscar..."
-                class="w-52 bg-gray-700 border border-gray-600 text-white placeholder-gray-400"
-                (blur)="onSearchBlur()"
-              />
-            </p-iconfield>
-            <button
-              class="ml-2 p-1 hover:bg-gray-700 rounded-lg"
-              (click)="toggleSearch()"
-            >
-              <i class="pi pi-times text-gray-300"></i>
-            </button>
+        </ng-container>
+        <ng-template #userMenu>
+          <p-menu [model]="userMenuItems" popup #menuRef></p-menu>
+          <div
+            class="navbar-user cursor-pointer flex items-center gap-2"
+            (click)="menuRef.toggle($event)"
+          >
+            <i class="pi pi-user"></i> {{ userName }}
+            <i class="pi pi-angle-down"></i>
           </div>
-        </div>
-
-        <!-- Botón login / Menú usuario -->
-        <div class="hidden md:flex items-center">
-          <ng-container *ngIf="!isAuthenticated; else userMenu">
-            <p-button
-              icon="pi pi-user"
-              label="Iniciar sesión"
-              [raised]="true"
-              severity="info"
-              (click)="showLoginModal()"
-              class="hidden xl:block"
-            >
-            </p-button>
-            <p-button
-              icon="pi pi-user"
-              [rounded]="true"
-              [text]="true"
-              [raised]="true"
-              severity="info"
-              (click)="showLoginModal()"
-              class="xl:hidden"
-              styleClass="p-button-rounded"
-            >
-            </p-button>
-          </ng-container>
-
-          <ng-template #userMenu>
-            <p-menu #menu [model]="userMenuItems" [popup]="true"></p-menu>
-            <button
-              pButton
-              type="button"
-              class="p-button-text p-button-rounded p-button-info"
-              (click)="menu.toggle($event)"
-            >
-              <span class="hidden xl:inline-block mr-2">{{
-                currentUser?.nombre
-              }}</span>
-              <i class="pi pi-user"></i>
-            </button>
-          </ng-template>
-
-          <!-- Admin Panel-->
-          <button
-            *ngIf="hasAdminRole()"
-            pButton
-            type="button"
-            class="p-button-rounded p-button-warn ml-1"
-            routerLink="/admin"
-            title="Admin Panel"
-          >
-            <i class="pi pi-cog"></i>
-          </button>
-        </div>
-
-        <!-- Botón menú móvil -->
+        </ng-template>
         <button
-          class="md:hidden p-2 hover:bg-gray-700 rounded-lg"
-          (click)="toggleMenu()"
+          *ngIf="isAdmin"
+          class="navbar-icon-btn ml-2"
+          title="Admin Panel"
+          routerLink="/admin"
         >
-          <i class="pi pi-bars text-gray-300"></i>
+          <i class="pi pi-cog"></i>
         </button>
       </div>
-    </div>
-
-    <!-- Menú móvil -->
-    <div class="md:hidden" [ngClass]="{ hidden: !isMenuOpen }">
-      <div class="px-2 pt-2 pb-3 space-y-1">
-        <a
-          routerLink="/landing"
-          routerLinkActive="bg-gray-700 text-white"
-          class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
-          >Inicio</a
-        >
-        <a
-          routerLink="/cines"
-          routerLinkActive="bg-gray-700 text-white"
-          class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
-          >Cines</a
-        >
-        <a
-          routerLink="/peliculas"
-          routerLinkActive="bg-gray-700 text-white"
-          class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
-          >Peliculas</a
-        >
-        <a
-          routerLink="/promociones"
-          routerLinkActive="bg-gray-700 text-white"
-          class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
-          >Promociones</a
-        >
-
-        <!-- Opciones de autenticación en móvil -->
-        <ng-container *ngIf="!isAuthenticated; else mobileUserMenu">
-          <a
-            (click)="showLoginModal()"
-            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer"
-          >
-            <i class="pi pi-user mr-2"></i> Iniciar sesión
-          </a>
-        </ng-container>
-
-        <ng-template #mobileUserMenu>
-          <a
-            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md font-medium"
-          >
-            <i class="pi pi-user mr-2"></i> {{ currentUser?.nombre }}
-          </a>
-          <a
-            routerLink="/perfil"
-            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8"
-          >
-            <i class="pi pi-id-card mr-2"></i> Mi perfil
-          </a>
-          <a
-            routerLink="/mis-tickets"
-            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8"
-          >
-            <i class="pi pi-ticket mr-2"></i> Mis tickets
-          </a>
-          <a
-            *ngIf="hasAdminRole()"
-            routerLink="/admin"
-            routerLinkActive="bg-gray-700 text-white"
-            class="block text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium"
-          >
-            Admin Panel
-          </a>
-          <a
-            (click)="logout()"
-            class="flex items-center text-gray-300 hover:text-white px-3 py-2 rounded-md transition-colors duration-200 hover:bg-gray-700 font-medium cursor-pointer pl-8"
-          >
-            <i class="pi pi-sign-out mr-2"></i> Cerrar sesión
-          </a>
-        </ng-template>
-      </div>
+      <!-- Mobile menu button -->
+      <button class="navbar-mobile-btn md:hidden" (click)="toggleMenu()">
+        <i class="pi pi-bars"></i>
+      </button>
     </div>
   </div>
+  <!-- Mobile menu -->
+  <div class="navbar-mobile-menu md:hidden" *ngIf="isMenuOpen">
+    <a routerLink="/landing" routerLinkActive="active" class="navbar-link"
+      >Inicio</a
+    >
+    <a routerLink="/cines" routerLinkActive="active" class="navbar-link"
+      >Cines</a
+    >
+    <a routerLink="/peliculas" routerLinkActive="active" class="navbar-link"
+      >Películas</a
+    >
+    <a routerLink="/promociones" routerLinkActive="active" class="navbar-link"
+      >Promociones</a
+    >
+    <ng-container *ngIf="!isAuthenticated">
+      <button class="navbar-btn w-full mt-2" (click)="openAuthModal('login')">
+        <i class="pi pi-user"></i> Iniciar sesión
+      </button>
+    </ng-container>
+    <ng-container *ngIf="isAuthenticated">
+      <div class="navbar-user-info flex items-center gap-2 mt-3 mb-2">
+        <i class="pi pi-user"></i> {{ userName }}
+      </div>
+      <a routerLink="/perfil" class="navbar-btn w-full mb-1"
+        ><i class="pi pi-user"></i> Mi perfil</a
+      >
+      <a routerLink="/mis-tickets" class="navbar-btn w-full mb-1"
+        ><i class="pi pi-ticket"></i> Mis tickets</a
+      >
+      <a routerLink="/facturas" class="navbar-btn w-full mb-1"
+        ><i class="pi pi-file"></i> Facturas</a
+      >
+      <button class="navbar-btn w-full mb-1" (click)="logout()">
+        <i class="pi pi-sign-out"></i> Cerrar sesión
+      </button>
+    </ng-container>
+    <button
+      *ngIf="isAdmin"
+      class="navbar-icon-btn w-full mt-2"
+      title="Admin Panel"
+      routerLink="/admin"
+    >
+      <i class="pi pi-cog"></i> Admin Panel
+    </button>
+  </div>
 </nav>
-
-<!-- El componente modal debe estar solo una vez al final -->
 <app-auth-modal
   (loginSuccess)="handleLoginSuccess($event)"
   (registerSuccess)="handleRegisterSuccess($event)"
->
-</app-auth-modal>
+></app-auth-modal>

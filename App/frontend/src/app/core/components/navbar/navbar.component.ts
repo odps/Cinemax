@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  HostListener,
+} from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -48,6 +54,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
       label: 'Mis tickets',
       icon: 'pi pi-ticket',
       routerLink: '/mis-tickets',
+    },
+    {
+      label: 'Facturas',
+      icon: 'pi pi-file',
+      routerLink: '/facturas',
+    },
+    {
+      separator: true,
     },
     {
       label: 'Cerrar sesión',
@@ -112,5 +126,32 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   hasAdminRole(): boolean {
     return this.currentUser?.rol?.nombre === 'ADMIN';
+  }
+
+  // Helper for template: get user name
+  get userName(): string {
+    return (
+      this.currentUser?.nombre ||
+      this.currentUser?.name ||
+      this.currentUser?.correo ||
+      'Usuario'
+    );
+  }
+
+  // Helper for template: is admin
+  get isAdmin(): boolean {
+    return this.hasAdminRole();
+  }
+
+  // Show auth modal (login/register)
+  openAuthModal(mode: 'login' | 'register' = 'login') {
+    this.authModal?.show(mode);
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    if (window.innerWidth >= 768 && this.isMenuOpen) {
+      this.isMenuOpen = false;
+    }
   }
 }

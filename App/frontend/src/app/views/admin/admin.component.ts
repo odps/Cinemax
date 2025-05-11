@@ -99,6 +99,14 @@ export class AdminComponent implements OnInit {
     { label: 'Otro', value: 'otro' },
   ];
 
+  // Add the limitesEdadOptions array to AdminComponent to provide the dropdown options for 'Límite de edad'.
+  limitesEdadOptions = [
+    { label: 'PEGI 7', value: 'PEGI 7' },
+    { label: 'PEGI 13', value: 'PEGI 13' },
+    { label: 'PEGI 16', value: 'PEGI 16' },
+    { label: 'PEGI 18', value: 'PEGI 18' },
+  ];
+
   constructor(
     private cineService: CineService,
     private salaService: SalaService,
