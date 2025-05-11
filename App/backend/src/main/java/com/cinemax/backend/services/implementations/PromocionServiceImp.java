@@ -48,14 +48,8 @@ public class PromocionServiceImp implements PromocionService {
             return ResponseEntity.badRequest().body("Datos de promoción inválidos");
         }
 
-        // Validar que la fecha fin sea posterior a la fecha inicio
         if (promocion.getFechaFin().isBefore(promocion.getFechaInicio())) {
             return ResponseEntity.badRequest().body("La fecha de fin debe ser posterior a la fecha de inicio");
-        }
-
-        // Establecer imagen predeterminada si no se proporciona
-        if (promocion.getImagenUrl() == null) {
-            promocion.setImagenUrl("promocion-placeholder.jpg");
         }
 
         promocionRepo.save(promocion);

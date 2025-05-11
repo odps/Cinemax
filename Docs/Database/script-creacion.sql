@@ -149,7 +149,7 @@ CREATE TABLE Promocion (
     tipo VARCHAR2(50) NOT NULL CHECK (tipo IN ('descuento', 'combo', '2x1', 'premium', 'otro')),
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
-    imagenurl VARCHAR2(100) DEFAULT 'promocion_placeholder.jpg'
+    imagenurl VARCHAR2(100) DEFAULT 'promocion_placeholder.jpg',
     CONSTRAINT fecha_validez CHECK (fecha_fin >= fecha_inicio)
 );
 

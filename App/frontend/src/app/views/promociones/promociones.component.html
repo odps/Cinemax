@@ -1,26 +1,51 @@
 <div class="container mx-auto px-4 py-8">
   <!-- Sección Hero con promoción destacada -->
-  <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-lg overflow-hidden shadow-xl mb-10" *ngIf="promocionDestacada">
-    <div class="flex flex-col md:flex-row">
-      <div class="md:w-1/2 p-6 md:p-10 flex flex-col justify-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">{{ promocionDestacada.titulo }}</h1>
-        <p-tag [value]="promocionDestacada.tipo | titlecase" class="mb-4"></p-tag>
-        <p class="text-gray-300 text-lg mb-6">{{ promocionDestacada.descripcion }}</p>
-        <div class="flex items-center mb-6" *ngIf="promocionDestacada.descuento">
-          <div class="bg-yellow-400 text-gray-900 font-bold rounded-full p-3 w-16 h-16 flex items-center justify-center text-xl">
-            {{ promocionDestacada.descuento }}%
-          </div>
-          <div class="text-gray-300 ml-4">
-            <p class="text-sm">Válido desde:</p>
-            <p class="font-semibold">{{ promocionDestacada.fechaInicio }} - {{ promocionDestacada.fechaFin }}</p>
-          </div>
+  <div
+    *ngIf="promocionDestacada"
+    class="relative rounded-lg overflow-hidden shadow-xl mb-10 h-[350px] md:h-[450px]"
+  >
+    <img
+      [src]="
+        promocionDestacada.imagen ||
+        assetsLocation.assetUrl + '/' + promocionDestacada.imagenUrl
+      "
+      alt="Promoción destacada"
+      class="absolute inset-0 w-full h-full object-cover z-0"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent z-10"
+    ></div>
+    <div class="relative z-20 flex flex-col justify-center h-full p-8 md:p-16">
+      <p-tag
+        [value]="promocionDestacada.tipo | titlecase"
+        class="mb-4 py-2 px-6 text-xl md:text-2xl font-bold bg-yellow-400 text-gray-900 rounded-full shadow-lg self-start"
+      ></p-tag>
+      <h1
+        class="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg"
+      >
+        {{ promocionDestacada.titulo }}
+      </h1>
+      <div class="flex items-center mb-6" *ngIf="promocionDestacada.descuento">
+        <div
+          class="bg-yellow-400 text-gray-900 font-bold rounded-full p-5 w-20 h-20 flex items-center justify-center text-3xl shadow-lg"
+        >
+          {{ promocionDestacada.descuento }}%
         </div>
-        <div>
-          <p-button label="Aprovechar oferta" icon="pi pi-ticket" severity="success"></p-button>
+        <div class="text-gray-200 ml-6">
+          <p class="text-base">Válido desde:</p>
+          <p class="font-semibold text-lg">
+            {{ promocionDestacada.fechaInicio }} -
+            {{ promocionDestacada.fechaFin }}
+          </p>
         </div>
       </div>
-      <div class="md:w-1/2 h-[450px]">
-        <img [src]="promocionDestacada.imagen || assetsLocation.assetUrl + '/' + promocionDestacada.imagenUrl" alt="Promoción destacada" class="w-full h-full object-cover">
+      <div>
+        <p-button
+          label="Más información"
+          icon="pi pi-info-circle"
+          severity="info"
+          (onClick)="openPromoModal(promocionDestacada)"
+        ></p-button>
       </div>
     </div>
   </div>
@@ -32,25 +57,103 @@
   </div>
 
   <!-- Lista de promociones -->
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div *ngFor="let promocion of promociones" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105 h-[450px] flex flex-col">
-      <div class="relative h-48">
-        <img [src]="promocion.imagen || assetsLocation.assetUrl + '/' + promocion.imagenUrl" alt="Promoción" class="w-full h-full object-cover">
-        <div class="absolute top-3 right-3">
-          <p-tag [value]="promocion.tipo | titlecase"></p-tag>
-        </div>
-        <div *ngIf="promocion.descuento && promocion.descuento > 0" class="absolute -bottom-5 left-5 bg-yellow-400 text-gray-900 font-bold rounded-full p-3 w-14 h-14 flex items-center justify-center text-lg">
-          {{ promocion.descuento }}%
+  <div
+    *ngIf="!loading && !error && promociones.length === 0"
+    class="text-center py-16"
+  >
+    <p class="text-gray-400 text-xl">
+      No hay promociones disponibles en este momento.
+    </p>
+  </div>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    *ngIf="promociones.length > 0"
+  >
+    <div
+      *ngFor="let promocion of promociones"
+      class="bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col md:flex-row items-stretch h-auto min-h-[140px]"
+    >
+      <div class="md:w-2/3 w-full h-32 md:h-40 flex-shrink-0 relative">
+        <img
+          [src]="
+            promocion.imagen ||
+            assetsLocation.assetUrl + '/' + promocion.imagenUrl
+          "
+          alt="Promoción"
+          class="w-full h-full object-cover object-center md:rounded-l-xl md:rounded-t-none rounded-t-xl"
+        />
+        <div class="absolute top-2 right-2">
+          <p-tag
+            [value]="promocion.tipo | titlecase"
+            class="py-1 px-3 text-xs font-semibold bg-yellow-400 text-gray-900 rounded-full shadow"
+          ></p-tag>
         </div>
       </div>
-      <div class="p-5 pt-8 flex flex-col flex-grow">
-        <h3 class="text-xl font-bold text-white mb-2">{{ promocion.titulo }}</h3>
-        <p class="text-gray-400 mb-4 line-clamp-3">{{ promocion.descripcion }}</p>
-        <div class="flex justify-between items-center mt-auto">
-          <span class="text-sm text-gray-400">{{ promocion.fechaInicio }} - {{ promocion.fechaFin }}</span>
-          <p-button label="Ver detalles" [outlined]="true" size="small"></p-button>
+      <div
+        class="flex flex-col justify-between p-4 flex-1 md:w-1/3 bg-gradient-to-r from-[#253a52] to-[#18181b]"
+      >
+        <div>
+          <h3 class="text-lg font-bold text-white mb-1 truncate">
+            {{ promocion.titulo }}
+          </h3>
+          <span class="text-xs text-gray-400 block mb-2"
+            >{{ promocion.fechaInicio }} - {{ promocion.fechaFin }}</span
+          >
+        </div>
+        <div class="flex items-center justify-between mt-2">
+          <div
+            *ngIf="promocion.descuento && promocion.descuento > 0"
+            class="bg-yellow-400 text-gray-900 font-bold rounded-full px-3 py-1 text-xs shadow"
+          >
+            {{ promocion.descuento }}%
+          </div>
+          <p-button
+            label="Ver detalles"
+            [outlined]="true"
+            size="small"
+            icon="pi pi-info-circle"
+            (onClick)="openPromoModal(promocion)"
+            class="ml-auto"
+          ></p-button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<p-dialog
+  [(visible)]="displayModal"
+  [modal]="true"
+  [style]="{ width: '90vw', maxWidth: '500px', background: '#18181b' }"
+  [breakpoints]="{ '960px': '95vw', '640px': '100vw' }"
+  [closable]="true"
+  (onHide)="closePromoModal()"
+  [dismissableMask]="true"
+  contentStyle="background: #18181b; color: #f3f4f6;"
+>
+  <ng-template pTemplate="header">
+    <span class="text-3xl font-extrabold text-yellow-400 drop-shadow-lg">{{
+      selectedPromocion?.titulo
+    }}</span>
+  </ng-template>
+  <div *ngIf="selectedPromocion" class="flex flex-col items-center gap-4">
+    <img
+      [src]="
+        selectedPromocion.imagen ||
+        assetsLocation.assetUrl + '/' + selectedPromocion.imagenUrl
+      "
+      alt="Promo"
+      class="w-full max-h-64 object-cover rounded-lg shadow"
+    />
+    <p class="text-gray-200 text-base text-center">
+      {{ selectedPromocion.descripcion }}
+    </p>
+    <div class="flex flex-col items-center gap-1">
+      <span class="text-sm text-gray-400">Válido desde:</span>
+      <span class="font-semibold text-gray-100"
+        >{{ selectedPromocion.fechaInicio }} -
+        {{ selectedPromocion.fechaFin }}</span
+      >
+    </div>
+  </div>
+</p-dialog>
