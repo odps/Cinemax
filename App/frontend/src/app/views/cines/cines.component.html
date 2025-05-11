@@ -13,7 +13,7 @@
   <section>
     <h2 class="text-2xl font-bold text-gray-200 mb-6">Nuestros Cines</h2>
 
-    <div class="grid grid-cols-1 gap-6">
+    <div class="grid grid-cols-1 gap-1">
       <app-cine-card
         *ngFor="let cine of cines"
         [cine]="cine"
@@ -33,8 +33,9 @@
     [showHeader]="false"
     [dismissableMask]="true"
     styleClass="p-fluid cine-modal"
+    contentStyle="background: linear-gradient(135deg, #18181b 60%, #23232b 100%); border-radius: 1.25rem; box-shadow: 0 8px 40px 0 rgba(255,255,180,0.10);"
   >
-    <div *ngIf="cineSeleccionado" class="bg-gray-900 p-0">
+    <div *ngIf="cineSeleccionado" class="rounded-2xl overflow-hidden">
       <!-- Imagen de cabecera -->
       <div class="relative h-64 md:h-80 overflow-hidden">
         <img
@@ -44,70 +45,87 @@
               : 'assets/cine-placeholder.jpg'
           "
           [alt]="cineSeleccionado.nombre"
-          class="w-full h-full object-cover"
+          class="w-full h-full object-cover object-center"
         />
         <div
-          class="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-end p-6"
+          class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-8"
         >
-          <h2 class="text-3xl font-bold text-white mb-2">
+          <h2
+            class="text-3xl font-extrabold text-white mb-2 drop-shadow-lg flex items-center"
+          >
             {{ cineSeleccionado.nombre }}
           </h2>
-          <div class="flex items-center">
-            <i class="pi pi-map text-white mr-2"></i>
-            <p class="text-white">{{ cineSeleccionado.ciudad }}</p>
+          <div class="flex items-center text-gray-300 mb-2">
+            <i class="pi pi-map-marker mr-2"></i>
+            <span class="font-medium">{{ cineSeleccionado.direccion }}</span>
+            <span class="mx-2">|</span>
+            <span>{{ cineSeleccionado.ciudad }}</span>
           </div>
         </div>
       </div>
-
       <!-- Contenido del modal -->
-      <div class="p-6">
-        <!-- Información principal -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div class="p-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <div>
-            <h3 class="text-xl font-bold text-white mb-4">Información</h3>
-
-            <div class="space-y-3">
-              <div class="flex items-start">
-                <i class="pi pi-map-marker text-gray-400 mr-3 mt-1"></i>
-                <p class="text-gray-300">
-                  {{ cineSeleccionado.direccion }},
-                  {{ cineSeleccionado.ciudad }}
-                </p>
+            <h3
+              class="text-xl font-bold text-yellow-400 mb-4 flex items-center"
+            >
+              <i class="pi pi-info-circle text-yellow-400 mr-2"></i>Información
+            </h3>
+            <div class="space-y-4">
+              <div class="flex items-start text-gray-300">
+                <i class="pi pi-map-marker mr-3 mt-1"></i>
+                <span
+                  >{{ cineSeleccionado.direccion }},
+                  {{ cineSeleccionado.ciudad }}</span
+                >
               </div>
-
-              <div *ngIf="cineSeleccionado.telefono" class="flex items-start">
-                <i class="pi pi-phone text-gray-400 mr-3 mt-1"></i>
-                <p class="text-gray-300">{{ cineSeleccionado.telefono }}</p>
+              <div
+                *ngIf="cineSeleccionado.telefono"
+                class="flex items-start text-gray-300"
+              >
+                <i class="pi pi-phone mr-3 mt-1"></i>
+                <span>{{ cineSeleccionado.telefono }}</span>
               </div>
-
-              <div *ngIf="cineSeleccionado.horario" class="flex items-start">
-                <i class="pi pi-clock text-gray-400 mr-3 mt-1"></i>
-                <p class="text-gray-300">{{ cineSeleccionado.horario }}</p>
+              <div
+                *ngIf="cineSeleccionado.horario"
+                class="flex items-start text-gray-300"
+              >
+                <i class="pi pi-clock mr-3 mt-1"></i>
+                <span>{{ cineSeleccionado.horario }}</span>
               </div>
-
-              <div *ngIf="cineSeleccionado.nif" class="flex items-start">
-                <i class="pi pi-id-card text-gray-400 mr-3 mt-1"></i>
-                <p class="text-gray-300">NIF: {{ cineSeleccionado.nif }}</p>
+              <div
+                *ngIf="cineSeleccionado.nif"
+                class="flex items-start text-gray-300"
+              >
+                <i class="pi pi-id-card mr-3 mt-1"></i>
+                <span>NIF: {{ cineSeleccionado.nif }}</span>
               </div>
             </div>
           </div>
-
           <div *ngIf="cineSeleccionado.descripcion">
-            <h3 class="text-xl font-bold text-white mb-4">Descripción</h3>
-            <p class="text-gray-300">{{ cineSeleccionado.descripcion }}</p>
+            <h3
+              class="text-xl font-bold text-yellow-400 mb-4 flex items-center"
+            >
+              <i class="pi pi-align-left text-yellow-400 mr-2"></i>Descripción
+            </h3>
+            <p class="text-gray-300 leading-relaxed">
+              {{ cineSeleccionado.descripcion }}
+            </p>
           </div>
         </div>
-
         <!-- Salas -->
         <div
           *ngIf="cineSeleccionado.salas && cineSeleccionado.salas.length > 0"
-          class="mb-6"
+          class="mb-8"
         >
-          <h3 class="text-xl font-bold text-white mb-4">Salas</h3>
-          <div class="grid grid-cols-1 gap-3">
+          <h3 class="text-xl font-bold text-yellow-400 mb-4 flex items-center">
+            <i class="pi pi-th-large text-yellow-400 mr-2"></i>Salas
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div
               *ngFor="let sala of cineSeleccionado.salas"
-              class="bg-gray-800 rounded-lg p-4"
+              class="bg-gray-800 rounded-lg p-4 shadow"
             >
               <div class="flex justify-between items-center mb-2">
                 <h4 class="font-bold text-white">{{ sala.nombre }}</h4>
@@ -116,80 +134,55 @@
                   severity="info"
                 ></p-tag>
               </div>
-              <div
-                *ngIf="sala.funciones && sala.funciones.length > 0"
-                class="mt-2"
-              >
-                <p class="text-sm text-gray-400 mb-1">Próximas funciones:</p>
-                <div class="space-y-2">
-                  <div
-                    *ngFor="let funcion of sala.funciones"
-                    class="flex items-center"
-                  >
-                    <i class="pi pi-calendar text-gray-500 mr-2"></i>
-                    <span class="text-gray-300">{{
-                      funcion.fechaHora | date : "dd/MM/yyyy"
-                    }}</span>
-                    <span class="mx-2 text-gray-500">-</span>
-                    <span class="text-white">{{
-                      funcion.idPelicula.titulo
-                    }}</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-
         <!-- Promociones -->
         <div
           *ngIf="
             cineSeleccionado.promociones &&
             cineSeleccionado.promociones.length > 0
           "
-          class="mb-6"
+          class="mb-8"
         >
-          <h3 class="text-xl font-bold text-white mb-4">Promociones</h3>
-          <div class="space-y-3">
+          <h3 class="text-xl font-bold text-yellow-400 mb-4 flex items-center">
+            <i class="pi pi-gift text-yellow-400 mr-2"></i>Promociones
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div
               *ngFor="let promo of cineSeleccionado.promociones"
-              class="bg-gray-800 rounded-lg p-4"
+              class="bg-gray-800 rounded-lg p-4 shadow"
             >
               <h4 class="font-bold text-white mb-1">{{ promo.titulo }}</h4>
-              <p class="text-gray-300">{{ promo.descripcion }}</p>
+              <p class="text-gray-300 mb-1">{{ promo.descripcion }}</p>
               <div class="flex justify-between items-center mt-2">
                 <p-tag [value]="promo.tipo" severity="warn"></p-tag>
-                <span class="text-sm text-gray-400"
-                  >Válido: {{ promo.fechaInicio | date : "dd/MM/yyyy" }} -
-                  {{ promo.fechaFin | date : "dd/MM/yyyy" }}</span
+                <span class="text-xs text-gray-400"
+                  >{{ promo.fechaInicio }} - {{ promo.fechaFin }}</span
                 >
               </div>
             </div>
           </div>
         </div>
-
         <!-- Reviews -->
-        <div class="mb-6">
+        <div class="mb-8">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="text-xl font-bold text-white">Opiniones</h3>
+            <h3 class="text-xl font-bold text-yellow-400 flex items-center">
+              <i class="pi pi-star text-yellow-400 mr-2"></i>Opiniones
+            </h3>
             <div class="flex items-center">
               <ng-container *ngIf="reviews && reviews.length > 0">
-                <div class="flex items-center mr-3">
-                  <span class="text-xl font-bold text-yellow-500 mr-2">{{
-                    calcularPuntuacionPromedio()
-                  }}</span>
-                  <p-rating
-                    [ngModel]="calcularPuntuacionPromedio()"
-                    [readonly]="true"
-                  ></p-rating>
-                </div>
-                <span class="text-gray-400"
-                  >({{ reviews.length }} opiniones)</span
-                >
+                <span class="text-xl font-bold text-yellow-400 mr-2">{{
+                  calcularPuntuacionPromedio()
+                }}</span>
+                <p-rating
+                  [ngModel]="calcularPuntuacionPromedio()"
+                  [readonly]="true"
+                ></p-rating>
+                <span class="text-gray-400 ml-2">({{ reviews.length }})</span>
               </ng-container>
             </div>
           </div>
-
           <!-- Form para nueva review o edición -->
           <div
             *ngIf="reviewFormVisible"
@@ -331,6 +324,7 @@
             icon="pi pi-times"
             (click)="cerrarModal()"
             [outlined]="true"
+            styleClass="font-semibold px-4 py-2 rounded-lg"
           ></p-button>
         </div>
       </div>
@@ -352,34 +346,41 @@
     [showHeader]="false"
     [dismissableMask]="true"
     styleClass="p-fluid cine-modal"
+    contentStyle="background: linear-gradient(135deg, #18181b 60%, #23232b 100%); border-radius: 1.25rem; box-shadow: 0 8px 40px 0 rgba(255,255,180,0.10);"
   >
-    <div *ngIf="cineCarteleraSeleccionado" class="bg-gray-900 p-6">
-      <h2 class="text-3xl font-bold text-white mb-6">
+    <div
+      *ngIf="cineCarteleraSeleccionado"
+      class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl p-8"
+    >
+      <h2 class="text-3xl font-extrabold text-white mb-6 flex items-center">
+        <i class="pi pi-film text-yellow-400 mr-3"></i>
         Cartelera de {{ cineCarteleraSeleccionado.nombre }}
       </h2>
       <div class="grid grid-cols-1 gap-6">
         <div
           *ngFor="let item of cineCarteleraSeleccionado.cartelera"
-          class="bg-gray-800 rounded-lg p-4"
+          class="bg-gray-800 rounded-lg p-6 shadow"
         >
-          <h3 class="text-xl font-bold text-white mb-2">
+          <h3 class="text-xl font-bold text-white mb-2 flex items-center">
+            <i class="pi pi-th-large text-yellow-400 mr-2"></i>
             Sala: {{ item.sala.nombre }}
           </h3>
           <div class="grid grid-cols-1 gap-4">
             <div
               *ngFor="let funcion of item.funciones"
-              class="bg-gray-800 rounded-lg p-4 flex flex-col md:flex-row justify-between items-start md:items-center"
+              class="bg-gray-900 rounded-lg p-4 flex flex-col md:flex-row justify-between items-start md:items-center"
             >
               <div class="mb-4 md:mb-0">
-                <h4 class="text-lg font-bold text-white">
-                  {{ funcion.idPelicula?.titulo }}
-                </h4>
-                <p class="text-gray-300">
-                  <i class="pi pi-calendar text-gray-500 mr-2"></i>
+                <h4 class="text-lg font-bold text-white mb-1 flex items-center">
+                  <i class="pi pi-clock text-yellow-400 mr-2"></i>
                   {{ funcion.fechaHora | date : "dd/MM/yyyy HH:mm" }}
+                </h4>
+                <p class="text-gray-300 mb-1 flex items-center">
+                  <i class="pi pi-video text-gray-400 mr-2"></i>
+                  {{ funcion.idPelicula?.titulo }}
                 </p>
-                <p class="text-gray-300">
-                  <i class="pi pi-dollar text-gray-500 mr-2"></i>
+                <p class="text-gray-300 flex items-center">
+                  <i class="pi pi-euro text-gray-400 mr-2"></i>
                   Precio: {{ funcion.precio | currency : "EUR" }}
                 </p>
               </div>
@@ -387,18 +388,19 @@
                 label="Comprar Ticket"
                 icon="pi pi-ticket"
                 (click)="comprarTicket(funcion)"
-                class="p-button-success"
+                styleClass="p-button-success font-semibold px-4 py-2 rounded-lg shadow-md"
               ></p-button>
             </div>
           </div>
         </div>
       </div>
-      <div class="flex justify-end mt-6">
+      <div class="flex justify-end mt-8">
         <p-button
           label="Cerrar"
           icon="pi pi-times"
           (click)="cerrarCarteleraModal()"
           [outlined]="true"
+          styleClass="font-semibold px-4 py-2 rounded-lg"
         ></p-button>
       </div>
     </div>
