@@ -253,7 +253,9 @@ export class AdminComponent implements OnInit {
   }
 
   openNewPelicula(): void {
-    this.selectedPelicula = {} as Pelicula;
+    this.selectedPelicula = {
+      genero: 'Accion', // default to a valid genre
+    } as Pelicula;
     this.peliculaDialog = true;
   }
 
@@ -296,6 +298,26 @@ export class AdminComponent implements OnInit {
 
   savePelicula(): void {
     if (this.selectedPelicula) {
+      // Only allow valid genres
+      const validGeneros = [
+        'Accion',
+        'Romance',
+        'Comedia',
+        'Horror',
+        'Drama',
+        'Ciencia Ficcion',
+        'Aventura',
+        'Fantasia',
+      ];
+      const genero = this.selectedPelicula.genero ?? '';
+      if (!validGeneros.includes(genero)) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'El género debe ser uno de: ' + validGeneros.join(', '),
+        });
+        return;
+      }
       if (this.selectedPelicula.id) {
         // Update existing pelicula
         this.peliculaService

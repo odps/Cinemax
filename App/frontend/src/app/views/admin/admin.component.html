@@ -20,6 +20,7 @@
           <p-button
             label="Nuevo Cine"
             icon="pi pi-plus"
+            severity="info"
             (click)="openNewCine()"
           ></p-button>
         </div>
@@ -77,6 +78,7 @@
                     icon="pi pi-trash"
                     class="p-button-rounded p-button-text p-button-sm text-red-500"
                     pTooltip="Eliminar"
+                    severity="danger"
                     tooltipPosition="top"
                     (click)="deleteCine(cine)"
                   ></button>
@@ -102,6 +104,7 @@
           <h2 class="text-2xl font-bold text-white">Gestión de Películas</h2>
           <p-button
             label="Nueva Película"
+            severity="info"
             icon="pi pi-plus"
             (click)="openNewPelicula()"
           ></p-button>
@@ -134,9 +137,6 @@
               <th pSortableColumn="duracion">
                 Duración <p-sortIcon field="duracion"></p-sortIcon>
               </th>
-              <th pSortableColumn="calificacion">
-                Calificación <p-sortIcon field="calificacion"></p-sortIcon>
-              </th>
               <th>Acciones</th>
             </tr>
           </ng-template>
@@ -146,7 +146,6 @@
               <td>{{ pelicula.titulo }}</td>
               <td>{{ pelicula.genero }}</td>
               <td>{{ pelicula.duracion }} min</td>
-              <td>{{ pelicula.calificacion }}</td>
               <td>
                 <div class="flex gap-2">
                   <button
@@ -164,6 +163,7 @@
                     icon="pi pi-trash"
                     class="p-button-rounded p-button-text p-button-sm text-red-500"
                     pTooltip="Eliminar"
+                    severity="danger"
                     tooltipPosition="top"
                     (click)="deletePelicula(pelicula)"
                   ></button>
@@ -173,7 +173,7 @@
           </ng-template>
           <ng-template pTemplate="emptymessage">
             <tr>
-              <td colspan="6" class="text-center p-4">
+              <td colspan="5" class="text-center p-4">
                 No hay películas disponibles.
               </td>
             </tr>
@@ -189,6 +189,7 @@
           <h2 class="text-2xl font-bold text-white">Gestión de Promociones</h2>
           <p-button
             label="Nueva Promoción"
+            severity="info"
             icon="pi pi-plus"
             (click)="openNewPromocion()"
           ></p-button>
@@ -251,6 +252,7 @@
                     icon="pi pi-trash"
                     class="p-button-rounded p-button-text p-button-sm text-red-500"
                     pTooltip="Eliminar"
+                    severity="danger"
                     tooltipPosition="top"
                     (click)="deletePromocion(promocion)"
                   ></button>
@@ -276,6 +278,7 @@
           <h2 class="text-2xl font-bold text-white">Gestión de Salas</h2>
           <p-button
             label="Nueva Sala"
+            severity="info"
             icon="pi pi-plus"
             (click)="openNewSala()"
           ></p-button>
@@ -334,6 +337,7 @@
                     icon="pi pi-trash"
                     class="p-button-rounded p-button-text p-button-sm text-red-500"
                     pTooltip="Eliminar"
+                    severity="danger"
                     tooltipPosition="top"
                     (click)="deleteSala(sala)"
                   ></button>
@@ -359,6 +363,7 @@
           <h2 class="text-2xl font-bold text-white">Gestión de Funciones</h2>
           <p-button
             label="Nueva Función"
+            severity="info"
             icon="pi pi-plus"
             (click)="openNewFuncion()"
           ></p-button>
@@ -421,6 +426,7 @@
                     icon="pi pi-trash"
                     class="p-button-rounded p-button-text p-button-sm text-red-500"
                     pTooltip="Eliminar"
+                    severity="danger"
                     tooltipPosition="top"
                     (click)="deleteFuncion(funcion)"
                   ></button>
@@ -447,114 +453,150 @@
     [style]="{ width: '500px' }"
     header="Detalles del Cine"
     [modal]="true"
-    styleClass="p-fluid bg-gray-900"
+    styleClass="p-fluid bg-gradient-to-br from-yellow-900 via-gray-900 to-gray-900 rounded-2xl shadow-2xl border border-yellow-700"
   >
     <ng-template pTemplate="content">
-      <div class="field">
-        <label for="nombre" class="text-gray-300">Nombre</label>
-        <input
-          type="text"
-          pInputText
-          id="nombre"
-          [(ngModel)]="selectedCine!.nombre"
-          required
-          autofocus
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="nif" class="text-gray-300">NIF</label>
-        <input
-          type="text"
-          pInputText
-          id="nif"
-          [(ngModel)]="selectedCine!.nif"
-          required
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="ciudad" class="text-gray-300">Ciudad</label>
-        <input
-          type="text"
-          pInputText
-          id="ciudad"
-          [(ngModel)]="selectedCine!.ciudad"
-          required
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="direccion" class="text-gray-300">Dirección</label>
-        <input
-          type="text"
-          pInputText
-          id="direccion"
-          [(ngModel)]="selectedCine!.direccion"
-          required
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="telefono" class="text-gray-300">Teléfono</label>
-        <input
-          type="text"
-          pInputText
-          id="telefono"
-          [(ngModel)]="selectedCine!.telefono"
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="horario" class="text-gray-300">Horario</label>
-        <input
-          type="text"
-          pInputText
-          id="horario"
-          [(ngModel)]="selectedCine!.horario"
-          placeholder="Ej: 10:00 - 23:00"
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="descripcion" class="text-gray-300">Descripción</label>
-        <textarea
-          pInputTextarea
-          id="descripcion"
-          [(ngModel)]="selectedCine!.descripcion"
-          rows="3"
-          class="bg-gray-800 text-white"
-        ></textarea>
-      </div>
-      <div class="field">
-        <label for="imagenUrl" class="text-gray-300">URL de Imagen</label>
-        <input
-          type="text"
-          pInputText
-          id="imagenUrl"
-          [(ngModel)]="selectedCine!.imagenUrl"
-          placeholder="Ej: cinemax_plaza.jpg"
-          class="bg-gray-800 text-white"
-        />
+      <div class="grid grid-cols-1 gap-5">
+        <div class="flex flex-col gap-1">
+          <label
+            for="nombre"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-building"></i> Nombre</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="nombre"
+            [(ngModel)]="selectedCine!.nombre"
+            required
+            autofocus
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="nif"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-id-card"></i> NIF</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="nif"
+            [(ngModel)]="selectedCine!.nif"
+            required
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="ciudad"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-map-marker"></i> Ciudad</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="ciudad"
+            [(ngModel)]="selectedCine!.ciudad"
+            required
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="direccion"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-directions"></i> Dirección</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="direccion"
+            [(ngModel)]="selectedCine!.direccion"
+            required
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="telefono"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-phone"></i> Teléfono</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="telefono"
+            [(ngModel)]="selectedCine!.telefono"
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="horario"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-clock"></i> Horario</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="horario"
+            [(ngModel)]="selectedCine!.horario"
+            placeholder="Ej: 10:00 - 23:00"
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="descripcion"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-align-left"></i> Descripción</label
+          >
+          <textarea
+            pInputTextarea
+            id="descripcion"
+            [(ngModel)]="selectedCine!.descripcion"
+            rows="3"
+            class="bg-gray-800 text-white rounded-lg"
+          ></textarea>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="imagenUrl"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-image"></i> URL de Imagen</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="imagenUrl"
+            [(ngModel)]="selectedCine!.imagenUrl"
+            placeholder="Ej: cinemax_plaza.jpg"
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
       </div>
     </ng-template>
     <ng-template pTemplate="footer">
-      <button
-        pButton
-        pRipple
-        label="Cancelar"
-        icon="pi pi-times"
-        class="p-button-text"
-        (click)="hideDialog('cine')"
-      ></button>
-      <button
-        pButton
-        pRipple
-        label="Guardar"
-        icon="pi pi-check"
-        class="p-button-text"
-        (click)="saveCine()"
-      ></button>
+      <div class="flex justify-end gap-2">
+        <button
+          pButton
+          pRipple
+          label="Cancelar"
+          icon="pi pi-times"
+          class="p-button-text"
+          (click)="hideDialog('cine')"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Guardar"
+          icon="pi pi-check"
+          class="p-button-info font-semibold px-6 py-2 rounded-xl shadow-md"
+          (click)="saveCine()"
+        ></button>
+      </div>
     </ng-template>
   </p-dialog>
 
@@ -564,99 +606,141 @@
     [style]="{ width: '500px' }"
     header="Detalles de la Película"
     [modal]="true"
-    styleClass="p-fluid bg-gray-900"
+    styleClass="p-fluid bg-gradient-to-br from-yellow-900 via-gray-900 to-gray-900 rounded-2xl shadow-2xl border border-yellow-700"
   >
     <ng-template pTemplate="content">
-      <div class="field">
-        <label for="titulo" class="text-gray-300">Título</label>
-        <input
-          type="text"
-          pInputText
-          id="titulo"
-          [(ngModel)]="selectedPelicula!.titulo"
-          required
-          autofocus
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="genero" class="text-gray-300">Género</label>
-        <input
-          type="text"
-          pInputText
-          id="genero"
-          [(ngModel)]="selectedPelicula!.genero"
-          required
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="director" class="text-gray-300">Director</label>
-        <input
-          type="text"
-          pInputText
-          id="director"
-          [(ngModel)]="selectedPelicula!.director"
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="duracion" class="text-gray-300">Duración (minutos)</label>
-        <p-inputNumber
-          id="duracion"
-          [(ngModel)]="selectedPelicula!.duracion"
-          [min]="1"
-          class="bg-gray-800 text-white"
-        ></p-inputNumber>
-      </div>
-      <div class="field">
-        <label for="limiteEdad" class="text-gray-300">Límite de edad</label>
-        <input
-          type="text"
-          pInputText
-          id="limiteEdad"
-          [(ngModel)]="selectedPelicula!.limiteEdad"
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="descripcion" class="text-gray-300">Sinopsis</label>
-        <textarea
-          pInputTextarea
-          id="descripcion"
-          [(ngModel)]="selectedPelicula!.descripcion"
-          rows="3"
-          class="bg-gray-800 text-white"
-        ></textarea>
-      </div>
-      <div class="field">
-        <label for="imagenUrl" class="text-gray-300">URL del Póster</label>
-        <input
-          type="text"
-          pInputText
-          id="imagenUrl"
-          [(ngModel)]="selectedPelicula!.imagenUrl"
-          class="bg-gray-800 text-white"
-        />
+      <div class="grid grid-cols-1 gap-5">
+        <div class="flex flex-col gap-1">
+          <label
+            for="titulo"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-video"></i> Título</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="titulo"
+            [(ngModel)]="selectedPelicula!.titulo"
+            required
+            autofocus
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="genero"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-tag"></i> Género</label
+          >
+          <p-dropdown
+            id="genero"
+            [options]="[
+              { label: 'Accion', value: 'Accion' },
+              { label: 'Romance', value: 'Romance' },
+              { label: 'Comedia', value: 'Comedia' },
+              { label: 'Horror', value: 'Horror' },
+              { label: 'Drama', value: 'Drama' },
+              { label: 'Ciencia Ficcion', value: 'Ciencia Ficcion' },
+              { label: 'Aventura', value: 'Aventura' },
+              { label: 'Fantasia', value: 'Fantasia' }
+            ]"
+            [(ngModel)]="selectedPelicula!.genero"
+            placeholder="Seleccione un género"
+            appendTo="body"
+            class="bg-gray-800 text-white w-full rounded-lg"
+            required
+          ></p-dropdown>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="director"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-user"></i> Director</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="director"
+            [(ngModel)]="selectedPelicula!.director"
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="duracion"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-clock"></i> Duración (minutos)</label
+          >
+          <p-inputNumber
+            id="duracion"
+            [(ngModel)]="selectedPelicula!.duracion"
+            [min]="1"
+            class="bg-gray-800 text-white rounded-lg"
+          ></p-inputNumber>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="limiteEdad"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-ban"></i> Límite de edad</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="limiteEdad"
+            [(ngModel)]="selectedPelicula!.limiteEdad"
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="descripcion"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-align-left"></i> Sinopsis</label
+          >
+          <textarea
+            pInputTextarea
+            id="descripcion"
+            [(ngModel)]="selectedPelicula!.descripcion"
+            rows="3"
+            class="bg-gray-800 text-white rounded-lg"
+          ></textarea>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="imagenUrl"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-image"></i> URL del Póster</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="imagenUrl"
+            [(ngModel)]="selectedPelicula!.imagenUrl"
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
       </div>
     </ng-template>
     <ng-template pTemplate="footer">
-      <button
-        pButton
-        pRipple
-        label="Cancelar"
-        icon="pi pi-times"
-        class="p-button-text"
-        (click)="hideDialog('pelicula')"
-      ></button>
-      <button
-        pButton
-        pRipple
-        label="Guardar"
-        icon="pi pi-check"
-        class="p-button-text"
-        (click)="savePelicula()"
-      ></button>
+      <div class="flex justify-end gap-2">
+        <button
+          pButton
+          pRipple
+          label="Cancelar"
+          icon="pi pi-times"
+          class="p-button-text"
+          (click)="hideDialog('pelicula')"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Guardar"
+          icon="pi pi-check"
+          class="p-button-info font-semibold px-6 py-2 rounded-xl shadow-md"
+          (click)="savePelicula()"
+        ></button>
+      </div>
     </ng-template>
   </p-dialog>
 
@@ -666,91 +750,129 @@
     [style]="{ width: '500px' }"
     header="Detalles de la Promoción"
     [modal]="true"
-    styleClass="p-fluid bg-gray-900"
+    styleClass="p-fluid bg-gradient-to-br from-yellow-900 via-gray-900 to-gray-900 rounded-2xl shadow-2xl border border-yellow-700"
   >
     <ng-template pTemplate="content">
-      <div class="field">
-        <label for="titulo" class="text-gray-300">Título</label>
-        <input
-          type="text"
-          pInputText
-          id="titulo"
-          [(ngModel)]="selectedPromocion!.titulo"
-          required
-          autofocus
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="descripcion" class="text-gray-300">Descripción</label>
-        <textarea
-          pInputTextarea
-          id="descripcion"
-          [(ngModel)]="selectedPromocion!.descripcion"
-          rows="3"
-          required
-          class="bg-gray-800 text-white"
-        ></textarea>
-      </div>
-      <div class="field">
-        <label for="tipo" class="text-gray-300">Tipo</label>
-        <p-dropdown
-          [options]="tiposPromocion"
-          [(ngModel)]="selectedPromocion!.tipo"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Seleccione un tipo de promoción"
-          appendTo="body"
-          required
-          class="bg-gray-800 text-white w-full"
-        ></p-dropdown>
-      </div>
-      <div class="field">
-        <label for="fechaInicio" class="text-gray-300">Fecha de Inicio</label>
-        <p-calendar
-          [(ngModel)]="selectedPromocion!.fechaInicio"
-          dateFormat="dd/mm/yy"
-          inputId="fechaInicio"
-          class="bg-gray-800 text-white"
-        ></p-calendar>
-      </div>
-      <div class="field">
-        <label for="fechaFin" class="text-gray-300">Fecha de Fin</label>
-        <p-calendar
-          [(ngModel)]="selectedPromocion!.fechaFin"
-          dateFormat="dd/mm/yy"
-          inputId="fechaFin"
-          class="bg-gray-800 text-white"
-        ></p-calendar>
-      </div>
-      <div class="field">
-        <label for="imagenUrl" class="text-gray-300">URL de Imagen</label>
-        <input
-          type="text"
-          pInputText
-          id="imagenUrl"
-          [(ngModel)]="selectedPromocion!.imagenUrl"
-          class="bg-gray-800 text-white"
-        />
+      <div class="grid grid-cols-1 gap-5">
+        <div class="flex flex-col gap-1">
+          <label
+            for="titulo"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-star"></i> Título</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="titulo"
+            [(ngModel)]="selectedPromocion!.titulo"
+            required
+            autofocus
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="descripcion"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-align-left"></i> Descripción</label
+          >
+          <textarea
+            pInputTextarea
+            id="descripcion"
+            [(ngModel)]="selectedPromocion!.descripcion"
+            rows="3"
+            required
+            class="bg-gray-800 text-white rounded-lg"
+          ></textarea>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="tipo"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-tags"></i> Tipo</label
+          >
+          <p-dropdown
+            [options]="tiposPromocion"
+            [(ngModel)]="selectedPromocion!.tipo"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccione un tipo de promoción"
+            appendTo="body"
+            required
+            class="bg-gray-800 text-white w-full rounded-lg"
+          ></p-dropdown>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="fechaInicio"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-calendar"></i> Fecha de Inicio</label
+          >
+          <div class="relative">
+            <p-calendar
+              [(ngModel)]="selectedPromocion!.fechaInicio"
+              dateFormat="dd/mm/yy"
+              inputId="fechaInicio"
+              class="bg-gray-800 text-white rounded-lg w-full min-w-0"
+              [showIcon]="true"
+              [appendTo]="'body'"
+              panelStyleClass="z-50"
+            ></p-calendar>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="fechaFin"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-calendar"></i> Fecha de Fin</label
+          >
+          <div class="relative">
+            <p-calendar
+              [(ngModel)]="selectedPromocion!.fechaFin"
+              dateFormat="dd/mm/yy"
+              inputId="fechaFin"
+              class="bg-gray-800 text-white rounded-lg w-full min-w-0"
+              [showIcon]="true"
+              [appendTo]="'body'"
+              panelStyleClass="z-50"
+            ></p-calendar>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="imagenUrl"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-image"></i> URL de Imagen</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="imagenUrl"
+            [(ngModel)]="selectedPromocion!.imagenUrl"
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
       </div>
     </ng-template>
     <ng-template pTemplate="footer">
-      <button
-        pButton
-        pRipple
-        label="Cancelar"
-        icon="pi pi-times"
-        class="p-button-text"
-        (click)="hideDialog('promocion')"
-      ></button>
-      <button
-        pButton
-        pRipple
-        label="Guardar"
-        icon="pi pi-check"
-        class="p-button-text"
-        (click)="savePromocion()"
-      ></button>
+      <div class="flex justify-end gap-2">
+        <button
+          pButton
+          pRipple
+          label="Cancelar"
+          icon="pi pi-times"
+          class="p-button-text"
+          (click)="hideDialog('promocion')"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Guardar"
+          icon="pi pi-check"
+          class="p-button-info font-semibold px-6 py-2 rounded-xl shadow-md"
+          (click)="savePromocion()"
+        ></button>
+      </div>
     </ng-template>
   </p-dialog>
 
@@ -760,62 +882,78 @@
     [style]="{ width: '500px' }"
     header="Detalles de la Sala"
     [modal]="true"
-    styleClass="p-fluid bg-gray-900"
+    styleClass="p-fluid bg-gradient-to-br from-yellow-900 via-gray-900 to-gray-900 rounded-2xl shadow-2xl border border-yellow-700"
   >
     <ng-template pTemplate="content">
-      <div class="field">
-        <label for="nombre" class="text-gray-300">Nombre</label>
-        <input
-          type="text"
-          pInputText
-          id="nombre"
-          [(ngModel)]="selectedSala!.nombre"
-          required
-          autofocus
-          class="bg-gray-800 text-white"
-        />
-      </div>
-      <div class="field">
-        <label for="capacidad" class="text-gray-300">Capacidad</label>
-        <p-inputNumber
-          id="capacidad"
-          [(ngModel)]="selectedSala!.capacidad"
-          [min]="1"
-          required
-          class="bg-gray-800 text-white"
-        ></p-inputNumber>
-      </div>
-      <div class="field">
-        <label for="cine" class="text-gray-300">Cine</label>
-        <p-dropdown
-          [options]="cines"
-          [(ngModel)]="selectedSala!.cine"
-          optionLabel="nombre"
-          [filter]="true"
-          filterBy="nombre"
-          placeholder="Seleccione un cine"
-          appendTo="body"
-          class="bg-gray-800 text-white"
-        ></p-dropdown>
+      <div class="grid grid-cols-1 gap-5">
+        <div class="flex flex-col gap-1">
+          <label
+            for="nombre"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-home"></i> Nombre</label
+          >
+          <input
+            type="text"
+            pInputText
+            id="nombre"
+            [(ngModel)]="selectedSala!.nombre"
+            required
+            autofocus
+            class="bg-gray-800 text-white rounded-lg"
+          />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="capacidad"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-users"></i> Capacidad</label
+          >
+          <p-inputNumber
+            id="capacidad"
+            [(ngModel)]="selectedSala!.capacidad"
+            [min]="1"
+            required
+            class="bg-gray-800 text-white rounded-lg"
+          ></p-inputNumber>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="cine"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-building"></i> Cine</label
+          >
+          <p-dropdown
+            [options]="cines"
+            [(ngModel)]="selectedSala!.cine"
+            optionLabel="nombre"
+            [filter]="true"
+            filterBy="nombre"
+            placeholder="Seleccione un cine"
+            appendTo="body"
+            class="bg-gray-800 text-white rounded-lg"
+          ></p-dropdown>
+        </div>
       </div>
     </ng-template>
     <ng-template pTemplate="footer">
-      <button
-        pButton
-        pRipple
-        label="Cancelar"
-        icon="pi pi-times"
-        class="p-button-text"
-        (click)="hideDialog('sala')"
-      ></button>
-      <button
-        pButton
-        pRipple
-        label="Guardar"
-        icon="pi pi-check"
-        class="p-button-text"
-        (click)="saveSala()"
-      ></button>
+      <div class="flex justify-end gap-2">
+        <button
+          pButton
+          pRipple
+          label="Cancelar"
+          icon="pi pi-times"
+          class="p-button-text"
+          (click)="hideDialog('sala')"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Guardar"
+          icon="pi pi-check"
+          class="p-button-info font-semibold px-6 py-2 rounded-xl shadow-md"
+          (click)="saveSala()"
+        ></button>
+      </div>
     </ng-template>
   </p-dialog>
 
@@ -825,75 +963,100 @@
     [style]="{ width: '500px' }"
     header="Detalles de la Función"
     [modal]="true"
-    styleClass="p-fluid bg-gray-900"
+    styleClass="p-fluid bg-gradient-to-br from-yellow-900 via-gray-900 to-gray-900 rounded-2xl shadow-2xl border border-yellow-700"
   >
     <ng-template pTemplate="content">
-      <div class="field">
-        <label for="pelicula" class="text-gray-300">Película</label>
-        <p-dropdown
-          [options]="peliculas"
-          [(ngModel)]="selectedFuncion!.idPelicula"
-          optionLabel="titulo"
-          [filter]="true"
-          filterBy="titulo"
-          placeholder="Seleccione una película"
-          appendTo="body"
-          class="bg-gray-800 text-white"
-        ></p-dropdown>
-      </div>
-      <div class="field">
-        <label for="sala" class="text-gray-300">Sala</label>
-        <p-dropdown
-          [options]="salas"
-          [(ngModel)]="selectedFuncion!.idSala"
-          optionLabel="nombre"
-          [filter]="true"
-          filterBy="nombre"
-          placeholder="Seleccione una sala"
-          appendTo="body"
-          class="bg-gray-800 text-white"
-        ></p-dropdown>
-      </div>
-      <div class="field">
-        <label for="fechaHora" class="text-gray-300">Fecha y Hora</label>
-        <p-calendar
-          [(ngModel)]="selectedFuncion!.fechaHora"
-          [showTime]="true"
-          dateFormat="dd/mm/yy"
-          inputId="fechaHora"
-          class="bg-gray-800 text-white"
-        ></p-calendar>
-      </div>
-      <div class="field">
-        <label for="precio" class="text-gray-300">Precio</label>
-        <p-inputNumber
-          id="precio"
-          [(ngModel)]="selectedFuncion!.precio"
-          [min]="0"
-          mode="currency"
-          currency="EUR"
-          locale="es-ES"
-          class="bg-gray-800 text-white"
-        ></p-inputNumber>
+      <div class="grid grid-cols-1 gap-5">
+        <div class="flex flex-col gap-1">
+          <label
+            for="pelicula"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-video"></i> Película</label
+          >
+          <p-dropdown
+            [options]="peliculas"
+            [(ngModel)]="selectedFuncion!.idPelicula"
+            optionLabel="titulo"
+            [filter]="true"
+            filterBy="titulo"
+            placeholder="Seleccione una película"
+            appendTo="body"
+            class="bg-gray-800 text-white rounded-lg"
+          ></p-dropdown>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="sala"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-home"></i> Sala</label
+          >
+          <p-dropdown
+            [options]="salas"
+            [(ngModel)]="selectedFuncion!.idSala"
+            optionLabel="nombre"
+            [filter]="true"
+            filterBy="nombre"
+            placeholder="Seleccione una sala"
+            appendTo="body"
+            class="bg-gray-800 text-white rounded-lg"
+          ></p-dropdown>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="fechaHora"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-calendar"></i> Fecha y Hora</label
+          >
+          <div class="relative">
+            <p-calendar
+              [(ngModel)]="selectedFuncion!.fechaHora"
+              [showTime]="true"
+              dateFormat="dd/mm/yy"
+              inputId="fechaHora"
+              class="bg-gray-800 text-white rounded-lg w-full min-w-0"
+              [showIcon]="true"
+              [appendTo]="'body'"
+              panelStyleClass="z-50"
+            ></p-calendar>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label
+            for="precio"
+            class="text-yellow-400 font-semibold flex items-center gap-2"
+            ><i class="pi pi-euro"></i> Precio</label
+          >
+          <p-inputNumber
+            id="precio"
+            [(ngModel)]="selectedFuncion!.precio"
+            [min]="0"
+            mode="currency"
+            currency="EUR"
+            locale="es-ES"
+            class="bg-gray-800 text-white rounded-lg"
+          ></p-inputNumber>
+        </div>
       </div>
     </ng-template>
     <ng-template pTemplate="footer">
-      <button
-        pButton
-        pRipple
-        label="Cancelar"
-        icon="pi pi-times"
-        class="p-button-text"
-        (click)="hideDialog('funcion')"
-      ></button>
-      <button
-        pButton
-        pRipple
-        label="Guardar"
-        icon="pi pi-check"
-        class="p-button-text"
-        (click)="saveFuncion()"
-      ></button>
+      <div class="flex justify-end gap-2">
+        <button
+          pButton
+          pRipple
+          label="Cancelar"
+          icon="pi pi-times"
+          class="p-button-text"
+          (click)="hideDialog('funcion')"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Guardar"
+          icon="pi pi-check"
+          class="p-button-info font-semibold px-6 py-2 rounded-xl shadow-md"
+          (click)="saveFuncion()"
+        ></button>
+      </div>
     </ng-template>
   </p-dialog>
 </div>
