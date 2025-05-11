@@ -1,16 +1,23 @@
-<div class="compra-container">
+<div
+  class="compra-container bg-gradient-to-br from-[#18181b] via-[#23232b] to-[#18181b] rounded-2xl shadow-2xl border border-yellow-700"
+>
   <!-- Toast notifications -->
   <p-toast></p-toast>
 
   <!-- Main Content -->
   <div class="content-section">
     <!-- Header with steps -->
-    <div class="header">
-      <h1 class="compra-title">Compra de Tickets</h1>
+    <div class="header mb-8">
+      <h1
+        class="compra-title text-4xl font-extrabold text-yellow-400 drop-shadow-lg mb-4 flex items-center gap-3"
+      >
+        <i class="pi pi-ticket text-yellow-400 text-3xl"></i> Compra de Tickets
+      </h1>
       <p-steps
         [model]="steps"
         [activeIndex]="currentStep"
         [readonly]="true"
+        styleClass="bg-transparent text-white"
       ></p-steps>
     </div>
 
@@ -38,61 +45,71 @@
     <!-- Step 1: Seat Selection -->
     <div class="step-section" *ngIf="!loading && !error && currentStep === 0">
       <!-- Movie and function details -->
-      <app-movie-function-details
-        [pelicula]="pelicula"
-        [funcion]="funcion"
-        [sala]="sala"
-      >
-      </app-movie-function-details>
-
-      <!-- Seat selection component - with simpler approach -->
-      <app-seat-map
-        [funcionId]="funcionId"
-        (seatSelected)="onSeatSelected($event)"
-        (continueToPayment)="onContinueToPayment()"
-        (cancelSelection)="onReturnToHome()"
-      >
-      </app-seat-map>
+      <div class="mb-6">
+        <app-movie-function-details
+          [pelicula]="pelicula"
+          [funcion]="funcion"
+          [sala]="sala"
+        >
+        </app-movie-function-details>
+      </div>
+      <!-- Seat selection component -->
+      <div class="rounded-xl bg-[#23232b] border border-gray-700 shadow-lg p-6">
+        <app-seat-map
+          [funcionId]="funcionId"
+          (seatSelected)="onSeatSelected($event)"
+          (continueToPayment)="onContinueToPayment()"
+          (cancelSelection)="onReturnToHome()"
+        >
+        </app-seat-map>
+      </div>
     </div>
 
     <!-- Step 2: Payment -->
     <div class="step-section" *ngIf="!loading && !error && currentStep === 1">
-      <!-- Movie and function details summary -->
-      <app-movie-function-details
-        [pelicula]="pelicula"
-        [funcion]="funcion"
-        [sala]="sala"
+      <div class="mb-6">
+        <app-movie-function-details
+          [pelicula]="pelicula"
+          [funcion]="funcion"
+          [sala]="sala"
+        >
+        </app-movie-function-details>
+      </div>
+      <div
+        class="selected-seat-summary bg-gradient-to-r from-yellow-900/60 via-gray-900/80 to-gray-900/90 border border-yellow-700 rounded-xl shadow p-4 mb-6"
+        *ngIf="selectedSeat"
       >
-      </app-movie-function-details>
-
-      <!-- Selected seat information -->
-      <div class="selected-seat-summary" *ngIf="selectedSeat">
-        <h3>Asiento seleccionado:</h3>
-        <p>
+        <h3
+          class="text-lg font-bold text-yellow-400 mb-1 flex items-center gap-2"
+        >
+          <i class="pi pi-chair"></i> Asiento seleccionado:
+        </h3>
+        <p class="text-gray-200">
           Fila {{ selectedSeat.idAsiento.fila }} - Asiento
           {{ selectedSeat.idAsiento.numero }}
         </p>
       </div>
-
-      <!-- Payment form component -->
-      <app-payment-form
-        (paymentSubmitted)="onPaymentSubmitted($event)"
-        (cancelPayment)="onCancelPayment()"
-      >
-      </app-payment-form>
+      <div class="rounded-xl bg-[#23232b] border border-gray-700 shadow-lg p-6">
+        <app-payment-form
+          (paymentSubmitted)="onPaymentSubmitted($event)"
+          (cancelPayment)="onCancelPayment()"
+        >
+        </app-payment-form>
+      </div>
     </div>
 
     <!-- Step 3: Confirmation -->
     <div class="step-section" *ngIf="!loading && !error && currentStep === 2">
-      <!-- Ticket confirmation component -->
-      <app-ticket-confirmation
-        [ticket]="ticketInfo"
-        [pelicula]="pelicula"
-        [sala]="sala"
-        (returnToHome)="onReturnToHome()"
-        (goToShowtimes)="onGoToShowtimes()"
-      >
-      </app-ticket-confirmation>
+      <div class="rounded-xl bg-[#23232b] border border-gray-700 shadow-lg p-6">
+        <app-ticket-confirmation
+          [ticket]="ticketInfo"
+          [pelicula]="pelicula"
+          [sala]="sala"
+          (returnToHome)="onReturnToHome()"
+          (goToShowtimes)="onGoToShowtimes()"
+        >
+        </app-ticket-confirmation>
+      </div>
     </div>
   </div>
 </div>
