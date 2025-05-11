@@ -1,22 +1,43 @@
 <!-- Hero Section -->
 <section class="relative bg-gray-900 text-white">
   <!-- Fondo con overlay -->
-  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/cinemaxLanding.jpg');">
+  <div
+    class="absolute inset-0 bg-cover bg-center"
+    style="background-image: url('assets/cinemaxLanding.jpg')"
+  >
     <div class="absolute inset-0 bg-black opacity-60"></div>
   </div>
 
   <!-- Contenido Hero -->
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-36">
+  <div
+    class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-36"
+  >
     <div class="flex flex-col items-start space-y-6 max-w-3xl">
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
         Disfruta del mejor cine en CineMaxx
       </h1>
       <p class="text-lg md:text-xl text-gray-200">
-        Las mejores películas, los mejores estrenos y la mejor experiencia cinematográfica te esperan en nuestras salas.
+        Las mejores películas, los mejores estrenos y la mejor experiencia
+        cinematográfica te esperan en nuestras salas.
       </p>
       <div class="flex flex-wrap gap-4">
-        <p-button label="Ver cartelera" icon="pi pi-ticket" styleClass="p-button-lg" severity="info" (click)="verCartelera()"></p-button>
-        <p-button label="Promociones" icon="pi pi-star" styleClass="p-button-lg" [outlined]="true" (click)="verPromociones()"></p-button>
+        <p-button
+          label="Ver cartelera"
+          icon="pi pi-ticket"
+          styleClass="p-button-lg"
+          severity="warn"
+          raised="true"
+          (click)="verCartelera()"
+        ></p-button>
+        <p-button
+          label="Promociones"
+          icon="pi pi-star"
+          styleClass="p-button-lg"
+          severity="success"
+          [outlined]="true"
+          raised="true"
+          (click)="verPromociones()"
+        ></p-button>
       </div>
     </div>
   </div>
@@ -27,7 +48,9 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Título de sección -->
     <div class="mb-12 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold text-white">Próximos Estrenos</h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-white">
+        Próximos Estrenos
+      </h2>
       <p class="mt-4 text-gray-300 max-w-2xl mx-auto">
         Descubre las películas que llegarán pronto a nuestras salas
       </p>
@@ -41,28 +64,38 @@
     <ng-container *ngIf="!cargando">
       <!-- Película destacada (ocupa toda la fila) -->
       <div class="mt-8 mb-8" *ngIf="highlightedMovie">
-        <app-movie-card
-          [pelicula]="highlightedMovie"
-          [isHighlighted]="true">
+        <app-movie-card [pelicula]="highlightedMovie" [isHighlighted]="true">
         </app-movie-card>
       </div>
 
       <!-- Grid de películas -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" *ngIf="movies.length > 0">
-        <app-movie-card
-          *ngFor="let movie of movies"
-          [pelicula]="movie">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        *ngIf="movies.length > 0"
+      >
+        <app-movie-card *ngFor="let movie of movies" [pelicula]="movie">
         </app-movie-card>
       </div>
 
       <!-- Mensaje sin películas -->
-      <div *ngIf="movies.length === 0 && !highlightedMovie" class="text-center py-8">
-        <p class="text-gray-400 text-xl">No hay películas disponibles en este momento.</p>
+      <div
+        *ngIf="movies.length === 0 && !highlightedMovie"
+        class="text-center py-8"
+      >
+        <p class="text-gray-400 text-xl">
+          No hay películas disponibles en este momento.
+        </p>
       </div>
 
       <!-- Ver más películas -->
       <div class="mt-12 text-center">
-        <p-button label="Ver más películas" icon="pi pi-film" [outlined]="true" size="large" (click)="verCartelera()"></p-button>
+        <p-button
+          label="Ver más películas"
+          icon="pi pi-film"
+          [outlined]="true"
+          size="large"
+          (click)="verCartelera()"
+        ></p-button>
       </div>
     </ng-container>
   </div>

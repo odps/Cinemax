@@ -38,12 +38,15 @@
           <p-button
             label="Ver cartelera"
             icon="pi pi-film"
+            severity="warn"
             (click)="mostrarCartelera()"
           ></p-button>
           <p-button
             label="Detalles"
             icon="pi pi-info-circle"
             [text]="true"
+            [outlined]="true"
+            severity="info"
             (click)="mostrarDetalles()"
           ></p-button>
         </div>
@@ -94,14 +97,15 @@
           <p-button
             label="Ver cartelera"
             icon="pi pi-film"
-            severity="danger"
+            severity="warn"
             (click)="mostrarCartelera()"
           ></p-button>
           <p-button
             label="Detalles"
             icon="pi pi-info-circle"
+            [text]="true"
             [outlined]="true"
-            severity="secondary"
+            severity="info"
             (click)="mostrarDetalles()"
           ></p-button>
         </div>
