@@ -13,6 +13,7 @@ import { MovieCardComponent } from '../../core/components/movie-card/movie-card.
 import { PeliculasService } from '../../core/services/peliculas.service';
 import { Pelicula } from '../../core/interfaces/pelicula';
 import { finalize } from 'rxjs';
+import { CineService } from '../../core/services/cine.service';
 
 @Component({
   selector: 'app-peliculas',
@@ -28,10 +29,10 @@ import { finalize } from 'rxjs';
     CalendarModule,
     SelectButtonModule,
     PaginatorModule,
-    MovieCardComponent
+    MovieCardComponent,
   ],
   templateUrl: './peliculas.component.html',
-  styleUrl: './peliculas.component.css'
+  styleUrl: './peliculas.component.css',
 })
 export class PeliculasComponent implements OnInit {
   generos = [
@@ -39,31 +40,37 @@ export class PeliculasComponent implements OnInit {
     { id: 2, nombre: 'Comedia' },
     { id: 3, nombre: 'Drama' },
     { id: 4, nombre: 'Ciencia ficción' },
-    { id: 5, nombre: 'Terror' }
+    { id: 5, nombre: 'Terror' },
   ];
 
-  cines = [
-    { id: 1, nombre: 'CineMaxx Norte' },
-    { id: 2, nombre: 'CineMaxx Sur' },
-    { id: 3, nombre: 'CineMaxx Este' },
-    { id: 4, nombre: 'CineMaxx Oeste' }
+  cines: { id: number; nombre: string }[] = [];
+
+  limitesEdad = [
+    { nombre: 'PEGI 7' },
+    { nombre: 'PEGI 13' },
+    { nombre: 'PEGI 16' },
+    { nombre: 'PEGI 18' },
   ];
 
   calificacionMinima = 0;
   fechaEstreno: Date | null = null;
   terminoBusqueda: string = '';
+  duracion: number | null = null;
+  limiteEdad: string | null = null;
+  director: string = '';
+  descripcion: string = '';
 
   opcionesOrden = [
     { id: 1, nombre: 'Más recientes' },
     { id: 2, nombre: 'Mejor valoradas' },
-    { id: 3, nombre: 'Alfabético A-Z' }
+    { id: 3, nombre: 'Alfabético A-Z' },
   ];
 
   ordenSeleccionado = this.opcionesOrden[0];
 
   vistasDisponibles = [
     { nombre: 'Grid', valor: 'grid', icon: 'pi pi-th-large' },
-    { nombre: 'Lista', valor: 'lista', icon: 'pi pi-list' }
+    { nombre: 'Lista', valor: 'lista', icon: 'pi pi-list' },
   ];
 
   vistaSeleccionada = 'grid';
@@ -77,16 +84,21 @@ export class PeliculasComponent implements OnInit {
   currentPage: number = 0;
   rowsPerPage: number = 9;
 
-  constructor(private peliculasService: PeliculasService) {}
+  constructor(
+    private peliculasService: PeliculasService,
+    private cineService: CineService
+  ) {}
 
   ngOnInit() {
     this.cargarPeliculas();
+    this.cargarCines();
   }
 
   cargarPeliculas() {
     this.cargando = true;
-    this.peliculasService.getListaPeliculas()
-      .pipe(finalize(() => this.cargando = false))
+    this.peliculasService
+      .getListaPeliculas()
+      .pipe(finalize(() => (this.cargando = false)))
       .subscribe({
         next: (peliculas: Pelicula[]) => {
           this.peliculas = peliculas;
@@ -100,33 +112,76 @@ export class PeliculasComponent implements OnInit {
         error: (error) => {
           console.error('Error al cargar las películas:', error);
           // Aquí podrías implementar una gestión de errores más elaborada
-        }
+        },
       });
   }
 
+  cargarCines() {
+    this.cineService.getListaCines().subscribe({
+      next: (cines) => {
+        this.cines = cines
+          .filter((cine) => cine.id !== undefined)
+          .map((cine) => ({ id: cine.id!, nombre: cine.nombre }));
+      },
+      error: (error) => {
+        console.error('Error al cargar los cines:', error);
+      },
+    });
+  }
+
   aplicarFiltros() {
-    // Aquí implementarías la lógica de filtrado
-    // Podrías crear un nuevo método en el servicio o filtrar localmente
-    console.log('Filtros aplicados');
+    this.cargando = true;
+    this.peliculasService
+      .getListaPeliculas()
+      .pipe(finalize(() => (this.cargando = false)))
+      .subscribe({
+        next: (peliculas: Pelicula[]) => {
+          this.peliculas = peliculas.filter((pelicula) => {
+            return (
+              (!this.terminoBusqueda ||
+                pelicula.titulo
+                  .toLowerCase()
+                  .includes(this.terminoBusqueda.toLowerCase())) &&
+              (!this.duracion ||
+                (pelicula.duracion !== undefined &&
+                  pelicula.duracion >= this.duracion)) &&
+              (!this.limiteEdad || pelicula.limiteEdad === this.limiteEdad)
+            );
+          });
+          this.totalPeliculas = this.peliculas.length;
+
+          if (this.peliculas.length > 0) {
+            this.peliculaDestacada = this.peliculas[0];
+          }
+        },
+        error: (error) => {
+          console.error('Error al aplicar filtros:', error);
+        },
+      });
   }
 
   limpiarFiltros() {
     this.terminoBusqueda = '';
-    this.calificacionMinima = 0;
-    this.fechaEstreno = null;
+    this.duracion = null;
+    this.limiteEdad = null;
+    this.cines = this.cines.map((cine) => ({
+      id: cine.id,
+      nombre: cine.nombre,
+    })); // Reset cine selection
     this.cargarPeliculas();
   }
 
   buscarDirector(director: string) {
     this.cargando = true;
-    this.peliculasService.buscarPeliculasPorDirector(director)
-      .pipe(finalize(() => this.cargando = false))
+    this.peliculasService
+      .buscarPeliculasPorDirector(director)
+      .pipe(finalize(() => (this.cargando = false)))
       .subscribe({
         next: (peliculas) => {
           this.peliculas = peliculas;
           this.totalPeliculas = peliculas.length;
         },
-        error: (error) => console.error('Error al buscar por director:', error)
+        error: (error) => console.error('Error al buscar por director:', error),
       });
   }
 

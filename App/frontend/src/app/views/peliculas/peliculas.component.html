@@ -11,7 +11,14 @@
         <label class="block text-gray-300 mb-2">Buscar</label>
         <span class="p-input-icon-left w-full">
           <i class="pi pi-search"></i>
-          <input [(ngModel)]="terminoBusqueda" type="text" pInputText class="w-full bg-gray-700 text-white" placeholder="Título de película"/>
+          <input
+            [(ngModel)]="terminoBusqueda"
+            type="text"
+            pInputText
+            class="w-full bg-gray-700 text-white"
+            placeholder="Título de película"
+            (keydown.enter)="aplicarFiltros()"
+          />
         </span>
       </div>
 
@@ -23,25 +30,10 @@
           placeholder="Selecciona géneros"
           optionLabel="nombre"
           styleClass="w-full bg-gray-700 text-white"
-          [style]="{'width': '100%'}">
+          [style]="{ width: '100%' }"
+          [filter]="false"
+        >
         </p-multiSelect>
-      </div>
-
-      <!-- Calificación -->
-      <div class="mb-5">
-        <label class="block text-gray-300 mb-2">Calificación mínima</label>
-        <p-rating [(ngModel)]="calificacionMinima"></p-rating>
-      </div>
-
-      <!-- Fecha de estreno -->
-      <div class="mb-5">
-        <label class="block text-gray-300 mb-2">Fecha de estreno</label>
-        <p-calendar
-          [(ngModel)]="fechaEstreno"
-          [showIcon]="true"
-          [style]="{'width': '100%'}"
-          styleClass="w-full bg-gray-700 text-white">
-        </p-calendar>
       </div>
 
       <!-- Cines disponibles -->
@@ -52,7 +44,33 @@
           optionLabel="nombre"
           placeholder="Selecciona un cine"
           styleClass="w-full bg-gray-700 text-white"
-          [style]="{'width': '100%'}">
+          [style]="{ width: '100%' }"
+        >
+        </p-dropdown>
+      </div>
+
+      <!-- Duración -->
+      <div class="mb-5">
+        <label class="block text-gray-300 mb-2">Duración (minutos)</label>
+        <input
+          [(ngModel)]="duracion"
+          type="number"
+          pInputText
+          class="w-full bg-gray-700 text-white"
+          placeholder="Duración mínima"
+        />
+      </div>
+
+      <!-- Límite de Edad -->
+      <div class="mb-5">
+        <label class="block text-gray-300 mb-2">Límite de Edad</label>
+        <p-dropdown
+          [options]="limitesEdad"
+          optionLabel="nombre"
+          placeholder="Selecciona un límite de edad"
+          styleClass="w-full bg-gray-700 text-white"
+          [style]="{ width: '100%' }"
+        >
         </p-dropdown>
       </div>
 
@@ -62,7 +80,8 @@
         icon="pi pi-filter"
         styleClass="w-full"
         severity="info"
-        (click)="aplicarFiltros()">
+        (click)="aplicarFiltros()"
+      >
       </p-button>
 
       <p-button
@@ -70,7 +89,8 @@
         icon="pi pi-times"
         styleClass="w-full mt-3"
         [outlined]="true"
-        (click)="limpiarFiltros()">
+        (click)="limpiarFiltros()"
+      >
       </p-button>
     </div>
 
@@ -81,23 +101,11 @@
         <div class="text-gray-300">
           <span>{{ totalPeliculas }} películas encontradas</span>
         </div>
-        <div class="flex gap-2 items-center">
-          <p-dropdown
-            [options]="opcionesOrden"
-            [(ngModel)]="ordenSeleccionado"
-            optionLabel="nombre"
-            placeholder="Ordenar por"
-            styleClass="bg-gray-700 text-white">
-          </p-dropdown>
-          <p-selectButton [options]="vistasDisponibles" [(ngModel)]="vistaSeleccionada" optionLabel="nombre" optionValue="valor"></p-selectButton>
-        </div>
       </div>
 
       <!-- Película destacada -->
       <div class="mb-8" *ngIf="peliculaDestacada">
-        <app-movie-card
-          [pelicula]="peliculaDestacada"
-          [isHighlighted]="true">
+        <app-movie-card [pelicula]="peliculaDestacada" [isHighlighted]="true">
         </app-movie-card>
       </div>
 
@@ -107,25 +115,39 @@
       </div>
 
       <!-- Grid de películas -->
-      <div *ngIf="!cargando" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div
+        *ngIf="!cargando"
+        class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+      >
         <app-movie-card
           *ngFor="let pelicula of peliculas"
-          [pelicula]="pelicula">
+          [pelicula]="pelicula"
+        >
         </app-movie-card>
       </div>
 
       <!-- Mensaje si no hay películas -->
-      <div *ngIf="!cargando && peliculas.length === 0" class="text-center py-16">
-        <p class="text-gray-400 text-xl">No se encontraron películas que coincidan con los criterios de búsqueda.</p>
+      <div
+        *ngIf="!cargando && peliculas.length === 0"
+        class="text-center py-16"
+      >
+        <p class="text-gray-400 text-xl">
+          No se encontraron películas que coincidan con los criterios de
+          búsqueda.
+        </p>
       </div>
 
       <!-- Paginación -->
-      <div class="flex justify-center mt-8" *ngIf="!cargando && peliculas.length > 0">
+      <div
+        class="flex justify-center mt-8"
+        *ngIf="!cargando && peliculas.length > 0"
+      >
         <p-paginator
           [rows]="rowsPerPage"
           [totalRecords]="totalPeliculas"
           [rowsPerPageOptions]="[9, 18, 27]"
-          (onPageChange)="onPageChange($event)">
+          (onPageChange)="onPageChange($event)"
+        >
         </p-paginator>
       </div>
     </div>
