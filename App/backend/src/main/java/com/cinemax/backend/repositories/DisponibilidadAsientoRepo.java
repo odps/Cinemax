@@ -8,8 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DisponibilidadAsientoRepo extends JpaRepository<DisponibilidadAsiento, Long>, JpaSpecificationExecutor<DisponibilidadAsiento> {
+public interface DisponibilidadAsientoRepo
+        extends JpaRepository<DisponibilidadAsiento, Long>, JpaSpecificationExecutor<DisponibilidadAsiento> {
     List<DisponibilidadAsiento> findByIdAsientoId(long idAsientoId);
 
     List<DisponibilidadAsiento> findByIdFuncionId(long idFuncionId);
+
+    DisponibilidadAsiento findByIdAsientoIdAndIdFuncionId(long idAsientoId, long idFuncionId);
 }

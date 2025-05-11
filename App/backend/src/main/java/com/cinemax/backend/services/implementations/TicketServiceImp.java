@@ -99,8 +99,10 @@ public class TicketServiceImp implements TicketService {
     @Override
     // Posibles estados de asiento: ('disponible', 'reservado', 'ocupado')
     public ResponseEntity<?> comprarTicket(Ticket ticket) {
+        Long idAsiento = ticket.getAsiento().getId();
+        Long idFuncion = ticket.getFuncion().getId();
 
-        DisponibilidadAsiento asiento = disponibilidadAsientoRepo.findById(ticket.getAsiento().getId()).orElse(null);
+        DisponibilidadAsiento asiento = disponibilidadAsientoRepo.findByIdAsientoIdAndIdFuncionId(idAsiento, idFuncion);
 
         if (asiento == null) {
             return ResponseEntity.badRequest().body("Ha ocurrido un error, Asiento no disponible.");
@@ -111,8 +113,8 @@ public class TicketServiceImp implements TicketService {
         }
 
         asiento.setEstado("ocupado");
+        disponibilidadAsientoRepo.save(asiento);
         ticketRepo.save(ticket);
         return ResponseEntity.ok(ticket);
-
     }
 }
