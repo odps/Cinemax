@@ -36,7 +36,7 @@ CREATE TABLE Cine (
     direccion VARCHAR2(200) NOT NULL,
     ciudad VARCHAR2(100) NOT NULL,
     NIF VARCHAR2(20) UNIQUE NOT NULL,
-    imagenurl VARCHAR2(100),
+    imagenurl VARCHAR2(100) DEFAULT 'cine_placeholder.jpg',
     telefono VARCHAR2(12),
     descripcion VARCHAR2(1000),
     horario VARCHAR2(20)
@@ -81,8 +81,8 @@ CREATE TABLE Pelicula (
     duracion NUMBER NOT NULL CHECK (duracion > 0),
     limite_edad VARCHAR2(10) CHECK (limite_edad IN ('PEGI 7', 'PEGI 13', 'PEGI 16', 'PEGI 18')),
     director VARCHAR2(100),
-    descripcion VARCHAR2(2500),
-    imagenurl VARCHAR2(100)
+    descripcion CLOB,
+    imagenurl VARCHAR2(100) DEFAULT 'pelicula_placeholder.jpg'
 );
 
 -- Tabla Función
@@ -149,7 +149,7 @@ CREATE TABLE Promocion (
     tipo VARCHAR2(50) NOT NULL CHECK (tipo IN ('descuento', 'combo', '2x1', 'premium', 'otro')),
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
-    imagenurl VARCHAR2(100),
+    imagenurl VARCHAR2(100) DEFAULT 'promocion_placeholder.jpg'
     CONSTRAINT fecha_validez CHECK (fecha_fin >= fecha_inicio)
 );
 
