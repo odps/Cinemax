@@ -1,19 +1,14 @@
 package com.cinemax.backend.services.implementations;
 
-import com.cinemax.backend.models.DisponibilidadAsiento;
-import com.cinemax.backend.models.Ticket;
-import com.cinemax.backend.models.Factura;
-import com.cinemax.backend.repositories.DisponibilidadAsientoRepo;
-import com.cinemax.backend.repositories.TicketRepo;
-import com.cinemax.backend.repositories.FacturaRepo;
+import com.cinemax.backend.dto.TicketCompraRequest;
+import com.cinemax.backend.models.*;
+import com.cinemax.backend.repositories.*;
 import com.cinemax.backend.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +23,15 @@ public class TicketServiceImp implements TicketService {
 
     @Autowired
     private FacturaRepo facturaRepo;
+
+    @Autowired
+    private UsuarioRepo usuarioRepo;
+
+    @Autowired
+    private FuncionRepo funcionRepo;
+
+    @Autowired
+    private AsientoRepo asientoRepo;
 
     @Override
     public ResponseEntity<?> getTickets() {
@@ -107,37 +111,38 @@ public class TicketServiceImp implements TicketService {
 
     @Transactional
     @Override
-    // Posibles estados de asiento: ('disponible', 'reservado', 'ocupado')
-    public ResponseEntity<?> comprarTicket(Ticket ticket) {
-        Long idAsiento = ticket.getAsiento().getId();
-        Long idFuncion = ticket.getFuncion().getId();
-
-        DisponibilidadAsiento asiento = disponibilidadAsientoRepo.findByIdAsientoIdAndIdFuncionId(idAsiento, idFuncion);
-
-        if (asiento == null) {
-            return ResponseEntity.badRequest().body("Ha ocurrido un error, Asiento no disponible.");
+    public ResponseEntity<?> comprarTicket(TicketCompraRequest request) {
+        Usuario usuario = usuarioRepo.findById(request.getUsuarioId()).orElse(null);
+        Funcion funcion = funcionRepo.findById(request.getFuncionId()).orElse(null);
+        Asiento asiento = asientoRepo.findById(request.getAsientoId()).orElse(null);
+        if (usuario == null || funcion == null || asiento == null) {
+            return ResponseEntity.badRequest().body("Datos de usuario, función o asiento inválidos");
         }
-
-        if (!"disponible".equals(asiento.getEstado())) {
+        DisponibilidadAsiento disponibilidad = disponibilidadAsientoRepo
+                .findByIdAsientoIdAndIdFuncionId(asiento.getId(), funcion.getId());
+        if (disponibilidad == null || !"disponible".equals(disponibilidad.getEstado())) {
             return ResponseEntity.badRequest().body("El asiento no está disponible.");
         }
-
-        asiento.setEstado("ocupado");
-        disponibilidadAsientoRepo.save(asiento);
+        disponibilidad.setEstado("ocupado");
+        disponibilidadAsientoRepo.save(disponibilidad);
+        Ticket ticket = new Ticket();
+        ticket.setUsuario(usuario);
+        ticket.setFuncion(funcion);
+        ticket.setAsiento(asiento);
         ticketRepo.save(ticket);
-        ticketRepo.flush(); // Ensure ticket is persisted and has ID
-
-        // --- Factura Generation ---
+        ticketRepo.flush();
+        long montoTotal = (request.getMontoTotal() != null && request.getMontoTotal() > 0)
+                ? request.getMontoTotal()
+                : (funcion.getPrecio() > 0 ? funcion.getPrecio() : 0);
         Factura factura = new Factura();
         factura.setTicket(ticket);
-        factura.setUsuario(ticket.getUsuario());
-        factura.setMontoTotal(ticket.getFuncion().getPrecio());
-        factura.setMetodoPago("tarjeta"); // Default, can be updated if payment info is sent
+        factura.setUsuario(usuario);
+        factura.setMontoTotal(montoTotal);
+        factura.setMetodoPago(request.getMetodoPago() != null ? request.getMetodoPago() : "tarjeta");
         factura.setEstado("pagada");
-        factura.setFechaEmision(LocalDate.now());
+        factura.setFechaEmision(java.time.LocalDate.now());
         facturaRepo.save(factura);
-
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new java.util.HashMap<>();
         response.put("ticket", ticket);
         response.put("factura", factura);
         return ResponseEntity.ok(response);

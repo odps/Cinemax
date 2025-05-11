@@ -1,5 +1,6 @@
 package com.cinemax.backend.controllers;
 
+import com.cinemax.backend.dto.TicketCompraRequest;
 import com.cinemax.backend.models.Ticket;
 import com.cinemax.backend.services.implementations.TicketServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class TicketController {
     // Controlador dedicado solo para la compra de tickets
     @PostMapping("/comprar")
     // @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
-    public ResponseEntity<?> comprarTicket(@RequestBody Ticket ticket) {
-        return this.ticketService.comprarTicket(ticket);
+    public ResponseEntity<?> comprarTicket(@RequestBody TicketCompraRequest request) {
+        return this.ticketService.comprarTicket(request);
     }
 }

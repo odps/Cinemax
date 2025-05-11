@@ -2,6 +2,7 @@ package com.cinemax.backend.services;
 
 import com.cinemax.backend.models.Ticket;
 import org.springframework.http.ResponseEntity;
+import com.cinemax.backend.dto.TicketCompraRequest;
 
 public interface TicketService {
     ResponseEntity<?> getTickets();
@@ -18,5 +19,5 @@ public interface TicketService {
 
     ResponseEntity<?> getTicketsByFuncionId(long funcionId);
 
-    ResponseEntity<?> comprarTicket(Ticket ticket);
+    ResponseEntity<?> comprarTicket(TicketCompraRequest request);
 }

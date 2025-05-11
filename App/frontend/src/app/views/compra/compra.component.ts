@@ -202,12 +202,10 @@ export class CompraComponent implements OnInit {
   }
 
   onPaymentSubmitted(paymentData: PaymentData): void {
-    // Simulate payment processing - in a real app you would call a payment API
     this.loading = true;
-
     setTimeout(() => {
       this.loading = false;
-      this.generateTicket();
+      this.generateTicket(paymentData.paymentMethod);
     }, 1500);
   }
 
@@ -216,7 +214,7 @@ export class CompraComponent implements OnInit {
     this.currentStep = PurchaseStep.SEAT_SELECTION;
   }
 
-  private generateTicket(): void {
+  private generateTicket(paymentMethod: string = 'card'): void {
     if (!this.selectedSeat || !this.selectedSeat.idAsiento || !this.funcion) {
       this.messageService.add({
         severity: 'error',
@@ -236,10 +234,18 @@ export class CompraComponent implements OnInit {
         return;
       }
 
+      // Calculate montoTotal from funcion.precio (long)
+      const montoTotal = this.funcion!.precio
+        ? Math.round(this.funcion!.precio)
+        : 0;
+
+      // Use the new DTO structure for the backend
       const ticketRequest = {
-        usuario: { id: user.id },
-        funcion: { id: this.funcion!.id },
-        asiento: { id: this.selectedSeat!.idAsiento.id },
+        usuarioId: user.id,
+        funcionId: this.funcion!.id,
+        asientoId: this.selectedSeat!.idAsiento.id,
+        metodoPago: paymentMethod,
+        montoTotal: montoTotal,
       };
 
       this.ticketService.comprarTicket(ticketRequest).subscribe({
