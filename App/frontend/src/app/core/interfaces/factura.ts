@@ -1,4 +1,12 @@
+import { Ticket } from './ticket';
+import { Usuario } from './usuario';
+
 export interface Factura {
   id: number;
-  // Otros campos que pueda tener una factura
+  ticket: Ticket;
+  usuario: Usuario;
+  fechaEmision: string;
+  montoTotal: number;
+  metodoPago: string;
+  estado: string;
 }

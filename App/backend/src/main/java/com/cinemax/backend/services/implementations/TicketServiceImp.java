@@ -2,14 +2,20 @@ package com.cinemax.backend.services.implementations;
 
 import com.cinemax.backend.models.DisponibilidadAsiento;
 import com.cinemax.backend.models.Ticket;
+import com.cinemax.backend.models.Factura;
 import com.cinemax.backend.repositories.DisponibilidadAsientoRepo;
 import com.cinemax.backend.repositories.TicketRepo;
+import com.cinemax.backend.repositories.FacturaRepo;
 import com.cinemax.backend.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TicketServiceImp implements TicketService {
@@ -19,6 +25,9 @@ public class TicketServiceImp implements TicketService {
 
     @Autowired
     private DisponibilidadAsientoRepo disponibilidadAsientoRepo;
+
+    @Autowired
+    private FacturaRepo facturaRepo;
 
     @Override
     public ResponseEntity<?> getTickets() {
@@ -96,6 +105,7 @@ public class TicketServiceImp implements TicketService {
         }
     }
 
+    @Transactional
     @Override
     // Posibles estados de asiento: ('disponible', 'reservado', 'ocupado')
     public ResponseEntity<?> comprarTicket(Ticket ticket) {
@@ -115,6 +125,21 @@ public class TicketServiceImp implements TicketService {
         asiento.setEstado("ocupado");
         disponibilidadAsientoRepo.save(asiento);
         ticketRepo.save(ticket);
-        return ResponseEntity.ok(ticket);
+        ticketRepo.flush(); // Ensure ticket is persisted and has ID
+
+        // --- Factura Generation ---
+        Factura factura = new Factura();
+        factura.setTicket(ticket);
+        factura.setUsuario(ticket.getUsuario());
+        factura.setMontoTotal(ticket.getFuncion().getPrecio());
+        factura.setMetodoPago("tarjeta"); // Default, can be updated if payment info is sent
+        factura.setEstado("pagada");
+        factura.setFechaEmision(LocalDate.now());
+        facturaRepo.save(factura);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("ticket", ticket);
+        response.put("factura", factura);
+        return ResponseEntity.ok(response);
     }
 }

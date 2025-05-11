@@ -6,6 +6,7 @@ import { Pelicula } from '../../../../core/interfaces/pelicula';
 import { Sala } from '../../../../core/interfaces/sala';
 import { DisponibilidadAsiento } from '../../../../core/interfaces/disponibilidad-asiento';
 import { Funcion } from '../../../../core/interfaces/funcion';
+import { Factura } from '../../../../core/interfaces/factura';
 
 export interface TicketInfo {
   id: number;
@@ -26,6 +27,7 @@ export class TicketConfirmationComponent {
   @Input() ticket: TicketInfo | null = null;
   @Input() pelicula: Pelicula | null = null;
   @Input() sala: Sala | null = null;
+  @Input() factura: Factura | null = null;
 
   @Output() returnToHome = new EventEmitter<void>();
   @Output() goToShowtimes = new EventEmitter<void>();

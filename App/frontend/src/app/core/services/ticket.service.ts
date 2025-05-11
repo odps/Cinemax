@@ -39,7 +39,10 @@ export class TicketService {
     return this.http.get(`${this.apiUrl}/funcion/${funcionId}`);
   }
 
-  comprarTicket(ticket: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/comprar`, ticket);
+  comprarTicket(ticket: any): Observable<{ ticket: any; factura: any }> {
+    return this.http.post<{ ticket: any; factura: any }>(
+      `${this.apiUrl}/comprar`,
+      ticket
+    );
   }
 }

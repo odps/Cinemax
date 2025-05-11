@@ -1,5 +1,6 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -32,7 +33,7 @@ public class Usuario {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_ROL", nullable = false)
-    @JsonIgnoreProperties({ "usuarios" })
+    @JsonIgnoreProperties({"usuarios"})
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario")
@@ -42,6 +43,7 @@ public class Usuario {
     private List<Ticket> tickets;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
     private List<Factura> facturas;
 
     @OneToMany(mappedBy = "usuario")

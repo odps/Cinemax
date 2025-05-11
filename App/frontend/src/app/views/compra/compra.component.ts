@@ -15,6 +15,7 @@ import { Funcion } from '../../core/interfaces/funcion';
 import { Pelicula } from '../../core/interfaces/pelicula';
 import { Sala } from '../../core/interfaces/sala';
 import { DisponibilidadAsiento } from '../../core/interfaces/disponibilidad-asiento';
+import { Factura } from '../../core/interfaces/factura';
 
 import { MovieFunctionDetailsComponent } from './components/movie-function-details/movie-function-details.component';
 import { SeatMapComponent } from './components/seat-map/seat-map.component';
@@ -69,6 +70,7 @@ export class CompraComponent implements OnInit {
 
   // Generated ticket
   ticketInfo: TicketInfo | null = null;
+  facturaInfo: Factura | null = null;
 
   // UI states
   loading: boolean = false;
@@ -241,8 +243,9 @@ export class CompraComponent implements OnInit {
       };
 
       this.ticketService.comprarTicket(ticketRequest).subscribe({
-        next: (ticket) => {
-          // Create ticket info for the confirmation component
+        next: (result) => {
+          const ticket = result.ticket;
+          const factura = result.factura;
           this.ticketInfo = {
             id: ticket.id,
             fechaCompra: new Date(ticket.fechaCompra),
@@ -250,7 +253,7 @@ export class CompraComponent implements OnInit {
             funcion: this.funcion!,
             precio: this.funcion!.precio,
           };
-
+          this.facturaInfo = factura;
           this.currentStep = PurchaseStep.CONFIRMATION;
         },
         error: (err) => {

@@ -58,6 +58,34 @@
     </div>
   </div>
 
+  <div class="factura-details" *ngIf="factura">
+    <h3>Factura</h3>
+    <div class="details-grid">
+      <div class="detail-item">
+        <p class="label">ID de Factura:</p>
+        <p class="value">{{ factura.id }}</p>
+      </div>
+      <div class="detail-item">
+        <p class="label">Fecha de emisión:</p>
+        <p class="value">
+          {{ factura.fechaEmision | date : "dd/MM/yyyy HH:mm" }}
+        </p>
+      </div>
+      <div class="detail-item">
+        <p class="label">Monto total:</p>
+        <p class="value">{{ factura.montoTotal | currency : "EUR" }}</p>
+      </div>
+      <div class="detail-item">
+        <p class="label">Método de pago:</p>
+        <p class="value">{{ factura.metodoPago }}</p>
+      </div>
+      <div class="detail-item">
+        <p class="label">Estado:</p>
+        <p class="value">{{ factura.estado }}</p>
+      </div>
+    </div>
+  </div>
+
   <div class="actions">
     <button
       pButton
@@ -146,6 +174,12 @@
       <p>
         Fecha de compra: {{ ticket?.fechaCompra | date : "dd/MM/yyyy HH:mm" }}
       </p>
+
+      <ng-container *ngIf="factura">
+        <p class="ticket-id">ID de Factura: {{ factura.id }}</p>
+        <p>Método de pago: {{ factura.metodoPago }}</p>
+        <p>Monto total: {{ factura.montoTotal | currency : "EUR" }}</p>
+      </ng-container>
 
       <div class="barcode"></div>
 
