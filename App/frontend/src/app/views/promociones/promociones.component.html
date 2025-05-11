@@ -2,7 +2,7 @@
   <!-- Sección Hero con promoción destacada -->
   <div
     *ngIf="promocionDestacada"
-    class="relative rounded-lg overflow-hidden shadow-xl mb-10 h-[350px] md:h-[450px]"
+    class="relative rounded-2xl overflow-hidden shadow-2xl mb-10 h-[350px] md:h-[420px] border border-yellow-400 bg-gradient-to-br from-yellow-900 via-gray-900 to-gray-900"
   >
     <img
       [src]="
@@ -10,16 +10,18 @@
         assetsLocation.assetUrl + '/' + promocionDestacada.imagenUrl
       "
       alt="Promoción destacada"
-      class="absolute inset-0 w-full h-full object-cover z-0"
+      class="absolute inset-0 w-full h-full object-cover z-0 opacity-70"
     />
     <div
       class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent z-10"
     ></div>
     <div class="relative z-20 flex flex-col justify-center h-full p-8 md:p-16">
-      <p-tag
-        [value]="promocionDestacada.tipo | titlecase"
-        class="mb-4 py-2 px-6 text-xl md:text-2xl font-bold bg-yellow-400 text-gray-900 rounded-full shadow-lg self-start"
-      ></p-tag>
+      <div class="flex items-center mb-4">
+        <p-tag
+          [value]="promocionDestacada.tipo | titlecase"
+          class="py-2 px-6 text-xl md:text-2xl font-bold bg-yellow-400 text-gray-900 rounded-full shadow-lg"
+        ></p-tag>
+      </div>
       <h1
         class="text-4xl md:text-5xl font-extrabold text-white mb-4 drop-shadow-lg"
       >
@@ -39,11 +41,15 @@
           </p>
         </div>
       </div>
+      <p class="text-lg text-gray-200 max-w-2xl mb-6">
+        {{ promocionDestacada.descripcion }}
+      </p>
       <div>
         <p-button
           label="Más información"
           icon="pi pi-info-circle"
           severity="info"
+          styleClass="font-semibold px-6 py-3 rounded-xl shadow-md"
           (onClick)="openPromoModal(promocionDestacada)"
         ></p-button>
       </div>
@@ -71,7 +77,7 @@
   >
     <div
       *ngFor="let promocion of promociones"
-      class="bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col md:flex-row items-stretch h-auto min-h-[140px]"
+      class="bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow flex flex-col md:flex-row items-stretch h-auto min-h-[140px] border border-gray-700"
     >
       <div class="md:w-2/3 w-full h-32 md:h-40 flex-shrink-0 relative">
         <img
@@ -119,41 +125,41 @@
       </div>
     </div>
   </div>
-</div>
 
-<p-dialog
-  [(visible)]="displayModal"
-  [modal]="true"
-  [style]="{ width: '90vw', maxWidth: '500px', background: '#18181b' }"
-  [breakpoints]="{ '960px': '95vw', '640px': '100vw' }"
-  [closable]="true"
-  (onHide)="closePromoModal()"
-  [dismissableMask]="true"
-  contentStyle="background: #18181b; color: #f3f4f6;"
->
-  <ng-template pTemplate="header">
-    <span class="text-3xl font-extrabold text-yellow-400 drop-shadow-lg">{{
-      selectedPromocion?.titulo
-    }}</span>
-  </ng-template>
-  <div *ngIf="selectedPromocion" class="flex flex-col items-center gap-4">
-    <img
-      [src]="
-        selectedPromocion.imagen ||
-        assetsLocation.assetUrl + '/' + selectedPromocion.imagenUrl
-      "
-      alt="Promo"
-      class="w-full max-h-64 object-cover rounded-lg shadow"
-    />
-    <p class="text-gray-200 text-base text-center">
-      {{ selectedPromocion.descripcion }}
-    </p>
-    <div class="flex flex-col items-center gap-1">
-      <span class="text-sm text-gray-400">Válido desde:</span>
-      <span class="font-semibold text-gray-100"
-        >{{ selectedPromocion.fechaInicio }} -
-        {{ selectedPromocion.fechaFin }}</span
-      >
+  <p-dialog
+    [(visible)]="displayModal"
+    [modal]="true"
+    [style]="{ width: '90vw', maxWidth: '500px', background: '#18181b' }"
+    [breakpoints]="{ '960px': '95vw', '640px': '100vw' }"
+    [closable]="true"
+    (onHide)="closePromoModal()"
+    [dismissableMask]="true"
+    contentStyle="background: linear-gradient(135deg, #18181b 60%, #23232b 100%); border-radius: 1.25rem; box-shadow: 0 8px 40px 0 rgba(255,255,180,0.10); color: #f3f4f6;"
+  >
+    <ng-template pTemplate="header">
+      <span class="text-3xl font-extrabold text-yellow-400 drop-shadow-lg">{{
+        selectedPromocion?.titulo
+      }}</span>
+    </ng-template>
+    <div *ngIf="selectedPromocion" class="flex flex-col items-center gap-4">
+      <img
+        [src]="
+          selectedPromocion.imagen ||
+          assetsLocation.assetUrl + '/' + selectedPromocion.imagenUrl
+        "
+        alt="Promo"
+        class="w-full max-h-64 object-cover rounded-lg shadow"
+      />
+      <p class="text-gray-200 text-base text-center">
+        {{ selectedPromocion.descripcion }}
+      </p>
+      <div class="flex flex-col items-center gap-1">
+        <span class="text-sm text-gray-400">Válido desde:</span>
+        <span class="font-semibold text-gray-100"
+          >{{ selectedPromocion.fechaInicio }} -
+          {{ selectedPromocion.fechaFin }}</span
+        >
+      </div>
     </div>
-  </div>
-</p-dialog>
+  </p-dialog>
+</div>
