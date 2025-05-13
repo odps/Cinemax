@@ -255,6 +255,94 @@
           </p-card>
         </div>
       </div>
+
+      <!-- Compras: Facturas y Tickets -->
+      <div *ngIf="currentSection === 'compras'" class="animate-fadeIn">
+        <div class="mb-8">
+          <h3
+            class="text-2xl font-bold text-yellow-400 mb-6 flex items-center gap-2"
+          >
+            <i class="pi pi-shopping-bag text-yellow-400"></i> Mis Compras
+            (Facturas y Tickets)
+          </h3>
+
+          <p-card
+            styleClass="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 border-0 shadow-xl rounded-2xl"
+          >
+            <div *ngIf="comprasLoading" class="flex justify-center py-8">
+              <i class="pi pi-spin pi-spinner text-4xl text-yellow-400"></i>
+            </div>
+            <div
+              *ngIf="!comprasLoading && facturas.length === 0"
+              class="text-center text-gray-400 py-8"
+            >
+              No tienes compras registradas.
+            </div>
+            <div *ngIf="!comprasLoading && facturas.length > 0">
+              <ul class="divide-y divide-gray-700">
+                <li
+                  *ngFor="let factura of facturas"
+                  class="py-6 flex flex-col md:flex-row md:items-center gap-4"
+                >
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-2">
+                      <span class="text-yellow-400 font-bold">Factura</span>
+                      <span
+                        class="text-xs bg-yellow-900/60 text-yellow-300 rounded-full px-3 py-1 ml-2"
+                        >{{ factura.estado | titlecase }}</span
+                      >
+                    </div>
+                    <div class="text-gray-200 text-sm mb-1">
+                      <span class="font-semibold">Fecha de emisión:</span>
+                      {{ factura.fechaEmision | date : "dd/MM/yyyy" }}
+                      <span class="mx-2">|</span>
+                      <span class="font-semibold">Método de pago:</span>
+                      {{ factura.metodoPago | titlecase }}
+                    </div>
+                    <div class="text-gray-200 text-sm mb-1">
+                      <span class="font-semibold">Monto total:</span>
+                      {{ factura.montoTotal | currency : "EUR" : "symbol" }}
+                    </div>
+                    <div class="mt-2">
+                      <span class="text-yellow-300 font-semibold">Ticket:</span>
+                      <div class="ml-4 mt-1 text-gray-300 text-sm">
+                        <div>
+                          <span class="font-semibold">Cine:</span>
+                          {{ factura.ticket.asiento.idSala.cine?.nombre }}
+                        </div>
+                        <div>
+                          <span class="font-semibold">Sala:</span>
+                          {{ factura.ticket.funcion.idSala.nombre }}
+                        </div>
+                        <div>
+                          <span class="font-semibold">Película:</span>
+                          {{ factura.ticket.funcion.idPelicula.titulo }}
+                        </div>
+                        <div>
+                          <span class="font-semibold">Fecha y hora:</span>
+                          {{
+                            factura.ticket.funcion.fechaHora
+                              | date : "dd/MM/yyyy HH:mm"
+                          }}
+                        </div>
+                        <div>
+                          <span class="font-semibold">Asiento:</span> Fila
+                          {{ factura.ticket.asiento.fila }} - Nº
+                          {{ factura.ticket.asiento.numero }}
+                        </div>
+                        <div>
+                          <span class="font-semibold">Fecha de compra:</span>
+                          {{ factura.ticket.fechaCompra | date : "dd/MM/yyyy" }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </p-card>
+        </div>
+      </div>
     </div>
   </div>
 </div>

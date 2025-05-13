@@ -1,5 +1,6 @@
 package com.cinemax.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -7,6 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "FACTURA")
+//@JsonIgnoreProperties({"usuario", "ticket.funcion.idSala", "ticket.usuario.logs", "ticket.usuario.reviews", "ticket.usuario.tickets"})
 public class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,10 +17,12 @@ public class Factura {
 
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_TICKET", nullable = false)
+    @JsonIgnoreProperties({"usuario"})
     private Ticket ticket;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
+    @JsonIgnoreProperties({"rol", "reviews", "correo", "fechaRegistro"})
     private Usuario usuario;
 
     @CreationTimestamp
@@ -33,6 +37,7 @@ public class Factura {
 
     @Column(name = "ESTADO", nullable = false, length = 20)
     private String estado;
+
 
     public Factura(Ticket ticket, Usuario usuario, LocalDate fechaEmision, long montoTotal, String metodoPago, String estado) {
         this.ticket = ticket;
