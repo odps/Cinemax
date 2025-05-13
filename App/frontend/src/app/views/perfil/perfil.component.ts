@@ -19,6 +19,8 @@ import { DatePipe, NgIf, CommonModule, CurrencyPipe } from '@angular/common';
 import { InputText } from 'primeng/inputtext';
 import { FacturaService } from '../../core/services/factura.service';
 import { Factura } from '../../core/interfaces/factura';
+import { Dialog } from 'primeng/dialog';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'app-perfil',
@@ -36,6 +38,7 @@ import { Factura } from '../../core/interfaces/factura';
     CurrencyPipe,
     InputText,
     NgIf,
+    DialogModule,
   ],
   providers: [MessageService],
 })
@@ -49,6 +52,8 @@ export class PerfilComponent implements OnInit {
   loading: boolean = false;
   facturas: Factura[] = [];
   comprasLoading: boolean = false;
+  showPrintDialog: boolean = false;
+  facturaToPrint: Factura | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -244,6 +249,20 @@ export class PerfilComponent implements OnInit {
           },
         });
     }
+  }
+
+  openPrintDialog(factura: Factura): void {
+    this.facturaToPrint = factura;
+    this.showPrintDialog = true;
+  }
+
+  printFactura(): void {
+    window.print();
+  }
+
+  closePrintDialog(): void {
+    this.showPrintDialog = false;
+    this.facturaToPrint = null;
   }
 
   passwordMatchValidator(
