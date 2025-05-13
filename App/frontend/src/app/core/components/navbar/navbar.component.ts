@@ -51,19 +51,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
       routerLink: '/perfil',
     },
     {
-      label: 'Mis tickets',
-      icon: 'pi pi-ticket',
-      routerLink: '/mis-tickets',
-    },
-    {
-      label: 'Facturas',
-      icon: 'pi pi-file',
-      routerLink: '/facturas',
-    },
-    {
-      separator: true,
-    },
-    {
       label: 'Cerrar sesión',
       icon: 'pi pi-sign-out',
       command: () => this.logout(),
