@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "DISPONIBILIDAD_ASIENTO")
@@ -16,23 +17,23 @@ public class DisponibilidadAsiento {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_ASIENTO", nullable = false)
-    @JsonIgnoreProperties({"dispoAsientos", "tickets"})
+    @JsonIgnoreProperties({ "dispoAsientos", "tickets" })
     private Asiento idAsiento;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_FUNCION", nullable = false)
     @JsonBackReference
-    @JsonIgnoreProperties({"dispoAsientos", "idSala"})
+    @JsonIgnoreProperties({ "dispoAsientos", "idSala" })
     private Funcion idFuncion;
 
     @Column(name = "ESTADO", nullable = false, length = 20)
     private String estado;
 
     @Column(name = "BLOQUEADO_HASTA")
-    private LocalDate bloqueadoHasta;
+    private LocalDateTime bloqueadoHasta;
 
     public DisponibilidadAsiento(long id, Asiento idAsiento, Funcion idFuncion, String estado,
-                                 LocalDate bloqueadoHasta) {
+            LocalDateTime bloqueadoHasta) {
         this.id = id;
         this.idAsiento = idAsiento;
         this.idFuncion = idFuncion;
@@ -75,11 +76,11 @@ public class DisponibilidadAsiento {
         this.estado = estado;
     }
 
-    public LocalDate getBloqueadoHasta() {
+    public LocalDateTime getBloqueadoHasta() {
         return bloqueadoHasta;
     }
 
-    public void setBloqueadoHasta(LocalDate bloqueadoHasta) {
+    public void setBloqueadoHasta(LocalDateTime bloqueadoHasta) {
         this.bloqueadoHasta = bloqueadoHasta;
     }
 }

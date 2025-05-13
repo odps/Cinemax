@@ -140,7 +140,7 @@ public class TicketServiceImp implements TicketService {
         factura.setMontoTotal(montoTotal);
         factura.setMetodoPago(request.getMetodoPago() != null ? request.getMetodoPago() : "tarjeta");
         factura.setEstado("pagada");
-        factura.setFechaEmision(java.time.LocalDate.now());
+        factura.setFechaEmision(java.time.LocalDateTime.now());
         facturaRepo.save(factura);
         Map<String, Object> response = new java.util.HashMap<>();
         response.put("ticket", ticket);

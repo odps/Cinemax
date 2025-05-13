@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "REVIEW", uniqueConstraints = {
@@ -35,7 +36,7 @@ public class Review {
 
     @CreationTimestamp
     @Column(name = "FECHA_REVIEW", nullable = false)
-    private LocalDate fechaReview;
+    private LocalDateTime fechaReview;
 
     public Review(Usuario usuario, Cine cine, long puntuacion, String comentario) {
         this.usuario = usuario;
@@ -87,11 +88,11 @@ public class Review {
         this.comentario = comentario;
     }
 
-    public LocalDate getFechaReview() {
+    public LocalDateTime getFechaReview() {
         return fechaReview;
     }
 
-    public void setFechaReview(LocalDate fechaReview) {
+    public void setFechaReview(LocalDateTime fechaReview) {
         this.fechaReview = fechaReview;
     }
 }

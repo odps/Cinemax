@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "FACTURA")
-//@JsonIgnoreProperties({"usuario", "ticket.funcion.idSala", "ticket.usuario.logs", "ticket.usuario.reviews", "ticket.usuario.tickets"})
+// @JsonIgnoreProperties({"usuario", "ticket.funcion.idSala",
+// "ticket.usuario.logs", "ticket.usuario.reviews", "ticket.usuario.tickets"})
 public class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,17 +19,17 @@ public class Factura {
 
     @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_TICKET", nullable = false)
-    @JsonIgnoreProperties({"usuario"})
+    @JsonIgnoreProperties({ "usuario" })
     private Ticket ticket;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
-    @JsonIgnoreProperties({"rol", "reviews", "correo", "fechaRegistro"})
+    @JsonIgnoreProperties({ "rol", "reviews", "correo", "fechaRegistro" })
     private Usuario usuario;
 
     @CreationTimestamp
     @Column(name = "FECHA_EMISION", nullable = false)
-    private LocalDate fechaEmision;
+    private LocalDateTime fechaEmision;
 
     @Column(name = "MONTO_TOTAL", nullable = false, precision = 10, scale = 2)
     private long montoTotal;
@@ -38,8 +40,8 @@ public class Factura {
     @Column(name = "ESTADO", nullable = false, length = 20)
     private String estado;
 
-
-    public Factura(Ticket ticket, Usuario usuario, LocalDate fechaEmision, long montoTotal, String metodoPago, String estado) {
+    public Factura(Ticket ticket, Usuario usuario, LocalDateTime fechaEmision, long montoTotal, String metodoPago,
+            String estado) {
         this.ticket = ticket;
         this.usuario = usuario;
         this.fechaEmision = fechaEmision;
@@ -75,11 +77,11 @@ public class Factura {
         this.usuario = usuario;
     }
 
-    public LocalDate getFechaEmision() {
+    public LocalDateTime getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(LocalDate fechaEmision) {
+    public void setFechaEmision(LocalDateTime fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,24 +22,24 @@ public class Funcion {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_SALA", nullable = false)
-    @JsonIgnoreProperties({"funciones", "asientos", "cine"})
+    @JsonIgnoreProperties({ "funciones", "asientos", "cine" })
     private Sala idSala;
 
     @Column(name = "FECHA_HORA", nullable = false)
-    private LocalDate fechaHora;
+    private LocalDateTime fechaHora;
 
     @Column(name = "PRECIO", nullable = false, precision = 10, scale = 2)
     private long precio;
 
     @OneToMany(mappedBy = "idFuncion")
     @JsonManagedReference
-    @JsonIgnoreProperties({"idFuncion", "idAsiento"})
+    @JsonIgnoreProperties({ "idFuncion", "idAsiento" })
     private List<DisponibilidadAsiento> dispoAsientos;
 
     @OneToMany(mappedBy = "funcion")
     private List<Ticket> tickets;
 
-    public Funcion(Pelicula idPelicula, Sala idSala, LocalDate fechaHora, long precio) {
+    public Funcion(Pelicula idPelicula, Sala idSala, LocalDateTime fechaHora, long precio) {
         this.idPelicula = idPelicula;
         this.idSala = idSala;
         this.fechaHora = fechaHora;
@@ -73,11 +73,11 @@ public class Funcion {
         this.idSala = idSala;
     }
 
-    public LocalDate getFechaHora() {
+    public LocalDateTime getFechaHora() {
         return fechaHora;
     }
 
-    public void setFechaHora(LocalDate fechaHora) {
+    public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
 

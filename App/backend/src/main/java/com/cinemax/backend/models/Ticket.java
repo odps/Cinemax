@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TICKET")
@@ -16,22 +17,22 @@ public class Ticket {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_USUARIO", nullable = false)
-    @JsonIgnoreProperties({"tickets", "reviews"})
+    @JsonIgnoreProperties({ "tickets", "reviews" })
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_FUNCION", nullable = false)
-    @JsonIgnoreProperties({"tickets", "dispoAsientos"})
+    @JsonIgnoreProperties({ "tickets", "dispoAsientos" })
     private Funcion funcion;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_ASIENTO", nullable = false)
-    @JsonIgnoreProperties({"tickets", "dispoAsientos"})
+    @JsonIgnoreProperties({ "tickets", "dispoAsientos" })
     private Asiento asiento;
 
     @CreationTimestamp
     @Column(name = "FECHA_COMPRA", nullable = false)
-    private LocalDate fechaCompra;
+    private LocalDateTime fechaCompra;
 
     public Ticket(Usuario usuario, Funcion funcion, Asiento asiento) {
         this.usuario = usuario;
@@ -74,11 +75,11 @@ public class Ticket {
         this.asiento = asiento;
     }
 
-    public LocalDate getFechaCompra() {
+    public LocalDateTime getFechaCompra() {
         return fechaCompra;
     }
 
-    public void setFechaCompra(LocalDate fechaCompra) {
+    public void setFechaCompra(LocalDateTime fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -29,11 +30,11 @@ public class Usuario {
 
     @CreationTimestamp
     @Column(name = "FECHA_REGISTRO", nullable = false)
-    private LocalDate fechaRegistro;
+    private LocalDateTime fechaRegistro;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ID_ROL", nullable = false)
-    @JsonIgnoreProperties({"usuarios"})
+    @JsonIgnoreProperties({ "usuarios" })
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario")
@@ -91,11 +92,11 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-    public LocalDate getFechaRegistro() {
+    public LocalDateTime getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(LocalDate fechaRegistro) {
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 

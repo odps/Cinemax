@@ -35,7 +35,8 @@ public class FuncionServiceImp implements FuncionService {
 
     @Override
     public ResponseEntity<?> createFuncion(Funcion funcion) {
-        if (funcion.getIdPelicula() == null || funcion.getIdSala() == null || funcion.getFechaHora() == null || funcion.getPrecio() <= 0) {
+        if (funcion.getIdPelicula() == null || funcion.getIdSala() == null || funcion.getFechaHora() == null
+                || funcion.getPrecio() <= 0) {
             return ResponseEntity.badRequest().body("Datos de función inválidos");
         }
         funcionRepo.save(funcion);
