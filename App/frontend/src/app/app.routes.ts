@@ -6,6 +6,7 @@ import { PromocionesComponent } from './views/promociones/promociones.component'
 import { PerfilComponent } from './views/perfil/perfil.component';
 import { AdminComponent } from './views/admin/admin.component';
 import { CompraComponent } from './views/compra/compra.component';
+import { ErrorComponent } from './views/error/error.component';
 
 export const routes: Routes = [
   { path: 'landing', component: LandingComponent },
@@ -15,5 +16,5 @@ export const routes: Routes = [
   { path: 'perfil', component: PerfilComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'compra', component: CompraComponent },
-  { path: '**', component: LandingComponent },
+  { path: '**', component: ErrorComponent },
 ];
