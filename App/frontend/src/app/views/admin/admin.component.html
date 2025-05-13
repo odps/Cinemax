@@ -575,6 +575,31 @@
             placeholder="Ej: cinemax_plaza.jpg"
             class="bg-gray-800 text-white rounded-lg"
           />
+          <div class="flex items-center gap-2 mt-2">
+            <label
+              for="cineImageInput"
+              class="p-button p-component p-button-sm cursor-pointer"
+            >
+              <i class="pi pi-upload mr-2"></i>Seleccionar imagen
+              <input
+                id="cineImageInput"
+                type="file"
+                accept="image/*"
+                (change)="onCineImageSelected($event)"
+                style="display: none"
+              />
+            </label>
+            <span *ngIf="cineImageFile">{{ cineImageFile.name }}</span>
+            <button
+              pButton
+              type="button"
+              label="Subir Imagen"
+              icon="pi pi-cloud-upload"
+              class="p-button-sm"
+              (click)="uploadCineImage()"
+              [disabled]="!cineImageFile"
+            ></button>
+          </div>
         </div>
       </div>
     </ng-template>
@@ -721,6 +746,31 @@
             [(ngModel)]="selectedPelicula!.imagenUrl"
             class="bg-gray-800 text-white rounded-lg"
           />
+          <div class="flex items-center gap-2 mt-2">
+            <label
+              for="peliculaImageInput"
+              class="p-button p-component p-button-sm cursor-pointer"
+            >
+              <i class="pi pi-upload mr-2"></i>Seleccionar imagen
+              <input
+                id="peliculaImageInput"
+                type="file"
+                accept="image/*"
+                (change)="onPeliculaImageSelected($event)"
+                style="display: none"
+              />
+            </label>
+            <span *ngIf="peliculaImageFile">{{ peliculaImageFile.name }}</span>
+            <button
+              pButton
+              type="button"
+              label="Subir Imagen"
+              icon="pi pi-cloud-upload"
+              class="p-button-sm"
+              (click)="uploadPeliculaImage()"
+              [disabled]="!peliculaImageFile"
+            ></button>
+          </div>
         </div>
       </div>
     </ng-template>
@@ -853,6 +903,33 @@
             [(ngModel)]="selectedPromocion!.imagenUrl"
             class="bg-gray-800 text-white rounded-lg"
           />
+          <div class="flex items-center gap-2 mt-2">
+            <label
+              for="promocionImageInput"
+              class="p-button p-component p-button-sm cursor-pointer"
+            >
+              <i class="pi pi-upload mr-2"></i>Seleccionar imagen
+              <input
+                id="promocionImageInput"
+                type="file"
+                accept="image/*"
+                (change)="onPromocionImageSelected($event)"
+                style="display: none"
+              />
+            </label>
+            <span *ngIf="promocionImageFile">{{
+              promocionImageFile.name
+            }}</span>
+            <button
+              pButton
+              type="button"
+              label="Subir Imagen"
+              icon="pi pi-cloud-upload"
+              class="p-button-sm"
+              (click)="uploadPromocionImage()"
+              [disabled]="!promocionImageFile"
+            ></button>
+          </div>
         </div>
       </div>
     </ng-template>

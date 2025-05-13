@@ -6,6 +6,8 @@ import { FuncionService } from '../../core/services/funcion.service';
 import { PeliculasService } from '../../core/services/peliculas.service';
 import { PromocionService } from '../../core/services/promocion.service';
 import { SalaService } from '../../core/services/sala.service';
+import { ImageUploadService } from '../../core/services/image-upload.service';
+import { HttpClientModule } from '@angular/common/http';
 
 // PrimeNG imports
 import { TableModule } from 'primeng/table';
@@ -54,6 +56,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
     MultiSelectModule,
     TooltipModule,
     CardModule,
+    HttpClientModule,
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './admin.component.html',
@@ -107,6 +110,96 @@ export class AdminComponent implements OnInit {
     { label: 'PEGI 18', value: 'PEGI 18' },
   ];
 
+  cineImageFile: File | null = null;
+  peliculaImageFile: File | null = null;
+  promocionImageFile: File | null = null;
+
+  onCineImageSelected(event: any) {
+    this.cineImageFile =
+      event.target.files && event.target.files[0]
+        ? event.target.files[0]
+        : null;
+  }
+  onPeliculaImageSelected(event: any) {
+    this.peliculaImageFile =
+      event.target.files && event.target.files[0]
+        ? event.target.files[0]
+        : null;
+  }
+  onPromocionImageSelected(event: any) {
+    this.promocionImageFile =
+      event.target.files && event.target.files[0]
+        ? event.target.files[0]
+        : null;
+  }
+
+  uploadCineImage() {
+    if (!this.cineImageFile) return;
+    this.imageUploadService.uploadImage(this.cineImageFile).subscribe({
+      next: (filename) => {
+        this.selectedCine!.imagenUrl = filename;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Imagen subida',
+          detail: 'Imagen subida correctamente.',
+        });
+        this.cineImageFile = null;
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo subir la imagen.',
+        });
+        this.cineImageFile = null;
+      },
+    });
+  }
+  uploadPeliculaImage() {
+    if (!this.peliculaImageFile) return;
+    this.imageUploadService.uploadImage(this.peliculaImageFile).subscribe({
+      next: (filename) => {
+        this.selectedPelicula!.imagenUrl = filename;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Imagen subida',
+          detail: 'Imagen subida correctamente.',
+        });
+        this.peliculaImageFile = null;
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo subir la imagen.',
+        });
+        this.peliculaImageFile = null;
+      },
+    });
+  }
+  uploadPromocionImage() {
+    if (!this.promocionImageFile) return;
+    this.imageUploadService.uploadImage(this.promocionImageFile).subscribe({
+      next: (filename) => {
+        this.selectedPromocion!.imagenUrl = filename;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Imagen subida',
+          detail: 'Imagen subida correctamente.',
+        });
+        this.promocionImageFile = null;
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo subir la imagen.',
+        });
+        this.promocionImageFile = null;
+      },
+    });
+  }
+
   constructor(
     private cineService: CineService,
     private salaService: SalaService,
@@ -114,7 +207,8 @@ export class AdminComponent implements OnInit {
     private peliculaService: PeliculasService,
     private promocionesService: PromocionService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private imageUploadService: ImageUploadService
   ) {}
 
   ngOnInit(): void {
