@@ -111,10 +111,7 @@
           <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
         </div>
         <!-- Grid de películas -->
-        <div
-          *ngIf="!cargando"
-          class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
-        >
+        <div *ngIf="!cargando" class="grid grid-cols-1 sm:grid-cols-2 gap-8">
           <app-movie-card
             *ngFor="let pelicula of peliculas"
             [pelicula]="pelicula"

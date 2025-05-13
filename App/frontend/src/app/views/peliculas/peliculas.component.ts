@@ -191,6 +191,5 @@ export class PeliculasComponent implements OnInit {
   onPageChange(event: any) {
     this.currentPage = event.page;
     this.rowsPerPage = event.rows;
-    // Implementar paginación con el backend o hacer paginación local
   }
 }
