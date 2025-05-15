@@ -15,7 +15,8 @@ public class Sala {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_CINE", nullable = false)
-    @JsonIgnoreProperties({"direccion", "ciudad", "nif", "imagenUrl", "telefono", "descripcion", "horario", "salas", "promociones", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({ "direccion", "ciudad", "nif", "imagenUrl", "telefono", "descripcion", "horario", "salas",
+            "promociones", "hibernateLazyInitializer" })
     private Cine cine;
 
     @Column(name = "NOMBRE_SALA", nullable = false, length = 50)
@@ -24,12 +25,12 @@ public class Sala {
     @Column(name = "CAPACIDAD", nullable = false)
     private Long capacidad;
 
-    @OneToMany(mappedBy = "idSala")
-    @JsonIgnoreProperties({"idSala", "dispoAsientos", "tickets"})
+    @OneToMany(mappedBy = "idSala", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "idSala", "dispoAsientos", "tickets" })
     private List<Asiento> asientos;
 
-    @OneToMany(mappedBy = "idSala")
-    @JsonIgnoreProperties({"idSala", "dispoAsientos", "tickets"})
+    @OneToMany(mappedBy = "idSala", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "idSala", "dispoAsientos", "tickets" })
     private List<Funcion> funciones;
 
     public Sala(Cine cine, String nombre, Long capacidad) {

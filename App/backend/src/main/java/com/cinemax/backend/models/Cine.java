@@ -38,19 +38,19 @@ public class Cine {
     @Column(name = "HORARIO", length = 20)
     private String horario;
 
-    @OneToMany(mappedBy = "cine")
+    @OneToMany(mappedBy = "cine", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "cine")
-    @JsonIgnoreProperties({"cine", "funciones", "asientos"})
+    @OneToMany(mappedBy = "cine", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "cine", "funciones", "asientos" })
     private List<Sala> salas;
 
     @ManyToMany(mappedBy = "cines")
     private List<Promocion> promociones;
 
     public Cine(String nif, String ciudad, String direccion, String nombre, String imagenUrl,
-                String telefono, String descripcion, String horario) {
+            String telefono, String descripcion, String horario) {
         this.nif = nif;
         this.ciudad = ciudad;
         this.direccion = direccion;

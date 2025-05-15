@@ -16,7 +16,7 @@ public class Asiento {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_SALA", nullable = false)
-    @JsonIgnoreProperties({"nombre", "capacidad", "funciones", "asientos", "hibernateLazyInitializer"})
+    @JsonIgnoreProperties({ "nombre", "capacidad", "funciones", "asientos", "hibernateLazyInitializer" })
     private Sala idSala;
 
     @Column(name = "FILA", nullable = false, length = 2)
@@ -25,11 +25,11 @@ public class Asiento {
     @Column(name = "NUMERO", nullable = false)
     private long numero;
 
-    @OneToMany(mappedBy = "idAsiento")
+    @OneToMany(mappedBy = "idAsiento", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<DisponibilidadAsiento> dispoAsientos;
 
-    @OneToMany(mappedBy = "asiento")
+    @OneToMany(mappedBy = "asiento", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Ticket> tickets;
 

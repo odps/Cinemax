@@ -35,12 +35,12 @@ public class Pelicula {
     @Column(name = "IMAGENURL", length = 100)
     private String imagenUrl;
 
-    @OneToMany(mappedBy = "idPelicula")
-    @JsonIgnoreProperties({"idPelicula", "dispoAsientos", "tickets"})
+    @OneToMany(mappedBy = "idPelicula", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({ "idPelicula", "dispoAsientos", "tickets" })
     private List<Funcion> funciones;
 
     public Pelicula(String titulo, String genero, long duracion, String limiteEdad, String director, String descripcion,
-                    String imagenUrl) {
+            String imagenUrl) {
         this.titulo = titulo;
         this.genero = genero;
         this.duracion = duracion;

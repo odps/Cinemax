@@ -31,12 +31,12 @@ public class Funcion {
     @Column(name = "PRECIO", nullable = false, precision = 10, scale = 2)
     private long precio;
 
-    @OneToMany(mappedBy = "idFuncion")
+    @OneToMany(mappedBy = "idFuncion", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     @JsonIgnoreProperties({ "idFuncion", "idAsiento" })
     private List<DisponibilidadAsiento> dispoAsientos;
 
-    @OneToMany(mappedBy = "funcion")
+    @OneToMany(mappedBy = "funcion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
     public Funcion(Pelicula idPelicula, Sala idSala, LocalDateTime fechaHora, long precio) {
