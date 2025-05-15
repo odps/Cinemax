@@ -30,6 +30,9 @@ public class ImageUploadController {
             }
             String filename = StringUtils.cleanPath(file.getOriginalFilename());
             File dest = new File(uploadDir + filename);
+            if (dest.exists()) {
+                return ResponseEntity.status(409).body("El archivo ya existe");
+            }
             file.transferTo(dest);
             // Retorna el nombre del archivo para que el frontend lo use
             return ResponseEntity.ok(Collections.singletonMap("filename", filename));

@@ -145,12 +145,21 @@ export class AdminComponent implements OnInit {
         });
         this.cineImageFile = null;
       },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudo subir la imagen.',
-        });
+      error: (err) => {
+        if (err.status === 409) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Archivo duplicado',
+            detail:
+              'Ya existe un archivo con ese nombre. Cambia el nombre o selecciona otro archivo.',
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo subir la imagen.',
+          });
+        }
         this.cineImageFile = null;
       },
     });
@@ -167,12 +176,21 @@ export class AdminComponent implements OnInit {
         });
         this.peliculaImageFile = null;
       },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudo subir la imagen.',
-        });
+      error: (err) => {
+        if (err.status === 409) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Archivo duplicado',
+            detail:
+              'Ya existe un archivo con ese nombre. Cambia el nombre o selecciona otro archivo.',
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo subir la imagen.',
+          });
+        }
         this.peliculaImageFile = null;
       },
     });
@@ -189,12 +207,21 @@ export class AdminComponent implements OnInit {
         });
         this.promocionImageFile = null;
       },
-      error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudo subir la imagen.',
-        });
+      error: (err) => {
+        if (err.status === 409) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Archivo duplicado',
+            detail:
+              'Ya existe un archivo con ese nombre. Cambia el nombre o selecciona otro archivo.',
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudo subir la imagen.',
+          });
+        }
         this.promocionImageFile = null;
       },
     });
