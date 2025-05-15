@@ -9,6 +9,7 @@ import { CompraComponent } from './views/compra/compra.component';
 import { ErrorComponent } from './views/error/error.component';
 
 export const routes: Routes = [
+  { path: '', component: LandingComponent },
   { path: 'landing', component: LandingComponent },
   { path: 'cines', component: CinesComponent },
   { path: 'peliculas', component: PeliculasComponent },
