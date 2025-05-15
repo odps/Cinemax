@@ -18,11 +18,7 @@ public class SalaServiceImp implements SalaService {
     @Override
     public ResponseEntity<?> getSalas() {
         List<Sala> salas = salaRepo.findAll();
-        if (salas.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(salas);
-        }
+        return ResponseEntity.ok(salas);
     }
 
     @Override
@@ -71,10 +67,6 @@ public class SalaServiceImp implements SalaService {
     @Override
     public ResponseEntity<?> getSalasByCineId(long cineId) {
         List<Sala> salas = salaRepo.findByCineId(cineId);
-        if (salas.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(salas);
-        }
+        return ResponseEntity.ok(salas);
     }
 }

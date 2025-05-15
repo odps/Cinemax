@@ -24,9 +24,6 @@ public class PromocionServiceImp implements PromocionService {
     @Override
     public ResponseEntity<?> getPromociones() {
         List<Promocion> promociones = promocionRepo.findAll();
-        if (promociones.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(promociones);
     }
 
@@ -103,9 +100,6 @@ public class PromocionServiceImp implements PromocionService {
     @Override
     public ResponseEntity<?> getPromocionesByCineId(long cineId) {
         List<Promocion> promociones = promocionRepo.findByCinesId(cineId);
-        if (promociones.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(promociones);
     }
 
@@ -113,18 +107,12 @@ public class PromocionServiceImp implements PromocionService {
     public ResponseEntity<?> getPromocionesActivas() {
         LocalDate hoy = LocalDate.now();
         List<Promocion> promociones = promocionRepo.findByFechaFinGreaterThanEqual(hoy);
-        if (promociones.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(promociones);
     }
 
     @Override
     public ResponseEntity<?> getPromocionesByTipo(String tipo) {
         List<Promocion> promociones = promocionRepo.findByTipoIgnoreCase(tipo);
-        if (promociones.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(promociones);
     }
 

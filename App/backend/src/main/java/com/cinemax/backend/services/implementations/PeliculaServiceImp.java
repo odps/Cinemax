@@ -18,11 +18,7 @@ public class PeliculaServiceImp implements PeliculaService {
     @Override
     public ResponseEntity<?> getPeliculas() {
         List<Pelicula> peliculas = peliculaRepo.findAll();
-        if (peliculas.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(peliculas);
-        }
+        return ResponseEntity.ok(peliculas);
     }
 
     @Override
@@ -41,7 +37,7 @@ public class PeliculaServiceImp implements PeliculaService {
             return ResponseEntity.badRequest().body("Datos de película inválidos");
         }
         if (pelicula.getImagenUrl() == null) {
-            pelicula.setImagenUrl("placeholder.jpg");
+            pelicula.setImagenUrl("pelicula_placeholder.jpg");
         }
         peliculaRepo.save(pelicula);
         return ResponseEntity.ok(pelicula);
@@ -92,20 +88,12 @@ public class PeliculaServiceImp implements PeliculaService {
     @Override
     public ResponseEntity<?> getPeliculasByGenero(String genero) {
         List<Pelicula> peliculas = peliculaRepo.findByGenero(genero);
-        if (peliculas.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(peliculas);
-        }
+        return ResponseEntity.ok(peliculas);
     }
 
     @Override
     public ResponseEntity<?> getPeliculasByDirector(String director) {
         List<Pelicula> peliculas = peliculaRepo.findByDirector(director);
-        if (peliculas.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(peliculas);
-        }
+        return ResponseEntity.ok(peliculas);
     }
 }

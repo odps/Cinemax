@@ -18,9 +18,6 @@ public class FuncionServiceImp implements FuncionService {
     @Override
     public ResponseEntity<?> getFunciones() {
         List<Funcion> funciones = funcionRepo.findAll();
-        if (funciones.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(funciones);
     }
 
@@ -79,18 +76,12 @@ public class FuncionServiceImp implements FuncionService {
     @Override
     public ResponseEntity<?> getFuncionesByIdPeliculaId(long idPeliculaId) {
         List<Funcion> funciones = funcionRepo.findByIdPeliculaId(idPeliculaId);
-        if (funciones.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(funciones);
     }
 
     @Override
     public ResponseEntity<?> getFuncionesByIdSalaId(long idSalaId) {
         List<Funcion> funciones = funcionRepo.findByIdSalaId(idSalaId);
-        if (funciones.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
         return ResponseEntity.ok(funciones);
     }
 }

@@ -48,7 +48,7 @@ public class CineServiceImp implements CineService {
         }
 
         if (cine.getImagenUrl() == null) {
-            cine.setImagenUrl("placeholder.jpg");
+            cine.setImagenUrl("cine_placeholder.jpg");
         }
 
         cineRepo.save(cine);
