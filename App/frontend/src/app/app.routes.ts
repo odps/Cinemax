@@ -7,6 +7,8 @@ import { PerfilComponent } from './views/perfil/perfil.component';
 import { AdminComponent } from './views/admin/admin.component';
 import { CompraComponent } from './views/compra/compra.component';
 import { ErrorComponent } from './views/error/error.component';
+import { loggedinGuard } from './core/guards/loggedin.guard';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -14,8 +16,23 @@ export const routes: Routes = [
   { path: 'cines', component: CinesComponent },
   { path: 'peliculas', component: PeliculasComponent },
   { path: 'promociones', component: PromocionesComponent },
-  { path: 'perfil', component: PerfilComponent },
-  { path: 'admin', component: AdminComponent },
-  { path: 'compra', component: CompraComponent },
+  {
+    path: 'perfil',
+    component: PerfilComponent,
+    canActivate: [loggedinGuard, roleGuard],
+    data: { role: 'CLIENT' },
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [loggedinGuard, roleGuard],
+    data: { role: 'ADMIN' },
+  },
+  {
+    path: 'compra',
+    component: CompraComponent,
+    canActivate: [loggedinGuard, roleGuard],
+    data: { role: 'CLIENT' },
+  },
   { path: '**', component: ErrorComponent },
 ];

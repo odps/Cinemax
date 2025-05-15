@@ -87,4 +87,16 @@ export class AuthService {
     const userData = localStorage.getItem('userData');
     return userData ? JSON.parse(userData) : null;
   }
+
+  public hasRole(roleName: string): boolean {
+    const user = this.getUserData();
+    return !!user?.rol?.nombre && user.rol.nombre === roleName;
+  }
+
+  public hasPermission(permissionName: string): boolean {
+    const user = this.getUserData();
+    return !!user?.rol?.permisos?.some(
+      (permiso: any) => permiso.nombre === permissionName
+    );
+  }
 }
