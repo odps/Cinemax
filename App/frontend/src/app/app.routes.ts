@@ -20,7 +20,7 @@ export const routes: Routes = [
     path: 'perfil',
     component: PerfilComponent,
     canActivate: [loggedinGuard, roleGuard],
-    data: { role: 'CLIENT' },
+    data: { role: ['CLIENT', 'ADMIN'] },
   },
   {
     path: 'admin',
@@ -32,7 +32,7 @@ export const routes: Routes = [
     path: 'compra',
     component: CompraComponent,
     canActivate: [loggedinGuard, roleGuard],
-    data: { role: 'CLIENT' },
+    data: { role: ['CLIENT', 'ADMIN'] },
   },
   { path: '**', component: ErrorComponent },
 ];
