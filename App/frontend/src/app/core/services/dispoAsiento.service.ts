@@ -79,4 +79,27 @@ export class DispoAsientoService {
       `${this.apiUrl}/funcion/${idFuncion}`
     );
   }
+
+  /**
+   * Reserva un asiento (bloqueo temporal)
+   */
+  reservarAsiento(
+    idDisponibilidad: number,
+    minutosBloqueo: number = 10
+  ): Observable<DisponibilidadAsiento> {
+    return this.http.post<DisponibilidadAsiento>(
+      `${this.apiUrl}/reservar/${idDisponibilidad}?minutosBloqueo=${minutosBloqueo}`,
+      {}
+    );
+  }
+
+  /**
+   * Libera un asiento reservado
+   */
+  liberarAsiento(idDisponibilidad: number): Observable<DisponibilidadAsiento> {
+    return this.http.post<DisponibilidadAsiento>(
+      `${this.apiUrl}/liberar/${idDisponibilidad}`,
+      {}
+    );
+  }
 }

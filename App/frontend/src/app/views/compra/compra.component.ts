@@ -281,4 +281,9 @@ export class CompraComponent implements OnInit {
   onGoToShowtimes(): void {
     this.router.navigate(['/peliculas']);
   }
+
+  onCancelSeatSelection(): void {
+    // Just reset the selected seat, stay on the same step
+    this.selectedSeat = null;
+  }
 }

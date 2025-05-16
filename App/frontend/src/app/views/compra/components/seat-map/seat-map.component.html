@@ -44,6 +44,24 @@
       </div>
     </div>
 
+    <!-- Countdown timer for reservation -->
+    <div class="reservation-timer" *ngIf="countdown > 0 && selectedSeatDisplay">
+      <i class="pi pi-clock"></i>
+      <span>
+        Tiempo restante para completar la reserva:
+        <strong>{{ countdown | reservationTimer }}</strong>
+      </span>
+      <button
+        pButton
+        type="button"
+        icon="pi pi-times"
+        class="p-button-rounded p-button-text p-button-danger ml-2"
+        (click)="handleReservationCancelOnly()"
+        style="margin-left: 0.5rem"
+        aria-label="Cancelar reserva"
+      ></button>
+    </div>
+
     <!-- Seat map -->
     <div class="seat-map-container">
       <div class="seat-map">

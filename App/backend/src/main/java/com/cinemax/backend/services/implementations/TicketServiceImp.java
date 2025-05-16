@@ -120,7 +120,9 @@ public class TicketServiceImp implements TicketService {
         }
         DisponibilidadAsiento disponibilidad = disponibilidadAsientoRepo
                 .findByIdAsientoIdAndIdFuncionId(asiento.getId(), funcion.getId());
-        if (disponibilidad == null || !"disponible".equals(disponibilidad.getEstado())) {
+        if (disponibilidad == null ||
+                (!"disponible".equalsIgnoreCase(disponibilidad.getEstado()) &&
+                        !"reservado".equalsIgnoreCase(disponibilidad.getEstado()))) {
             return ResponseEntity.badRequest().body("El asiento no está disponible.");
         }
         disponibilidad.setEstado("ocupado");

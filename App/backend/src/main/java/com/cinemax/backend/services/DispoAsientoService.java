@@ -19,4 +19,8 @@ public interface DispoAsientoService {
     ResponseEntity<List<?>> getDisponibilidadAsientosByIdAsientoId(long idAsientoId);
 
     ResponseEntity<List<?>> getDisponibilidadAsientosByIdFuncionId(long idFuncionId);
+
+    ResponseEntity<?> reservarAsiento(long idDisponibilidad, int minutosBloqueo);
+
+    ResponseEntity<?> liberarAsiento(long idDisponibilidad);
 }

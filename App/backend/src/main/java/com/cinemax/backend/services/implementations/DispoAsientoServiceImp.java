@@ -87,4 +87,35 @@ public class DispoAsientoServiceImp implements DispoAsientoService {
         }
         return ResponseEntity.ok(asientos);
     }
+
+    @Override
+    public ResponseEntity<?> reservarAsiento(long idDisponibilidad, int minutosBloqueo) {
+        DisponibilidadAsiento disponibilidad = disponibilidadAsientoRepo.findById(idDisponibilidad).orElse(null);
+        if (disponibilidad == null) {
+            return ResponseEntity.badRequest().body("Disponibilidad de asiento no encontrada");
+        }
+        if (!"disponible".equalsIgnoreCase(disponibilidad.getEstado())) {
+            return ResponseEntity.badRequest().body("El asiento no está disponible para reservar");
+        }
+        disponibilidad.setEstado("reservado");
+        disponibilidad.setBloqueadoHasta(java.time.LocalDateTime.now().plusMinutes(minutosBloqueo));
+        disponibilidadAsientoRepo.save(disponibilidad);
+        return ResponseEntity.ok(disponibilidad);
+    }
+
+    @Override
+    public ResponseEntity<?> liberarAsiento(long idDisponibilidad) {
+        DisponibilidadAsiento disponibilidad = disponibilidadAsientoRepo.findById(idDisponibilidad).orElse(null);
+        if (disponibilidad == null) {
+            return ResponseEntity.badRequest().body("Disponibilidad de asiento no encontrada");
+        }
+        if ("reservado".equalsIgnoreCase(disponibilidad.getEstado())) {
+            disponibilidad.setEstado("disponible");
+            disponibilidad.setBloqueadoHasta(null);
+            disponibilidadAsientoRepo.save(disponibilidad);
+            return ResponseEntity.ok(disponibilidad);
+        } else {
+            return ResponseEntity.badRequest().body("El asiento no está reservado o ya está disponible");
+        }
+    }
 }

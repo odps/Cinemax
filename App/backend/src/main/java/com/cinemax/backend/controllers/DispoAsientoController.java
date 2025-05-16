@@ -18,29 +18,30 @@ public class DispoAsientoController {
 
     // Obtener todas las disponibilidades de asientos
     @GetMapping("/lista")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    // @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> listaDisponibilidadAsientos() {
         return this.dispoAsientoService.getDisponibilidadAsientos();
     }
 
     // Obtener una disponibilidad de asiento por ID
     @GetMapping("/{id}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    // @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getDisponibilidadAsientoById(@PathVariable long id) {
         return this.dispoAsientoService.getDisponibilidadAsiento(id);
     }
 
     // Crear una disponibilidad de asiento
     @PostMapping("/crear")
-//    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    // @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> crearDisponibilidadAsiento(@RequestBody DisponibilidadAsiento disponibilidadAsiento) {
         return this.dispoAsientoService.createDisponibilidadAsiento(disponibilidadAsiento);
     }
 
     // Modificar una disponibilidad de asiento
     @PutMapping("/editar/{id}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<?> modificarDisponibilidadAsiento(@RequestBody DisponibilidadAsiento disponibilidadAsiento, @PathVariable long id) {
+    // @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<?> modificarDisponibilidadAsiento(@RequestBody DisponibilidadAsiento disponibilidadAsiento,
+            @PathVariable long id) {
         return this.dispoAsientoService.updateDisponibilidadAsiento(disponibilidadAsiento, id);
     }
 
@@ -53,15 +54,28 @@ public class DispoAsientoController {
 
     // Obtener disponibilidades de asiento por ID de asiento
     @GetMapping("/asiento/{idAsiento}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    // @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getDisponibilidadAsientosByIdAsiento(@PathVariable long idAsiento) {
         return this.dispoAsientoService.getDisponibilidadAsientosByIdAsientoId(idAsiento);
     }
 
     // Obtener disponibilidades de asiento por ID de función
     @GetMapping("/funcion/{idFuncion}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    // @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getDisponibilidadAsientosByIdFuncion(@PathVariable long idFuncion) {
         return this.dispoAsientoService.getDisponibilidadAsientosByIdFuncionId(idFuncion);
+    }
+
+    // Reservar un asiento (bloqueo temporal)
+    @PostMapping("/reservar/{idDisponibilidad}")
+    public ResponseEntity<?> reservarAsiento(@PathVariable long idDisponibilidad,
+            @RequestParam(defaultValue = "10") int minutosBloqueo) {
+        return this.dispoAsientoService.reservarAsiento(idDisponibilidad, minutosBloqueo);
+    }
+
+    // Liberar un asiento reservado
+    @PostMapping("/liberar/{idDisponibilidad}")
+    public ResponseEntity<?> liberarAsiento(@PathVariable long idDisponibilidad) {
+        return this.dispoAsientoService.liberarAsiento(idDisponibilidad);
     }
 }

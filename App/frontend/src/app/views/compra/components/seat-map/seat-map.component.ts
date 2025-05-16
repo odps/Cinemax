@@ -14,6 +14,7 @@ import { DisponibilidadAsiento } from '../../../../core/interfaces/disponibilida
 import { Asiento } from '../../../../core/interfaces/asiento';
 import { DispoAsientoService } from '../../../../core/services/dispoAsiento.service';
 import { AsientoService } from '../../../../core/services/asiento.service';
+import { ReservationTimerPipe } from './reservation-timer.pipe';
 
 // Simple class for visual seat representation
 export class SeatDisplay {
@@ -45,7 +46,7 @@ export class SeatDisplay {
 @Component({
   selector: 'app-seat-map',
   standalone: true,
-  imports: [CommonModule, ToastModule, ButtonModule],
+  imports: [CommonModule, ToastModule, ButtonModule, ReservationTimerPipe],
   providers: [MessageService],
   templateUrl: './seat-map.component.html',
   styleUrls: ['./seat-map.component.css'],
@@ -65,6 +66,13 @@ export class SeatMapComponent implements OnInit, OnChanges {
   availabilityData: DisponibilidadAsiento[] = [];
   selectedSeatDisplay: SeatDisplay | null = null;
   selectedAvailability: DisponibilidadAsiento | null = null;
+
+  // Track the ID of the reserved seat (for releasing)
+  private reservedDisponibilidadId: number | null = null;
+
+  // Countdown timer state
+  countdown: number = 0; // seconds
+  countdownInterval: any = null;
 
   loading: boolean = true;
   error: string | null = null;
@@ -176,6 +184,19 @@ export class SeatMapComponent implements OnInit, OnChanges {
   }
 
   onSeatClick(seat: SeatDisplay): void {
+    // Prevent selecting another seat while a reservation is active
+    if (
+      this.reservedDisponibilidadId &&
+      seat.disponibilidadId !== this.reservedDisponibilidadId
+    ) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Solo puedes reservar un asiento',
+        detail: 'Cancela tu reserva actual para seleccionar otro asiento.',
+      });
+      return;
+    }
+
     if (!seat.isSelectable) {
       this.messageService.add({
         severity: 'error',
@@ -185,24 +206,94 @@ export class SeatMapComponent implements OnInit, OnChanges {
       return;
     }
 
-    // Deselect previous selection
+    // Release previously reserved seat if any
+    if (
+      this.reservedDisponibilidadId &&
+      this.reservedDisponibilidadId !== seat.disponibilidadId
+    ) {
+      this.dispoAsientoService
+        .liberarAsiento(this.reservedDisponibilidadId)
+        .subscribe({
+          next: () => {},
+          error: () => {},
+        });
+    }
+
+    // Reserve the new seat
+    if (seat.disponibilidadId) {
+      this.dispoAsientoService
+        .reservarAsiento(seat.disponibilidadId)
+        .subscribe({
+          next: (updated) => {
+            // Deselect previous selection
+            if (this.selectedSeatDisplay) {
+              this.selectedSeatDisplay.selected = false;
+            }
+            seat.selected = true;
+            seat.estado = 'reservado';
+            this.selectedSeatDisplay = seat;
+            this.reservedDisponibilidadId = seat.disponibilidadId!;
+
+            // Update availability object and emit
+            const availability = this.availabilityData.find(
+              (a) => a.id === seat.disponibilidadId
+            );
+            if (availability) {
+              availability.estado = 'reservado';
+              this.selectedAvailability = availability;
+              this.seatSelected.emit(availability);
+            }
+
+            this.startCountdown(10 * 60); // 10 minutes in seconds
+          },
+          error: () => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'No se pudo reservar el asiento. Intenta de nuevo.',
+            });
+          },
+        });
+    }
+  }
+
+  private startCountdown(seconds: number): void {
+    this.clearCountdown();
+    this.countdown = seconds;
+    this.countdownInterval = setInterval(() => {
+      this.countdown--;
+      if (this.countdown <= 0) {
+        this.clearCountdown();
+        this.handleCountdownExpired();
+      }
+    }, 1000);
+  }
+
+  private clearCountdown(): void {
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+      this.countdownInterval = null;
+    }
+    this.countdown = 0;
+  }
+
+  private handleCountdownExpired(): void {
+    if (this.reservedDisponibilidadId) {
+      this.dispoAsientoService
+        .liberarAsiento(this.reservedDisponibilidadId)
+        .subscribe();
+      this.reservedDisponibilidadId = null;
+    }
     if (this.selectedSeatDisplay) {
       this.selectedSeatDisplay.selected = false;
+      this.selectedSeatDisplay = null;
     }
-
-    // Toggle selection
-    seat.selected = true;
-    this.selectedSeatDisplay = seat;
-
-    // Find corresponding availability object to emit
-    const availability = this.availabilityData.find(
-      (a) => a.idAsiento && a.idAsiento.id === seat.asientoId
-    );
-
-    if (availability) {
-      this.selectedAvailability = availability;
-      this.seatSelected.emit(availability);
-    }
+    this.selectedAvailability = null;
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Reserva expirada',
+      detail: 'El tiempo para reservar el asiento ha expirado.',
+    });
   }
 
   handleContinueToPayment(): void {
@@ -214,11 +305,48 @@ export class SeatMapComponent implements OnInit, OnChanges {
       });
       return;
     }
-
+    this.clearCountdown();
     this.continueToPayment.emit();
   }
 
   handleCancelSelection(): void {
+    this.handleReservationCancelOnly();
     this.cancelSelection.emit();
+  }
+
+  // Called by the minimalist button next to the timer
+  handleReservationCancelOnly(): void {
+    if (this.reservedDisponibilidadId) {
+      this.dispoAsientoService
+        .liberarAsiento(this.reservedDisponibilidadId)
+        .subscribe({
+          next: () => {
+            if (this.selectedSeatDisplay) {
+              this.selectedSeatDisplay.selected = false;
+              this.selectedSeatDisplay.estado = 'disponible';
+            }
+            this.selectedSeatDisplay = null;
+            this.selectedAvailability = null;
+          },
+          error: () => {
+            if (this.selectedSeatDisplay) {
+              this.selectedSeatDisplay.selected = false;
+              this.selectedSeatDisplay.estado = 'disponible';
+            }
+            this.selectedSeatDisplay = null;
+            this.selectedAvailability = null;
+          },
+        });
+      this.reservedDisponibilidadId = null;
+    } else {
+      if (this.selectedSeatDisplay) {
+        this.selectedSeatDisplay.selected = false;
+        this.selectedSeatDisplay.estado = 'disponible';
+      }
+      this.selectedSeatDisplay = null;
+      this.selectedAvailability = null;
+    }
+    this.clearCountdown();
+    // Do NOT emit cancelSelection here
   }
 }
