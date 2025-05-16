@@ -107,14 +107,13 @@ export class PeliculasComponent implements OnInit {
           this.peliculas = peliculas;
           this.totalPeliculas = peliculas.length;
 
-          // Seleccionar una película destacada (por ejemplo, la primera)
           if (peliculas.length > 0) {
-            this.peliculaDestacada = peliculas[0];
+            const randomIndex = Math.floor(Math.random() * peliculas.length);
+            this.peliculaDestacada = peliculas[randomIndex];
           }
         },
         error: (error) => {
           console.error('Error al cargar las películas:', error);
-          // Aquí podrías implementar una gestión de errores más elaborada
         },
       });
   }
@@ -170,7 +169,7 @@ export class PeliculasComponent implements OnInit {
     this.cines = this.cines.map((cine) => ({
       id: cine.id,
       nombre: cine.nombre,
-    })); // Reset cine selection
+    }));
     this.cargarPeliculas();
   }
 

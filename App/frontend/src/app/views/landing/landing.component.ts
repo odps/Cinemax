@@ -12,11 +12,7 @@ import { finalize } from 'rxjs';
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
   standalone: true,
-  imports: [
-    CommonModule,
-    ButtonModule,
-    MovieCardComponent
-  ]
+  imports: [CommonModule, ButtonModule, MovieCardComponent],
 })
 export class LandingComponent implements OnInit {
   movies: Pelicula[] = [];
@@ -34,21 +30,21 @@ export class LandingComponent implements OnInit {
 
   cargarPeliculas(): void {
     this.cargando = true;
-    this.peliculasService.getListaPeliculas()
-      .pipe(finalize(() => this.cargando = false))
+    this.peliculasService
+      .getListaPeliculas()
+      .pipe(finalize(() => (this.cargando = false)))
       .subscribe({
         next: (peliculas) => {
           if (peliculas.length > 0) {
-            // Seleccionamos la primera película como destacada
-            this.highlightedMovie = peliculas[0];
+            const randomIndex = Math.floor(Math.random() * peliculas.length);
+            this.highlightedMovie = peliculas[randomIndex];
 
-            // El resto de películas (hasta 3) para la sección de próximos estrenos
             this.movies = peliculas.slice(1, 4);
           }
         },
         error: (error) => {
           console.error('Error al cargar las películas:', error);
-        }
+        },
       });
   }
 

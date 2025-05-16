@@ -2,6 +2,7 @@ package com.cinemax.backend.services.implementations;
 
 import com.cinemax.backend.models.Review;
 import com.cinemax.backend.repositories.ReviewRepo;
+import com.cinemax.backend.repositories.UsuarioRepo;
 import com.cinemax.backend.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +16,13 @@ public class ReviewServiceImp implements ReviewService {
     @Autowired
     ReviewRepo reviewRepo;
 
+    @Autowired
+    UsuarioRepo usuarioRepo;
+
     @Override
     public ResponseEntity<?> getReviews() {
         List<Review> reviews = reviewRepo.findAll();
-        if (reviews.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(reviews);
-        }
+        return ResponseEntity.ok(reviews);
     }
 
     @Override
@@ -38,6 +38,7 @@ public class ReviewServiceImp implements ReviewService {
     @Override
     public ResponseEntity<?> createReview(Review review) {
         reviewRepo.save(review);
+        review.setUsuario(usuarioRepo.findById(review.getUsuario().getId()).orElse(null));
         return ResponseEntity.ok(review);
     }
 
@@ -54,6 +55,7 @@ public class ReviewServiceImp implements ReviewService {
                 reviewOld.setPuntuacion(review.getPuntuacion());
             }
             reviewRepo.save(reviewOld);
+            reviewOld.setUsuario(usuarioRepo.findById(reviewOld.getUsuario().getId()).orElse(null));
             return ResponseEntity.ok(reviewOld);
         }
     }
@@ -71,20 +73,12 @@ public class ReviewServiceImp implements ReviewService {
     @Override
     public ResponseEntity<?> getReviewsByUsuarioId(long usuarioId) {
         List<Review> reviews = reviewRepo.findByUsuarioId(usuarioId);
-        if (reviews.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(reviews);
-        }
+        return ResponseEntity.ok(reviews);
     }
 
     @Override
     public ResponseEntity<?> getReviewsByCineId(long cineId) {
         List<Review> reviews = reviewRepo.findByCineId(cineId);
-        if (reviews.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(reviews);
-        }
+        return ResponseEntity.ok(reviews);
     }
 }

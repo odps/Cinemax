@@ -259,7 +259,7 @@ export class CinesComponent implements OnInit {
       this.reviewService.createReview(newReview).subscribe({
         next: (createdReview) => {
           console.log('Review creada con éxito:', createdReview);
-          this.reviews.push(createdReview);
+          this.reviews = [...this.reviews, createdReview];
           this.userReview = createdReview;
 
           // Forzar cierre del formulario
