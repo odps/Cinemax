@@ -160,21 +160,3 @@ CREATE TABLE Cine_Promocion (
                                 FOREIGN KEY (id_cine) REFERENCES Cine(id_cine),
                                 FOREIGN KEY (id_promocion) REFERENCES Promocion(id_promocion)
 );
-
-INSERT INTO Rol (nombre_rol) VALUES ('ADMIN');
-INSERT INTO Rol (nombre_rol) VALUES ('CLIENT');
-
-INSERT INTO Permiso (nombre_permiso) VALUES ('ADMIN');
-INSERT INTO Permiso (nombre_permiso) VALUES ('CLIENT');
-
-INSERT INTO Rol_Permiso (id_rol, id_permiso)
-VALUES (
-           (SELECT id_rol FROM Rol WHERE nombre_rol = 'ADMIN'),
-           (SELECT id_permiso FROM Permiso WHERE nombre_permiso = 'ADMIN')
-       );
-
-INSERT INTO Rol_Permiso (id_rol, id_permiso)
-VALUES (
-           (SELECT id_rol FROM Rol WHERE nombre_rol = 'CLIENT'),
-           (SELECT id_permiso FROM Permiso WHERE nombre_permiso = 'CLIENT')
-       );

@@ -53,7 +53,7 @@ public class FacturaController {
 
     // Obtener facturas por ID de usuario
     @GetMapping("/usuario/{usuarioId}")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    //@PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> getFacturasByUsuarioId(@PathVariable long usuarioId) {
         return this.facturaService.getFacturasByUsuarioId(usuarioId);
     }
