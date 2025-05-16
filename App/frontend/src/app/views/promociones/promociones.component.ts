@@ -115,7 +115,11 @@ export class PromocionesComponent implements OnInit {
   openPromoModal(
     promocion: Promocion & { descuento?: number; imagen?: string }
   ) {
-    this.selectedPromocion = promocion;
+    // Ensure cines is always an array for template safety
+    this.selectedPromocion = {
+      ...promocion,
+      cines: promocion.cines ?? [],
+    };
     this.displayModal = true;
   }
 

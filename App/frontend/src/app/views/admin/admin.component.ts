@@ -114,6 +114,8 @@ export class AdminComponent implements OnInit {
   peliculaImageFile: File | null = null;
   promocionImageFile: File | null = null;
 
+  cinePromocionesSeleccionadas: number[] = [];
+
   onCineImageSelected(event: any) {
     this.cineImageFile =
       event.target.files && event.target.files[0]
@@ -270,12 +272,44 @@ export class AdminComponent implements OnInit {
 
   openNewCine(): void {
     this.selectedCine = {} as Cine;
+    this.cinePromocionesSeleccionadas = [];
     this.cineDialog = true;
   }
 
   editCine(cine: Cine): void {
     this.selectedCine = { ...cine };
+    // Inicializar promociones seleccionadas con los IDs de las promociones asociadas
+    this.cinePromocionesSeleccionadas = (cine.promociones || []).map(
+      (p) => p.id
+    );
     this.cineDialog = true;
+  }
+
+  onCinePromocionesChange(): void {
+    if (!this.selectedCine || !this.selectedCine.id) return;
+    const currentIds = (this.selectedCine.promociones || []).map((p) => p.id);
+    const added = this.cinePromocionesSeleccionadas.filter(
+      (id) => !currentIds.includes(id)
+    );
+    const removed = currentIds.filter(
+      (id) => !this.cinePromocionesSeleccionadas.includes(id)
+    );
+    // Asignar nuevas promociones
+    added.forEach((idPromocion) => {
+      this.promocionesService
+        .asignarCineAPromocion(idPromocion, this.selectedCine!.id!)
+        .subscribe();
+    });
+    // Eliminar promociones desasociadas
+    removed.forEach((idPromocion) => {
+      this.promocionesService
+        .eliminarCineDePromocion(idPromocion, this.selectedCine!.id!)
+        .subscribe();
+    });
+    // Actualizar la lista local de promociones del cine
+    this.selectedCine.promociones = this.promociones.filter((p) =>
+      this.cinePromocionesSeleccionadas.includes(p.id)
+    );
   }
 
   deleteCine(cine: Cine): void {

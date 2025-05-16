@@ -32,6 +32,7 @@ public class Promocion {
 
     @ManyToMany
     @JoinTable(name = "CINE_PROMOCION", joinColumns = @JoinColumn(name = "ID_PROMOCION"), inverseJoinColumns = @JoinColumn(name = "ID_CINE"))
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties("promociones")
     private List<Cine> cines;
 
     // Constructors
