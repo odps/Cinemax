@@ -31,6 +31,7 @@
           <label class="block text-gray-300 mb-2">Género</label>
           <p-multiSelect
             [options]="generos"
+            [(ngModel)]="selectedGeneros"
             placeholder="Selecciona géneros"
             optionLabel="nombre"
             styleClass="w-full bg-gray-700 text-white"
@@ -68,6 +69,8 @@
           <p-dropdown
             [options]="limitesEdad"
             optionLabel="nombre"
+            optionValue="nombre"
+            [(ngModel)]="limiteEdad"
             placeholder="Selecciona un límite de edad"
             styleClass="w-full bg-gray-700 text-white"
             [style]="{ width: '100%' }"
@@ -113,7 +116,7 @@
         <!-- Grid de películas -->
         <div *ngIf="!cargando" class="grid grid-cols-1 sm:grid-cols-2 gap-8">
           <app-movie-card
-            *ngFor="let pelicula of peliculas"
+            *ngFor="let pelicula of peliculasPaginadas"
             [pelicula]="pelicula"
           ></app-movie-card>
         </div>
@@ -135,7 +138,7 @@
           <p-paginator
             [rows]="rowsPerPage"
             [totalRecords]="totalPeliculas"
-            [rowsPerPageOptions]="[9, 18, 27]"
+            [rowsPerPageOptions]="[10, 20, 30]"
             (onPageChange)="onPageChange($event)"
           ></p-paginator>
         </div>

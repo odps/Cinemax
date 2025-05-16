@@ -79,13 +79,16 @@ export class PeliculasComponent implements OnInit {
   vistaSeleccionada = 'grid';
 
   peliculas: Pelicula[] = [];
+  peliculasPaginadas: Pelicula[] = [];
   peliculaDestacada: Pelicula | null = null;
 
   cargando: boolean = false;
   totalPeliculas: number = 0;
 
   currentPage: number = 0;
-  rowsPerPage: number = 9;
+  rowsPerPage: number = 10;
+
+  selectedGeneros: any[] = [];
 
   constructor(
     private peliculasService: PeliculasService,
@@ -111,6 +114,7 @@ export class PeliculasComponent implements OnInit {
             const randomIndex = Math.floor(Math.random() * peliculas.length);
             this.peliculaDestacada = peliculas[randomIndex];
           }
+          this.actualizarPeliculasPaginadas();
         },
         error: (error) => {
           console.error('Error al cargar las películas:', error);
@@ -139,7 +143,11 @@ export class PeliculasComponent implements OnInit {
       .subscribe({
         next: (peliculas: Pelicula[]) => {
           this.peliculas = peliculas.filter((pelicula) => {
+            const generoMatch =
+              this.selectedGeneros.length === 0 ||
+              this.selectedGeneros.some((g) => g.nombre === pelicula.genero);
             return (
+              generoMatch &&
               (!this.terminoBusqueda ||
                 pelicula.titulo
                   .toLowerCase()
@@ -155,6 +163,8 @@ export class PeliculasComponent implements OnInit {
           if (this.peliculas.length > 0) {
             this.peliculaDestacada = this.peliculas[0];
           }
+          this.currentPage = 0;
+          this.actualizarPeliculasPaginadas();
         },
         error: (error) => {
           console.error('Error al aplicar filtros:', error);
@@ -166,10 +176,12 @@ export class PeliculasComponent implements OnInit {
     this.terminoBusqueda = '';
     this.duracion = null;
     this.limiteEdad = null;
+    this.selectedGeneros = [];
     this.cines = this.cines.map((cine) => ({
       id: cine.id,
       nombre: cine.nombre,
     }));
+    this.currentPage = 0;
     this.cargarPeliculas();
   }
 
@@ -190,5 +202,19 @@ export class PeliculasComponent implements OnInit {
   onPageChange(event: any) {
     this.currentPage = event.page;
     this.rowsPerPage = event.rows;
+    this.actualizarPeliculasPaginadas();
+  }
+
+  actualizarPeliculasPaginadas() {
+    let peliculasFiltradas = this.peliculas;
+    // Evitar duplicar la película destacada en la lista paginada
+    if (this.peliculaDestacada) {
+      peliculasFiltradas = peliculasFiltradas.filter(
+        (p) => p.id !== this.peliculaDestacada?.id
+      );
+    }
+    const start = this.currentPage * this.rowsPerPage;
+    const end = start + this.rowsPerPage;
+    this.peliculasPaginadas = peliculasFiltradas.slice(start, end);
   }
 }
