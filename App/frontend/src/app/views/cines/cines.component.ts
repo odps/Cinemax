@@ -79,9 +79,9 @@ export class CinesComponent implements OnInit {
     this.cineService.getListaCines().subscribe({
       next: (data) => {
         this.cines = data;
-        // Asumimos que el primer cine es el destacado
         if (data.length > 0) {
-          this.cineDestacado = data[0];
+          const randomIndex = Math.floor(Math.random() * data.length);
+          this.cineDestacado = data[randomIndex];
         }
         this.cargando = false;
       },
