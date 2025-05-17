@@ -1,3 +1,4 @@
+/* Contenedor principal de la información de la función, película y sala */
 .movie-function-container {
   display: flex;
   gap: 1.5rem;
@@ -37,6 +38,7 @@
   font-size: 0.875rem;
 }
 
+/* Grid para mostrar los detalles principales de la función */
 .details-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -64,6 +66,7 @@
   font-size: 1.25rem;
 }
 
+/* Ajustes responsivos para pantallas pequeñas */
 @media (max-width: 640px) {
   .movie-function-container {
     flex-direction: column;

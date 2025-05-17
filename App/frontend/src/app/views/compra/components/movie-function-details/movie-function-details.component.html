@@ -1,4 +1,5 @@
 <div class="movie-function-container">
+  <!-- Sección del póster de la película -->
   <div class="movie-poster" *ngIf="pelicula">
     <img
       [src]="'assets/' + (pelicula.imagenUrl || 'placeholder.jpg')"
@@ -9,12 +10,14 @@
 
   <div class="movie-details">
     <h2 class="movie-title">{{ pelicula?.titulo }}</h2>
+    <!-- Metadatos de la película: género, duración y límite de edad -->
     <div class="movie-meta">
       <span *ngIf="pelicula?.genero">{{ pelicula?.genero }} | </span>
       <span *ngIf="pelicula?.duracion">{{ pelicula?.duracion }} min | </span>
       <span *ngIf="pelicula?.limiteEdad">{{ pelicula?.limiteEdad }}</span>
     </div>
 
+    <!-- Grid con los detalles principales de la función -->
     <div class="details-grid">
       <div class="detail-item">
         <span class="label">Cine:</span>
@@ -28,6 +31,7 @@
 
       <div class="detail-item">
         <span class="label">Fecha y Hora:</span>
+        <!-- Se utiliza pipe 'date' para mostrar la fecha y hora en formato local -->
         <span class="value">{{
           funcion?.fechaHora | date : "dd/MM/yyyy HH:mm"
         }}</span>
@@ -35,6 +39,7 @@
 
       <div class="detail-item">
         <span class="label">Precio:</span>
+        <!-- Se utiliza pipe 'currency' para mostrar el precio en euros -->
         <span class="value price">{{
           funcion?.precio | currency : "EUR"
         }}</span>

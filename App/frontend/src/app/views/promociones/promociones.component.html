@@ -1,5 +1,10 @@
 <div class="container mx-auto px-4 py-8">
   <!-- Sección Hero con promoción destacada -->
+  <!--
+    La siguiente sección muestra la promoción destacada en la parte superior de la página.
+    Se utiliza un fondo con gradiente y una imagen de fondo con opacidad para resaltar la promoción.
+    Si existe un porcentaje de descuento, se muestra en un círculo amarillo.
+  -->
   <div
     *ngIf="promocionDestacada"
     class="relative rounded-2xl overflow-hidden shadow-2xl mb-10 h-[350px] md:h-[420px] border border-yellow-400 bg-gradient-to-br from-yellow-900 via-gray-900 to-gray-900"
@@ -63,6 +68,10 @@
   </div>
 
   <!-- Lista de promociones -->
+  <!--
+    Sección que muestra todas las promociones disponibles en formato de tarjetas.
+    Si no hay promociones, se muestra un mensaje informativo.
+  -->
   <div
     *ngIf="!loading && !error && promociones.length === 0"
     class="text-center py-16"
@@ -120,6 +129,10 @@
     </div>
   </div>
 
+  <!--
+    Diálogo modal que muestra los detalles de la promoción seleccionada.
+    Incluye imagen, descripción, fechas y cines donde aplica la promoción.
+  -->
   <p-dialog
     [(visible)]="displayModal"
     [modal]="true"

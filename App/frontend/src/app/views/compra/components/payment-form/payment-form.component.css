@@ -1,3 +1,4 @@
+/* Contenedor principal del formulario de pago */
 .payment-form-container {
   padding: 1rem;
 }
@@ -18,12 +19,14 @@
   font-weight: 500;
 }
 
+/* Fila de inputs para nombre y fecha de expiración */
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
+/* Formulario de tarjeta */
 .card-form {
   background-color: #2d3748;
   border-radius: 0.5rem;
@@ -31,6 +34,7 @@
   margin-bottom: 1.5rem;
 }
 
+/* Opción de pago con PayPal */
 .paypal-option {
   background-color: #2d3748;
   border-radius: 0.5rem;
@@ -52,13 +56,14 @@
   object-fit: contain;
 }
 
+/* Contenedor de los botones de acción */
 .button-container {
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
 }
 
-/* Responsive design */
+/* Ajuste responsivo para inputs en pantallas pequeñas */
 @media (max-width: 640px) {
   .form-row {
     grid-template-columns: 1fr;

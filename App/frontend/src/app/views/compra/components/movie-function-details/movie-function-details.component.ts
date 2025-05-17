@@ -12,6 +12,7 @@ import { Sala } from '../../../../core/interfaces/sala';
   styleUrls: ['./movie-function-details.component.css'],
 })
 export class MovieFunctionDetailsComponent {
+  // Recibe la información de la película, función y sala para mostrar los detalles en la vista
   @Input() pelicula: Pelicula | null = null;
   @Input() funcion: Funcion | null = null;
   @Input() sala: Sala | null = null;

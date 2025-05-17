@@ -16,7 +16,7 @@ import { DispoAsientoService } from '../../../../core/services/dispoAsiento.serv
 import { AsientoService } from '../../../../core/services/asiento.service';
 import { ReservationTimerPipe } from './reservation-timer.pipe';
 
-// Simple class for visual seat representation
+// Clase para representar visualmente un asiento en el mapa
 export class SeatDisplay {
   fila: string;
   numero: number;
@@ -58,20 +58,16 @@ export class SeatMapComponent implements OnInit, OnChanges {
   @Output() continueToPayment = new EventEmitter<void>();
   @Output() cancelSelection = new EventEmitter<void>();
 
-  // Simple data structure for rendering
   rows: string[] = [];
   seatsPerRow: { [key: string]: SeatDisplay[] } = {};
 
-  // Track original data
   availabilityData: DisponibilidadAsiento[] = [];
   selectedSeatDisplay: SeatDisplay | null = null;
   selectedAvailability: DisponibilidadAsiento | null = null;
 
-  // Track the ID of the reserved seat (for releasing)
   private reservedDisponibilidadId: number | null = null;
 
-  // Countdown timer state
-  countdown: number = 0; // seconds
+  countdown: number = 0; // segundos
   countdownInterval: any = null;
 
   loading: boolean = true;
@@ -95,19 +91,16 @@ export class SeatMapComponent implements OnInit, OnChanges {
     }
   }
 
+  // Carga la disponibilidad de asientos para la función seleccionada
   private loadSeats(): void {
     if (!this.funcionId) return;
-
     this.loading = true;
     this.error = null;
-
-    // We'll need to get the sala ID from the first seat's availability
     this.dispoAsientoService
       .getDisponibilidadesPorFuncionId(this.funcionId)
       .subscribe({
         next: (disponibilidades) => {
           this.availabilityData = disponibilidades;
-
           if (
             disponibilidades.length > 0 &&
             disponibilidades[0].idAsiento?.idSala?.id
@@ -118,73 +111,59 @@ export class SeatMapComponent implements OnInit, OnChanges {
             this.loading = false;
           }
         },
-        error: (err) => {
-          console.error('Error loading seat availability:', err);
+        error: () => {
           this.error = 'Error al cargar la disponibilidad de asientos';
           this.loading = false;
         },
       });
   }
 
+  // Carga los asientos de la sala correspondiente
   private loadSalaSeats(salaId: number): void {
     this.asientoService.getAsientosPorSalaId(salaId).subscribe({
       next: (asientos) => {
         this.processSeats(asientos);
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Error loading sala seats:', err);
+      error: () => {
         this.error = 'Error al cargar los asientos de la sala';
         this.loading = false;
       },
     });
   }
 
+  // Organiza los asientos por fila y los asocia con su disponibilidad
   private processSeats(asientos: Asiento[]): void {
-    // Clear previous data
     this.rows = [];
     this.seatsPerRow = {};
-
-    // Get unique rows and sort them
     const rowsSet = new Set<string>();
     asientos.forEach((asiento) => rowsSet.add(asiento.fila));
     this.rows = Array.from(rowsSet).sort();
-
-    // Organize seats by row
     this.rows.forEach((row) => {
       this.seatsPerRow[row] = [];
-
-      // Get all seats for this row
       const rowSeats = asientos.filter((a) => a.fila === row);
-
-      // Sort by seat number
       rowSeats.sort((a, b) => a.numero - b.numero);
-
-      // Create display objects
       rowSeats.forEach((asiento) => {
         const seatDisplay = new SeatDisplay(
           asiento.fila,
           asiento.numero,
           asiento.id
         );
-
-        // Find availability info for this seat
         const availability = this.availabilityData.find(
           (a) => a.idAsiento && a.idAsiento.id === asiento.id
         );
-
         if (availability) {
           seatDisplay.estado = availability.estado as string;
           seatDisplay.disponibilidadId = availability.id;
         }
-
         this.seatsPerRow[row].push(seatDisplay);
       });
     });
   }
 
+  // Maneja el click sobre un asiento, reservando y liberando según corresponda
   onSeatClick(seat: SeatDisplay): void {
-    // Prevent selecting another seat while a reservation is active
+    // No permitir seleccionar otro asiento mientras hay una reserva activa
     if (
       this.reservedDisponibilidadId &&
       seat.disponibilidadId !== this.reservedDisponibilidadId
@@ -196,7 +175,7 @@ export class SeatMapComponent implements OnInit, OnChanges {
       });
       return;
     }
-
+    // Verificar si el asiento es seleccionable
     if (!seat.isSelectable) {
       this.messageService.add({
         severity: 'error',
@@ -205,8 +184,7 @@ export class SeatMapComponent implements OnInit, OnChanges {
       });
       return;
     }
-
-    // Release previously reserved seat if any
+    // Liberar el asiento previamente reservado si es necesario
     if (
       this.reservedDisponibilidadId &&
       this.reservedDisponibilidadId !== seat.disponibilidadId
@@ -218,14 +196,13 @@ export class SeatMapComponent implements OnInit, OnChanges {
           error: () => {},
         });
     }
-
-    // Reserve the new seat
+    // Reservar el nuevo asiento
     if (seat.disponibilidadId) {
       this.dispoAsientoService
         .reservarAsiento(seat.disponibilidadId)
         .subscribe({
           next: (updated) => {
-            // Deselect previous selection
+            // Deseleccionar la selección anterior
             if (this.selectedSeatDisplay) {
               this.selectedSeatDisplay.selected = false;
             }
@@ -234,7 +211,7 @@ export class SeatMapComponent implements OnInit, OnChanges {
             this.selectedSeatDisplay = seat;
             this.reservedDisponibilidadId = seat.disponibilidadId!;
 
-            // Update availability object and emit
+            // Actualizar el objeto de disponibilidad y emitir el evento
             const availability = this.availabilityData.find(
               (a) => a.id === seat.disponibilidadId
             );
@@ -244,7 +221,7 @@ export class SeatMapComponent implements OnInit, OnChanges {
               this.seatSelected.emit(availability);
             }
 
-            this.startCountdown(10 * 60); // 10 minutes in seconds
+            this.startCountdown(10 * 60); // 10 minutos en segundos
           },
           error: () => {
             this.messageService.add({
@@ -257,6 +234,7 @@ export class SeatMapComponent implements OnInit, OnChanges {
     }
   }
 
+  // Inicia el temporizador de reserva
   private startCountdown(seconds: number): void {
     this.clearCountdown();
     this.countdown = seconds;
@@ -269,6 +247,7 @@ export class SeatMapComponent implements OnInit, OnChanges {
     }, 1000);
   }
 
+  // Limpia el temporizador
   private clearCountdown(): void {
     if (this.countdownInterval) {
       clearInterval(this.countdownInterval);
@@ -277,6 +256,7 @@ export class SeatMapComponent implements OnInit, OnChanges {
     this.countdown = 0;
   }
 
+  // Libera el asiento si el tiempo de reserva expira
   private handleCountdownExpired(): void {
     if (this.reservedDisponibilidadId) {
       this.dispoAsientoService
@@ -296,6 +276,7 @@ export class SeatMapComponent implements OnInit, OnChanges {
     });
   }
 
+  // Continúa al pago si hay un asiento seleccionado
   handleContinueToPayment(): void {
     if (!this.selectedAvailability) {
       this.messageService.add({
@@ -309,12 +290,13 @@ export class SeatMapComponent implements OnInit, OnChanges {
     this.continueToPayment.emit();
   }
 
+  // Cancela la selección y libera el asiento reservado
   handleCancelSelection(): void {
     this.handleReservationCancelOnly();
     this.cancelSelection.emit();
   }
 
-  // Called by the minimalist button next to the timer
+  // Libera el asiento reservado sin emitir evento externo
   handleReservationCancelOnly(): void {
     if (this.reservedDisponibilidadId) {
       this.dispoAsientoService
@@ -347,6 +329,5 @@ export class SeatMapComponent implements OnInit, OnChanges {
       this.selectedAvailability = null;
     }
     this.clearCountdown();
-    // Do NOT emit cancelSelection here
   }
 }

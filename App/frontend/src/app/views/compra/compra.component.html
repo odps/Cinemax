@@ -1,18 +1,18 @@
 <div
   class="compra-container bg-gradient-to-br from-[#18181b] via-[#23232b] to-[#18181b] rounded-2xl shadow-2xl border border-yellow-700"
 >
-  <!-- Toast notifications -->
+  <!-- Notificaciones tipo toast para mensajes al usuario -->
   <p-toast></p-toast>
 
-  <!-- Main Content -->
   <div class="content-section">
-    <!-- Header with steps -->
+    <!-- Encabezado con el título y los pasos del proceso -->
     <div class="header mb-8">
       <h1
         class="compra-title text-4xl font-extrabold text-yellow-400 drop-shadow-lg mb-4 flex items-center gap-3"
       >
         <i class="pi pi-ticket text-yellow-400 text-3xl"></i> Compra de Tickets
       </h1>
+      <!-- Componente de pasos, indica el avance en el proceso de compra -->
       <p-steps
         [model]="steps"
         [activeIndex]="currentStep"
@@ -21,13 +21,13 @@
       ></p-steps>
     </div>
 
-    <!-- Loading indicator -->
+    <!-- Indicador de carga -->
     <div class="loading-section" *ngIf="loading">
       <div class="spinner"></div>
       <p>Cargando...</p>
     </div>
 
-    <!-- Error display -->
+    <!-- Sección de error, muestra mensaje y botón para volver -->
     <div class="error-section" *ngIf="error && !loading">
       <div class="error-message">
         <i class="pi pi-exclamation-triangle"></i>
@@ -42,9 +42,9 @@
       </div>
     </div>
 
-    <!-- Step 1: Seat Selection -->
+    <!-- Paso 1: Selección de asiento -->
     <div class="step-section" *ngIf="!loading && !error && currentStep === 0">
-      <!-- Movie and function details -->
+      <!-- Detalles de la función y película -->
       <div class="mb-6">
         <app-movie-function-details
           [pelicula]="pelicula"
@@ -53,7 +53,7 @@
         >
         </app-movie-function-details>
       </div>
-      <!-- Seat selection component -->
+      <!-- Mapa de asientos para seleccionar -->
       <div class="rounded-xl bg-[#23232b] border border-gray-700 shadow-lg p-6">
         <app-seat-map
           [funcionId]="funcionId"
@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <!-- Step 2: Payment -->
+    <!-- Paso 2: Pago -->
     <div class="step-section" *ngIf="!loading && !error && currentStep === 1">
       <div class="mb-6">
         <app-movie-function-details
@@ -75,6 +75,7 @@
         >
         </app-movie-function-details>
       </div>
+      <!-- Resumen del asiento seleccionado antes de pagar -->
       <div
         class="selected-seat-summary bg-gradient-to-r from-yellow-900/60 via-gray-900/80 to-gray-900/90 border border-yellow-700 rounded-xl shadow p-4 mb-6"
         *ngIf="selectedSeat"
@@ -89,6 +90,7 @@
           {{ selectedSeat.idAsiento.numero }}
         </p>
       </div>
+      <!-- Formulario de pago -->
       <div class="rounded-xl bg-[#23232b] border border-gray-700 shadow-lg p-6">
         <app-payment-form
           (paymentSubmitted)="onPaymentSubmitted($event)"
@@ -98,8 +100,9 @@
       </div>
     </div>
 
-    <!-- Step 3: Confirmation -->
+    <!-- Paso 3: Confirmación -->
     <div class="step-section" *ngIf="!loading && !error && currentStep === 2">
+      <!-- Componente de confirmación de ticket y factura -->
       <div class="rounded-xl bg-[#23232b] border border-gray-700 shadow-lg p-6">
         <app-ticket-confirmation
           [ticket]="ticketInfo"

@@ -55,28 +55,11 @@ export class PeliculasComponent implements OnInit {
     { nombre: 'PEGI 18' },
   ];
 
-  calificacionMinima = 0;
-  fechaEstreno: Date | null = null;
   terminoBusqueda: string = '';
   duracion: number | null = null;
   limiteEdad: string | null = null;
-  director: string = '';
-  descripcion: string = '';
-
-  opcionesOrden = [
-    { id: 1, nombre: 'Más recientes' },
-    { id: 2, nombre: 'Mejor valoradas' },
-    { id: 3, nombre: 'Alfabético A-Z' },
-  ];
-
-  ordenSeleccionado = this.opcionesOrden[0];
-
-  vistasDisponibles = [
-    { nombre: 'Grid', valor: 'grid', icon: 'pi pi-th-large' },
-    { nombre: 'Lista', valor: 'lista', icon: 'pi pi-list' },
-  ];
-
-  vistaSeleccionada = 'grid';
+  // selectedGeneros almacena los géneros seleccionados en el filtro
+  selectedGeneros: any[] = [];
 
   peliculas: Pelicula[] = [];
   peliculasPaginadas: Pelicula[] = [];
@@ -88,8 +71,6 @@ export class PeliculasComponent implements OnInit {
   currentPage: number = 0;
   rowsPerPage: number = 10;
 
-  selectedGeneros: any[] = [];
-
   constructor(
     private peliculasService: PeliculasService,
     private cineService: CineService
@@ -100,6 +81,7 @@ export class PeliculasComponent implements OnInit {
     this.cargarCines();
   }
 
+  // Carga todas las películas y selecciona una destacada aleatoriamente
   cargarPeliculas() {
     this.cargando = true;
     this.peliculasService
@@ -117,11 +99,12 @@ export class PeliculasComponent implements OnInit {
           this.actualizarPeliculasPaginadas();
         },
         error: (error) => {
-          console.error('Error al cargar las películas:', error);
+          // Error al cargar las películas
         },
       });
   }
 
+  // Carga la lista de cines disponibles
   cargarCines() {
     this.cineService.getListaCines().subscribe({
       next: (cines) => {
@@ -130,11 +113,12 @@ export class PeliculasComponent implements OnInit {
           .map((cine) => ({ id: cine.id!, nombre: cine.nombre }));
       },
       error: (error) => {
-        console.error('Error al cargar los cines:', error);
+        // Error al cargar los cines
       },
     });
   }
 
+  // Aplica los filtros seleccionados a la lista de películas
   aplicarFiltros() {
     this.cargando = true;
     this.peliculasService
@@ -167,47 +151,24 @@ export class PeliculasComponent implements OnInit {
           this.actualizarPeliculasPaginadas();
         },
         error: (error) => {
-          console.error('Error al aplicar filtros:', error);
+          // Error al aplicar filtros
         },
       });
   }
 
+  // Limpia todos los filtros y recarga la lista de películas
   limpiarFiltros() {
     this.terminoBusqueda = '';
     this.duracion = null;
     this.limiteEdad = null;
     this.selectedGeneros = [];
-    this.cines = this.cines.map((cine) => ({
-      id: cine.id,
-      nombre: cine.nombre,
-    }));
     this.currentPage = 0;
     this.cargarPeliculas();
   }
 
-  buscarDirector(director: string) {
-    this.cargando = true;
-    this.peliculasService
-      .buscarPeliculasPorDirector(director)
-      .pipe(finalize(() => (this.cargando = false)))
-      .subscribe({
-        next: (peliculas) => {
-          this.peliculas = peliculas;
-          this.totalPeliculas = peliculas.length;
-        },
-        error: (error) => console.error('Error al buscar por director:', error),
-      });
-  }
-
-  onPageChange(event: any) {
-    this.currentPage = event.page;
-    this.rowsPerPage = event.rows;
-    this.actualizarPeliculasPaginadas();
-  }
-
+  // Actualiza la lista de películas a mostrar en la página actual, evitando duplicar la destacada
   actualizarPeliculasPaginadas() {
     let peliculasFiltradas = this.peliculas;
-    // Evitar duplicar la película destacada en la lista paginada
     if (this.peliculaDestacada) {
       peliculasFiltradas = peliculasFiltradas.filter(
         (p) => p.id !== this.peliculaDestacada?.id
@@ -216,5 +177,12 @@ export class PeliculasComponent implements OnInit {
     const start = this.currentPage * this.rowsPerPage;
     const end = start + this.rowsPerPage;
     this.peliculasPaginadas = peliculasFiltradas.slice(start, end);
+  }
+
+  // Maneja el cambio de página en la paginación
+  onPageChange(event: any) {
+    this.currentPage = event.page;
+    this.rowsPerPage = event.rows;
+    this.actualizarPeliculasPaginadas();
   }
 }

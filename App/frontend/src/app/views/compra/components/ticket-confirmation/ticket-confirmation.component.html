@@ -1,3 +1,4 @@
+<!-- Contenedor principal de la confirmación de compra -->
 <div class="confirmation-container">
   <div class="success-header">
     <i class="pi pi-check-circle"></i>
@@ -9,6 +10,7 @@
     <h3>Resumen de la compra</h3>
 
     <div class="details-grid">
+      <!-- Sección de detalles del ticket -->
       <div class="detail-item">
         <p class="label">ID del Ticket:</p>
         <p class="value">{{ ticket?.id }}</p>
@@ -58,6 +60,7 @@
     </div>
   </div>
 
+  <!-- Sección de factura, solo se muestra si existe una factura asociada -->
   <div class="factura-details" *ngIf="factura">
     <h3>Factura</h3>
     <div class="details-grid">
@@ -87,6 +90,7 @@
   </div>
 
   <div class="actions">
+    <!-- Botón para mostrar el diálogo de impresión -->
     <button
       pButton
       type="button"
@@ -116,7 +120,7 @@
   </div>
 </div>
 
-<!-- Print Dialog -->
+<!-- Diálogo de impresión del ticket. Se muestra cuando showPrintDialog es true -->
 <p-dialog
   [(visible)]="showPrintDialog"
   [modal]="true"
@@ -175,6 +179,7 @@
         Fecha de compra: {{ ticket?.fechaCompra | date : "dd/MM/yyyy HH:mm" }}
       </p>
 
+      <!-- Si existe factura, se muestran los datos relevantes -->
       <ng-container *ngIf="factura">
         <p class="ticket-id">ID de Factura: {{ factura.id }}</p>
         <p>Método de pago: {{ factura.metodoPago }}</p>
@@ -189,6 +194,7 @@
   </div>
 
   <div class="print-actions">
+    <!-- Botón para ejecutar la impresión del ticket -->
     <button
       pButton
       type="button"

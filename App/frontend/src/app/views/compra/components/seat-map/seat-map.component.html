@@ -1,16 +1,16 @@
 <div class="seat-selection-container">
   <h3 class="section-title">Selecciona tu asiento</h3>
 
-  <!-- Toast notifications -->
+  <!-- Notificaciones tipo toast -->
   <p-toast></p-toast>
 
-  <!-- Loading indicator -->
+  <!-- Indicador de carga -->
   <div class="loading-section" *ngIf="loading">
     <div class="spinner"></div>
     <p>Cargando asientos...</p>
   </div>
 
-  <!-- Error display -->
+  <!-- Mensaje de error -->
   <div class="error-section" *ngIf="error && !loading">
     <div class="error-message">
       <i class="pi pi-exclamation-triangle"></i>
@@ -19,12 +19,12 @@
   </div>
 
   <div class="seat-map-content" *ngIf="!loading && !error">
-    <!-- Screen representation -->
+    <!-- Representación de la pantalla del cine -->
     <div class="screen">
       <span class="screen-label">PANTALLA</span>
     </div>
 
-    <!-- Seat legend -->
+    <!-- Leyenda de estados de los asientos -->
     <div class="seat-legend">
       <div class="legend-item">
         <div class="seat-example seat-available"></div>
@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <!-- Countdown timer for reservation -->
+    <!-- Temporizador de reserva, solo visible si hay selección activa -->
     <div class="reservation-timer" *ngIf="countdown > 0 && selectedSeatDisplay">
       <i class="pi pi-clock"></i>
       <span>
@@ -62,7 +62,7 @@
       ></button>
     </div>
 
-    <!-- Seat map -->
+    <!-- Mapa de asientos: filas y asientos -->
     <div class="seat-map-container">
       <div class="seat-map">
         <div class="seat-row" *ngFor="let row of rows">
@@ -81,7 +81,7 @@
       </div>
     </div>
 
-    <!-- Selected seat information -->
+    <!-- Información del asiento seleccionado -->
     <div class="selected-seat-info" *ngIf="selectedSeatDisplay">
       <h4>Asiento seleccionado:</h4>
       <p>
@@ -90,7 +90,7 @@
       </p>
     </div>
 
-    <!-- Action buttons -->
+    <!-- Botones de acción: cancelar y continuar al pago -->
     <div class="action-buttons">
       <button
         pButton

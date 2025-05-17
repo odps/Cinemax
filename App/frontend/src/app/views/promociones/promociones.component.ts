@@ -40,6 +40,7 @@ export class PromocionesComponent implements OnInit {
     this.cargarPromociones();
   }
 
+  // Carga las promociones activas desde el servicio y selecciona una al azar como destacada
   cargarPromociones(): void {
     this.loading = true;
     this.error = null;
@@ -66,6 +67,7 @@ export class PromocionesComponent implements OnInit {
             };
           });
 
+          // Selecciona una promoción al azar para destacarla
           const randomIndex = Math.floor(
             Math.random() * this.promociones.length
           );
@@ -74,11 +76,11 @@ export class PromocionesComponent implements OnInit {
         } else {
           this.promociones = [];
           this.promocionDestacada = undefined;
-          // No fallback promo, just show empty state in template
         }
       });
   }
 
+  // Extrae el porcentaje de descuento de los textos de título o descripción
   private extraerDescuento(titulo: string, descripcion: string): number {
     const regex = /(\d+)%|(\d+)x(\d+)/;
     const titleMatch = titulo.match(regex);
@@ -98,6 +100,7 @@ export class PromocionesComponent implements OnInit {
     return 0;
   }
 
+  // Formatea la fecha a formato local español
   private formatDate(dateString: string): string {
     if (!dateString) return '';
     const date = new Date(dateString);
@@ -108,14 +111,10 @@ export class PromocionesComponent implements OnInit {
     });
   }
 
-  private cargarPromocionesFallback(): void {
-    // This fallback is no longer used
-  }
-
   openPromoModal(
     promocion: Promocion & { descuento?: number; imagen?: string }
   ) {
-    // Ensure cines is always an array for template safety
+    // Asegura que cines siempre sea un arreglo para evitar errores en la plantilla
     this.selectedPromocion = {
       ...promocion,
       cines: promocion.cines ?? [],

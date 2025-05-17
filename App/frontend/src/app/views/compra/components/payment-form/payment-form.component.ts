@@ -7,11 +7,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
+// Interfaz para los métodos de pago disponibles
 interface PaymentMethod {
   label: string;
   value: string;
 }
 
+// Estructura de los datos requeridos para el pago
 export interface PaymentData {
   cardNumber: string;
   cardholderName: string;
@@ -47,17 +49,20 @@ export class PaymentFormComponent implements OnInit {
     paymentMethod: 'card',
   };
 
+  // Métodos de pago disponibles para el usuario
   paymentMethods: PaymentMethod[] = [
     { label: 'Tarjeta de crédito', value: 'card' },
     { label: 'PayPal', value: 'paypal' },
   ];
 
+  // Estado para mostrar el spinner de procesamiento
   processing: boolean = false;
 
   constructor(private messageService: MessageService) {}
 
   ngOnInit(): void {}
 
+  // Envía el formulario de pago, validando los datos según el método seleccionado
   submitPayment(): void {
     if (this.paymentData.paymentMethod === 'card') {
       if (!this.validateCardDetails()) {
@@ -67,17 +72,19 @@ export class PaymentFormComponent implements OnInit {
 
     this.processing = true;
 
-    // Simulate payment processing
+    // Simulación de procesamiento de pago
     setTimeout(() => {
       this.processing = false;
       this.paymentSubmitted.emit(this.paymentData);
     }, 1500);
   }
 
+  // Emite el evento para cancelar el pago
   cancel(): void {
     this.cancelPayment.emit();
   }
 
+  // Valida los datos de la tarjeta antes de enviar el pago
   private validateCardDetails(): boolean {
     if (
       !this.paymentData.cardNumber ||

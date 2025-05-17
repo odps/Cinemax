@@ -1,4 +1,4 @@
-/* Seat colors */
+/* Colores de asientos */
 .bg-e0e0e0 {
   background-color: #e0e0e0;
 }
@@ -15,13 +15,13 @@
   background-color: #ff5252;
 }
 
-/* Ticket Dialog */
+/* Estilos del diálogo de ticket impreso */
 .print-dialog .p-dialog-content {
   background-color: white;
   color: black;
 }
 
-/* Print styles */
+/* Estilos para impresión del ticket */
 @media print {
   body * {
     visibility: hidden;
@@ -47,14 +47,14 @@
   }
 }
 
-/* Seat hover effect */
+/* Efecto hover para asientos disponibles */
 .seat-available:hover {
   transform: scale(1.1);
   transition: transform 0.2s;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-/* Responsive adjustments */
+/* Ajustes responsivos para el contenedor de asientos */
 @media (max-width: 640px) {
   .seat-container {
     overflow-x: auto;
@@ -62,7 +62,7 @@
   }
 }
 
-/* Spinner animation */
+/* Animación de spinner para carga */
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -73,7 +73,7 @@
   animation: spin 1s linear infinite;
 }
 
-/* CompraComponent styles */
+/* Contenedor principal de la compra */
 .compra-container {
   width: 100%;
   max-width: 1100px;
@@ -99,7 +99,7 @@
   margin-bottom: 2rem;
 }
 
-/* PrimeNG Steps customization */
+/* Personalización de PrimeNG Steps */
 :host ::ng-deep .p-steps .p-steps-item .p-menuitem-link {
   background: transparent;
 }
@@ -108,7 +108,7 @@
   background: #4caf50;
 }
 
-/* Loading section */
+/* Sección de carga */
 .loading-section {
   display: flex;
   flex-direction: column;
@@ -134,7 +134,7 @@
   }
 }
 
-/* Error section */
+/* Sección de error */
 .error-section {
   padding: 2rem;
   display: flex;
@@ -164,14 +164,14 @@
   text-align: center;
 }
 
-/* Step Sections */
+/* Sección de cada paso del proceso */
 .step-section {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-/* Selected Seat Summary */
+/* Resumen del asiento seleccionado */
 .selected-seat-summary {
   background-color: #2d3748;
   padding: 1rem 1.5rem;
@@ -189,7 +189,7 @@
   color: #a0aec0;
 }
 
-/* Responsive adjustments */
+/* Ajustes responsivos para pantallas medianas */
 @media (max-width: 768px) {
   .compra-container {
     padding: 1rem;

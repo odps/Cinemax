@@ -28,6 +28,7 @@ export class LandingComponent implements OnInit {
     this.cargarPeliculas();
   }
 
+  // Carga la lista de películas y selecciona una al azar para destacar
   cargarPeliculas(): void {
     this.cargando = true;
     this.peliculasService
@@ -36,22 +37,25 @@ export class LandingComponent implements OnInit {
       .subscribe({
         next: (peliculas) => {
           if (peliculas.length > 0) {
+            // Selecciona una película aleatoria para destacar
             const randomIndex = Math.floor(Math.random() * peliculas.length);
             this.highlightedMovie = peliculas[randomIndex];
-
+            // Selecciona un subconjunto de películas para mostrar en el grid
             this.movies = peliculas.slice(1, 4);
           }
         },
         error: (error) => {
-          console.error('Error al cargar las películas:', error);
+          // Error al cargar las películas
         },
       });
   }
 
+  // Navega a la cartelera de películas
   verCartelera(): void {
     this.router.navigate(['/peliculas']);
   }
 
+  // Navega a la sección de promociones
   verPromociones(): void {
     this.router.navigate(['/promociones']);
   }

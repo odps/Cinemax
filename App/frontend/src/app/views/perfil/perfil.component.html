@@ -1,3 +1,11 @@
+<!--
+  La estructura principal de este archivo HTML corresponde a la vista de perfil de usuario.
+  Cada sección (información personal, seguridad, actividad reciente, compras) se muestra según el valor de currentSection.
+  El diálogo de impresión se activa solo si hay una factura seleccionada (facturaToPrint).
+  El uso de *ngIf y los bindings permite mostrar u ocultar dinámicamente las secciones y los datos del usuario.
+  El componente p-table en la sección de actividad reciente muestra los logs de actividad del usuario, si existen.
+  En la sección de compras, se listan las facturas y tickets asociados al usuario, mostrando detalles relevantes y permitiendo imprimirlos.
+-->
 <div class="max-w-7xl mx-auto px-4 py-8">
   <h1
     class="text-4xl font-extrabold text-yellow-400 mb-8 drop-shadow-lg flex items-center gap-3"

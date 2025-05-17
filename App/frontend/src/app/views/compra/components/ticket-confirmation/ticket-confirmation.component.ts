@@ -8,6 +8,7 @@ import { DisponibilidadAsiento } from '../../../../core/interfaces/disponibilida
 import { Funcion } from '../../../../core/interfaces/funcion';
 import { Factura } from '../../../../core/interfaces/factura';
 
+// Interfaz que representa la información relevante de un ticket
 export interface TicketInfo {
   id: number;
   fechaCompra: Date;
@@ -34,20 +35,22 @@ export class TicketConfirmationComponent {
 
   showPrintDialog: boolean = false;
 
-  constructor() {}
-
+  // Muestra el diálogo de impresión del ticket
   printTicket(): void {
     this.showPrintDialog = true;
   }
 
+  // Ejecuta la impresión del ticket usando la función nativa del navegador
   executePrint(): void {
     window.print();
   }
 
+  // Emite evento para volver a la pantalla de inicio
   backToHome(): void {
     this.returnToHome.emit();
   }
 
+  // Emite evento para ver la cartelera de películas
   viewMovies(): void {
     this.goToShowtimes.emit();
   }

@@ -1,15 +1,13 @@
-<!-- Hero Section -->
+<!-- Sección principal con imagen de fondo y overlay oscuro para resaltar el contenido -->
 <section
   class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden"
 >
-  <!-- Fondo con overlay -->
   <div
     class="absolute inset-0 bg-cover bg-center"
     style="background-image: url('assets/cinemaxLanding.jpg')"
   >
     <div class="absolute inset-0 bg-black/80"></div>
   </div>
-  <!-- Contenido Hero -->
   <div
     class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-36 flex flex-col items-start"
   >
@@ -49,7 +47,7 @@
 <!-- Sección de Próximos Estrenos -->
 <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-16">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Título de sección -->
+    <!-- Título y descripción de la sección de estrenos -->
     <div class="mb-12 text-center">
       <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">
         Próximos Estrenos
@@ -58,19 +56,19 @@
         Descubre las películas que llegarán pronto a nuestras salas
       </p>
     </div>
-    <!-- Indicador de carga -->
+    <!-- Indicador de carga: se muestra mientras se cargan las películas -->
     <div *ngIf="cargando" class="flex justify-center py-16">
       <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
     </div>
     <ng-container *ngIf="!cargando">
-      <!-- Película destacada (ocupa toda la fila) -->
+      <!-- Película destacada: se muestra una sola película en formato destacado si existe -->
       <div class="mt-8 mb-8" *ngIf="highlightedMovie">
         <app-movie-card
           [pelicula]="highlightedMovie"
           [isHighlighted]="true"
         ></app-movie-card>
       </div>
-      <!-- Grid de películas -->
+      <!-- Grid de películas: muestra hasta 3 películas en formato de grid -->
       <div
         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         *ngIf="movies.length > 0"
@@ -80,7 +78,7 @@
           [pelicula]="movie"
         ></app-movie-card>
       </div>
-      <!-- Mensaje sin películas -->
+      <!-- Mensaje si no hay películas disponibles -->
       <div
         *ngIf="movies.length === 0 && !highlightedMovie"
         class="text-center py-8"
@@ -89,7 +87,7 @@
           No hay películas disponibles en este momento.
         </p>
       </div>
-      <!-- Ver más películas -->
+      <!-- Botón para ver más películas -->
       <div class="mt-12 text-center">
         <p-button
           label="Ver más películas"

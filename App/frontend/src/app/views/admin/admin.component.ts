@@ -9,7 +9,6 @@ import { SalaService } from '../../core/services/sala.service';
 import { ImageUploadService } from '../../core/services/image-upload.service';
 import { HttpClientModule } from '@angular/common/http';
 
-// PrimeNG imports
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -26,7 +25,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TooltipModule } from 'primeng/tooltip';
 import { CardModule } from 'primeng/card';
 
-// Interfaces
 import { Cine } from '../../core/interfaces/cine';
 import { Pelicula } from '../../core/interfaces/pelicula';
 import { Promocion } from '../../core/interfaces/promocion';
@@ -65,35 +63,31 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 export class AdminComponent implements OnInit {
   activeTabIndex: number = 0;
 
-  // Arrays
   cines: Cine[] = [];
   peliculas: Pelicula[] = [];
   promociones: Promocion[] = [];
   salas: Sala[] = [];
   funciones: Funcion[] = [];
 
-  // Selecciones
   selectedCine: Cine | null = null;
   selectedPelicula: Pelicula | null = null;
   selectedPromocion: Promocion | null = null;
   selectedSala: Sala | null = null;
   selectedFuncion: Funcion | null = null;
 
-  // Controles de dialogo
   cineDialog: boolean = false;
   peliculaDialog: boolean = false;
   promocionDialog: boolean = false;
   salaDialog: boolean = false;
   funcionDialog: boolean = false;
 
-  // Estados de carga
   loadingCines: boolean = false;
   loadingPeliculas: boolean = false;
   loadingPromociones: boolean = false;
   loadingSalas: boolean = false;
   loadingFunciones: boolean = false;
 
-  // Add this property to the AdminComponent class
+  // Opciones para el tipo de promoción
   tiposPromocion = [
     { label: 'Descuento', value: 'descuento' },
     { label: 'Combo', value: 'combo' },
@@ -102,7 +96,7 @@ export class AdminComponent implements OnInit {
     { label: 'Otro', value: 'otro' },
   ];
 
-  // Add the limitesEdadOptions array to AdminComponent to provide the dropdown options for 'Límite de edad'.
+  // Opciones para el límite de edad de películas
   limitesEdadOptions = [
     { label: 'PEGI 7', value: 'PEGI 7' },
     { label: 'PEGI 13', value: 'PEGI 13' },
@@ -248,18 +242,15 @@ export class AdminComponent implements OnInit {
     this.loadFunciones();
   }
 
-  // ===== CINES CRUD OPERATIONS =====
+  // ===== Operaciones CRUD para Cines =====
   loadCines(): void {
     this.loadingCines = true;
-    console.log('Loading cines...');
     this.cineService.getListaCines().subscribe({
       next: (data: Cine[]) => {
-        console.log('Cines loaded successfully:', data);
         this.cines = data;
         this.loadingCines = false;
       },
-      error: (err: any) => {
-        console.error('Error loading cines:', err);
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -278,13 +269,14 @@ export class AdminComponent implements OnInit {
 
   editCine(cine: Cine): void {
     this.selectedCine = { ...cine };
-    // Inicializar promociones seleccionadas con los IDs de las promociones asociadas
+    // Inicializa las promociones seleccionadas con los IDs asociados al cine
     this.cinePromocionesSeleccionadas = (cine.promociones || []).map(
       (p) => p.id
     );
     this.cineDialog = true;
   }
 
+  // Asocia o desasocia promociones a un cine según los cambios en la selección
   onCinePromocionesChange(): void {
     if (!this.selectedCine || !this.selectedCine.id) return;
     const currentIds = (this.selectedCine.promociones || []).map((p) => p.id);
@@ -294,19 +286,16 @@ export class AdminComponent implements OnInit {
     const removed = currentIds.filter(
       (id) => !this.cinePromocionesSeleccionadas.includes(id)
     );
-    // Asignar nuevas promociones
     added.forEach((idPromocion) => {
       this.promocionesService
         .asignarCineAPromocion(idPromocion, this.selectedCine!.id!)
         .subscribe();
     });
-    // Eliminar promociones desasociadas
     removed.forEach((idPromocion) => {
       this.promocionesService
         .eliminarCineDePromocion(idPromocion, this.selectedCine!.id!)
         .subscribe();
     });
-    // Actualizar la lista local de promociones del cine
     this.selectedCine.promociones = this.promociones.filter((p) =>
       this.cinePromocionesSeleccionadas.includes(p.id)
     );
@@ -328,7 +317,7 @@ export class AdminComponent implements OnInit {
                 detail: 'Cine eliminado',
               });
             },
-            error: (err: any) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -344,7 +333,6 @@ export class AdminComponent implements OnInit {
   saveCine(): void {
     if (this.selectedCine) {
       if (this.selectedCine.id) {
-        // Update existing cine
         this.cineService
           .actualizarCine(this.selectedCine.id, this.selectedCine)
           .subscribe({
@@ -363,7 +351,7 @@ export class AdminComponent implements OnInit {
               this.cineDialog = false;
               this.selectedCine = null;
             },
-            error: (err: any) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -372,7 +360,6 @@ export class AdminComponent implements OnInit {
             },
           });
       } else {
-        // Create new cine
         this.cineService.crearCine(this.selectedCine).subscribe({
           next: (newCine) => {
             this.cines.push(newCine);
@@ -384,7 +371,7 @@ export class AdminComponent implements OnInit {
             this.cineDialog = false;
             this.selectedCine = null;
           },
-          error: (err: any) => {
+          error: () => {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
@@ -396,7 +383,7 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // ===== PELÍCULAS CRUD OPERATIONS =====
+  // ===== Operaciones CRUD para Películas =====
   loadPeliculas(): void {
     this.loadingPeliculas = true;
     this.peliculaService.getListaPeliculas().subscribe({
@@ -404,7 +391,7 @@ export class AdminComponent implements OnInit {
         this.peliculas = data;
         this.loadingPeliculas = false;
       },
-      error: (err: any) => {
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -417,7 +404,7 @@ export class AdminComponent implements OnInit {
 
   openNewPelicula(): void {
     this.selectedPelicula = {
-      genero: 'Accion', // default to a valid genre
+      genero: 'Accion',
     } as Pelicula;
     this.peliculaDialog = true;
   }
@@ -446,7 +433,7 @@ export class AdminComponent implements OnInit {
                 detail: 'Película eliminada',
               });
             },
-            error: (err: any) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -461,7 +448,7 @@ export class AdminComponent implements OnInit {
 
   savePelicula(): void {
     if (this.selectedPelicula) {
-      // Only allow valid genres
+      // Validación de género permitido
       const validGeneros = [
         'Accion',
         'Romance',
@@ -482,7 +469,6 @@ export class AdminComponent implements OnInit {
         return;
       }
       if (this.selectedPelicula.id) {
-        // Update existing pelicula
         this.peliculaService
           .actualizarPelicula(this.selectedPelicula.id, this.selectedPelicula)
           .subscribe({
@@ -501,7 +487,7 @@ export class AdminComponent implements OnInit {
               this.peliculaDialog = false;
               this.selectedPelicula = null;
             },
-            error: (err: any) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -510,7 +496,6 @@ export class AdminComponent implements OnInit {
             },
           });
       } else {
-        // Create new pelicula
         this.peliculaService.crearPelicula(this.selectedPelicula).subscribe({
           next: (newPelicula) => {
             this.peliculas.push(newPelicula);
@@ -522,7 +507,7 @@ export class AdminComponent implements OnInit {
             this.peliculaDialog = false;
             this.selectedPelicula = null;
           },
-          error: (err: any) => {
+          error: () => {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
@@ -534,7 +519,7 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // ===== PROMOCIONES CRUD OPERATIONS =====
+  // ===== Operaciones CRUD para Promociones =====
   loadPromociones(): void {
     this.loadingPromociones = true;
     this.promocionesService.getPromocionesActivas().subscribe({
@@ -542,7 +527,7 @@ export class AdminComponent implements OnInit {
         this.promociones = data;
         this.loadingPromociones = false;
       },
-      error: (err: any) => {
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -584,7 +569,7 @@ export class AdminComponent implements OnInit {
                 detail: 'Promoción eliminada',
               });
             },
-            error: (err: any) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -621,7 +606,7 @@ export class AdminComponent implements OnInit {
               this.promocionDialog = false;
               this.selectedPromocion = null;
             },
-            error: (err: any) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -643,7 +628,7 @@ export class AdminComponent implements OnInit {
               this.promocionDialog = false;
               this.selectedPromocion = null;
             },
-            error: (err: any) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -655,7 +640,7 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // ===== SALAS CRUD OPERATIONS =====
+  // ===== Operaciones CRUD para Salas =====
   loadSalas(): void {
     this.loadingSalas = true;
     this.salaService.getListaSalas().subscribe({
@@ -663,7 +648,7 @@ export class AdminComponent implements OnInit {
         this.salas = data;
         this.loadingSalas = false;
       },
-      error: (err: any) => {
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -700,7 +685,7 @@ export class AdminComponent implements OnInit {
                 detail: 'Sala eliminada',
               });
             },
-            error: (err: any) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -715,7 +700,7 @@ export class AdminComponent implements OnInit {
 
   saveSala(): void {
     if (this.selectedSala) {
-      // Create a copy of the sala object that's compatible with the Sala interface
+      // Se crea una copia de la sala para asegurar compatibilidad con la interfaz Sala
       const salaToSave: Sala = {
         ...this.selectedSala,
         cine: this.selectedSala.cine
@@ -730,7 +715,6 @@ export class AdminComponent implements OnInit {
       };
 
       if (this.selectedSala.id) {
-        // Update existing sala
         this.salaService
           .actualizarSala(this.selectedSala.id, salaToSave)
           .subscribe({
@@ -749,8 +733,7 @@ export class AdminComponent implements OnInit {
               this.salaDialog = false;
               this.selectedSala = null;
             },
-            error: (err: any) => {
-              console.error('Error updating sala:', err);
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -759,7 +742,6 @@ export class AdminComponent implements OnInit {
             },
           });
       } else {
-        // Create new sala
         this.salaService.crearSala(salaToSave).subscribe({
           next: (newSala) => {
             this.salas.push(newSala);
@@ -771,8 +753,7 @@ export class AdminComponent implements OnInit {
             this.salaDialog = false;
             this.selectedSala = null;
           },
-          error: (err: any) => {
-            console.error('Error creating sala:', err);
+          error: () => {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
@@ -784,7 +765,7 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // ===== FUNCIONES CRUD OPERATIONS =====
+  // ===== Operaciones CRUD para Funciones =====
   loadFunciones(): void {
     this.loadingFunciones = true;
     this.funcionService.getFunciones().subscribe({
@@ -792,7 +773,7 @@ export class AdminComponent implements OnInit {
         this.funciones = data;
         this.loadingFunciones = false;
       },
-      error: (err: any) => {
+      error: () => {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -831,7 +812,7 @@ export class AdminComponent implements OnInit {
                 detail: 'Función eliminada',
               });
             },
-            error: (err: any) => {
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -846,6 +827,7 @@ export class AdminComponent implements OnInit {
 
   saveFuncion(): void {
     if (this.selectedFuncion) {
+      // Se arma el objeto para guardar la función, solo con los campos requeridos
       const funcionToSave = {
         idPelicula: { id: this.selectedFuncion.idPelicula?.id },
         idSala: { id: this.selectedFuncion.idSala?.id },
@@ -872,8 +854,7 @@ export class AdminComponent implements OnInit {
               this.funcionDialog = false;
               this.selectedFuncion = null;
             },
-            error: (err: any) => {
-              console.error('Error updating funcion:', err);
+            error: () => {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Error',
@@ -882,7 +863,6 @@ export class AdminComponent implements OnInit {
             },
           });
       } else {
-        // Create new funcion
         this.funcionService.createFuncion(funcionToSave).subscribe({
           next: (newFuncion: Funcion) => {
             this.funciones.push(newFuncion);
@@ -894,8 +874,7 @@ export class AdminComponent implements OnInit {
             this.funcionDialog = false;
             this.selectedFuncion = null;
           },
-          error: (err: any) => {
-            console.error('Error creating funcion:', err);
+          error: () => {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
@@ -907,7 +886,7 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // Metodos auxiliares para ocultar los dialogs
+  // Oculta los diálogos según el tipo recibido
   hideDialog(
     type: 'cine' | 'pelicula' | 'promocion' | 'sala' | 'funcion'
   ): void {
