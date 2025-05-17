@@ -1,6 +1,6 @@
 <nav class="navbar-container">
   <div class="navbar-inner">
-    <!-- Logo and desktop menu -->
+    <!-- Logo y menú de escritorio -->
     <div class="navbar-logo">
       <img src="assets/logo.png" alt="CineMaxx logo" />
       <span>CineMaxx</span>
@@ -20,13 +20,7 @@
       >
     </div>
     <div class="navbar-actions">
-      <!-- Search bar (desktop) -->
-      <div class="hidden lg:block">
-        <p-iconfield iconPosition="left">
-          <!-- ...search input here if needed... -->
-        </p-iconfield>
-      </div>
-      <!-- Auth/User menu (desktop) -->
+      <!-- Menú de autenticación/usuario (escritorio) -->
       <div class="hidden md:flex items-center">
         <ng-container *ngIf="!isAuthenticated; else userMenu">
           <button class="navbar-btn" (click)="openAuthModal('login')">
@@ -46,19 +40,19 @@
         <button
           *ngIf="isAdmin"
           class="navbar-icon-btn ml-2"
-          title="Admin Panel"
+          title="Panel de administración"
           routerLink="/admin"
         >
           <i class="pi pi-cog"></i>
         </button>
       </div>
-      <!-- Mobile menu button -->
+      <!-- Botón menú móvil -->
       <button class="navbar-mobile-btn md:hidden" (click)="toggleMenu()">
         <i class="pi pi-bars"></i>
       </button>
     </div>
   </div>
-  <!-- Mobile menu -->
+  <!-- Menú móvil -->
   <div class="navbar-mobile-menu md:hidden" *ngIf="isMenuOpen">
     <a routerLink="/landing" routerLinkActive="active" class="navbar-link"
       >Inicio</a
@@ -97,13 +91,14 @@
     <button
       *ngIf="isAdmin"
       class="navbar-icon-btn w-full mt-2"
-      title="Admin Panel"
+      title="Panel de administración"
       routerLink="/admin"
     >
-      <i class="pi pi-cog"></i> Admin Panel
+      <i class="pi pi-cog"></i> Panel admin
     </button>
   </div>
 </nav>
+<!-- Modal de autenticación, maneja eventos de login y registro exitosos -->
 <app-auth-modal
   (loginSuccess)="handleLoginSuccess($event)"
   (registerSuccess)="handleRegisterSuccess($event)"

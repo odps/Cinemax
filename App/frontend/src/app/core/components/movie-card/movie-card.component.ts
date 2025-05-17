@@ -35,6 +35,8 @@ export class MovieCardComponent {
     this.mostrarSalasModal = false;
   }
 
+  // Agrupa las funciones por sala para mostrar en el modal de selección de sala y función
+  // Retorna un arreglo de objetos, cada uno con la sala y las funciones asociadas a esa sala
   agruparFuncionesPorSala(funciones: Funcion[]) {
     const grupos: { sala: any; funciones: Funcion[] }[] = [];
     const mapa = new Map<number, { sala: any; funciones: Funcion[] }>();

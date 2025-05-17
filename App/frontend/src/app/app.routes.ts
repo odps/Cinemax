@@ -10,6 +10,7 @@ import { ErrorComponent } from './views/error/error.component';
 import { loggedinGuard } from './core/guards/loggedin.guard';
 import { roleGuard } from './core/guards/role.guard';
 
+// Definición de rutas principales de la aplicación. Se utiliza canActivate para proteger rutas según el rol del usuario.
 export const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'landing', component: LandingComponent },

@@ -5,12 +5,13 @@ import { environment } from '../../../environments/environment';
 import { Promocion } from '../interfaces/promocion';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PromocionService {
+  // URL base para las peticiones relacionadas a promociones
   private apiUrl = `${environment.apiUrl}/promocion`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Obtiene la lista completa de promociones
@@ -34,51 +35,58 @@ export class PromocionService {
   }
 
   /**
-   * Obtiene promociones por tipo
+   * Obtiene promociones filtrando por tipo.
+   * Se utiliza encodeURIComponent para evitar errores con caracteres especiales en la URL.
    */
   getPromocionesPorTipo(tipo: string): Observable<Promocion[]> {
-    return this.http.get<Promocion[]>(`${this.apiUrl}/tipo/${encodeURIComponent(tipo)}`);
+    return this.http.get<Promocion[]>(
+      `${this.apiUrl}/tipo/${encodeURIComponent(tipo)}`
+    );
   }
 
   /**
-   * Obtiene promociones por cine
+   * Obtiene promociones asociadas a un cine específico por su ID
    */
   getPromocionesPorCine(idCine: number): Observable<Promocion[]> {
     return this.http.get<Promocion[]>(`${this.apiUrl}/cine/${idCine}`);
   }
 
   /**
-   * Crea una nueva promoción (requiere admin)
+   * Crea una nueva promoción (requiere permisos de administrador)
    */
   crearPromocion(promocion: Promocion): Observable<Promocion> {
     return this.http.post<Promocion>(`${this.apiUrl}/crear`, promocion);
   }
 
   /**
-   * Actualiza una promoción existente (requiere admin)
+   * Actualiza una promoción existente (requiere permisos de administrador)
    */
   actualizarPromocion(id: number, promocion: Promocion): Observable<Promocion> {
     return this.http.put<Promocion>(`${this.apiUrl}/editar/${id}`, promocion);
   }
 
   /**
-   * Elimina una promoción por su ID (requiere admin)
+   * Elimina una promoción por su ID (requiere permisos de administrador)
    */
   eliminarPromocion(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/eliminar/${id}`);
   }
 
   /**
-   * Asigna un cine a una promoción (requiere admin)
+   * Asigna un cine a una promoción específica (requiere permisos de administrador).
+   * El cuerpo de la petición es vacío ya que solo se requiere la relación entre IDs.
    */
   asignarCineAPromocion(idPromocion: number, idCine: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/${idPromocion}/cine/${idCine}`, {});
   }
 
   /**
-   * Elimina un cine de una promoción (requiere admin)
+   * Elimina la relación entre un cine y una promoción (requiere permisos de administrador)
    */
-  eliminarCineDePromocion(idPromocion: number, idCine: number): Observable<any> {
+  eliminarCineDePromocion(
+    idPromocion: number,
+    idCine: number
+  ): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${idPromocion}/cine/${idCine}`);
   }
 }

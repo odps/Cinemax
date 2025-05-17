@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class TicketService {
+  // URL base para las peticiones relacionadas a tickets
   private apiUrl = `${environment.apiUrl}/ticket`;
 
   constructor(private http: HttpClient) {}
@@ -39,6 +40,10 @@ export class TicketService {
     return this.http.get(`${this.apiUrl}/funcion/${funcionId}`);
   }
 
+  /**
+   * Realiza la compra de un ticket y retorna tanto el ticket como la factura generada.
+   * El backend responde con ambos objetos en una sola petición.
+   */
   comprarTicket(ticket: any): Observable<{ ticket: any; factura: any }> {
     return this.http.post<{ ticket: any; factura: any }>(
       `${this.apiUrl}/comprar`,

@@ -39,7 +39,8 @@ export class DispoAsientoService {
   }
 
   /**
-   * Actualiza una disponibilidad de asiento existente
+   * Actualiza una disponibilidad de asiento existente.
+   * Se utiliza Partial para permitir actualizar solo algunos campos.
    */
   actualizarDisponibilidad(
     id: number,
@@ -59,7 +60,7 @@ export class DispoAsientoService {
   }
 
   /**
-   * Obtiene disponibilidades de asiento por el ID del asiento
+   * Obtiene todas las disponibilidades asociadas a un asiento específico
    */
   getDisponibilidadesPorAsientoId(
     idAsiento: number
@@ -70,7 +71,7 @@ export class DispoAsientoService {
   }
 
   /**
-   * Obtiene disponibilidades de asiento por el ID de la función
+   * Obtiene todas las disponibilidades asociadas a una función específica
    */
   getDisponibilidadesPorFuncionId(
     idFuncion: number
@@ -81,7 +82,8 @@ export class DispoAsientoService {
   }
 
   /**
-   * Reserva un asiento (bloqueo temporal)
+   * Realiza la reserva temporal de un asiento por un tiempo determinado (en minutos).
+   * El backend se encarga de bloquear el asiento durante el tiempo especificado.
    */
   reservarAsiento(
     idDisponibilidad: number,
@@ -94,7 +96,8 @@ export class DispoAsientoService {
   }
 
   /**
-   * Libera un asiento reservado
+   * Libera un asiento previamente reservado.
+   * El backend desbloquea el asiento para que pueda ser reservado nuevamente.
    */
   liberarAsiento(idDisponibilidad: number): Observable<DisponibilidadAsiento> {
     return this.http.post<DisponibilidadAsiento>(

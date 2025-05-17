@@ -5,12 +5,13 @@ import { environment } from '../../../environments/environment';
 import { Usuario } from '../interfaces/usuario';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuarioService {
+  // URL base para las peticiones relacionadas a usuarios
   private apiUrl = `${environment.apiUrl}/usuario`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Obtiene la lista completa de usuarios
@@ -34,9 +35,12 @@ export class UsuarioService {
   }
 
   /**
-   * Actualiza un usuario existente
+   * Actualiza un usuario existente. Se permite actualización parcial de campos.
    */
-  actualizarUsuario(id: number, usuario: Partial<Usuario>): Observable<Usuario> {
+  actualizarUsuario(
+    id: number,
+    usuario: Partial<Usuario>
+  ): Observable<Usuario> {
     return this.http.put<Usuario>(`${this.apiUrl}/editar/${id}`, usuario);
   }
 
@@ -48,14 +52,16 @@ export class UsuarioService {
   }
 
   /**
-   * Obtiene el perfil del usuario autenticado actualmente
+   * Obtiene el perfil del usuario autenticado actualmente.
+   * El backend determina el usuario a partir del token de autenticación.
    */
   getMiPerfil(): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.apiUrl}/perfil`);
   }
 
   /**
-   * Actualiza el perfil del usuario autenticado actualmente
+   * Actualiza el perfil del usuario autenticado actualmente.
+   * Solo se actualizan los campos enviados en el objeto datos.
    */
   actualizarMiPerfil(datos: Partial<Usuario>): Observable<Usuario> {
     return this.http.put<Usuario>(`${this.apiUrl}/perfil`, datos);

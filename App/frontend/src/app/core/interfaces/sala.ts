@@ -1,5 +1,5 @@
-import {Cine} from './cine';
-import {Funcion} from './funcion';
+import { Cine } from './cine';
+import { Funcion } from './funcion';
 
 export interface Sala {
   id?: number;

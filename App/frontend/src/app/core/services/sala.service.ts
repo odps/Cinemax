@@ -10,6 +10,7 @@ import { AsientoService } from './asiento.service';
   providedIn: 'root',
 })
 export class SalaService {
+  // URL base para las peticiones relacionadas a salas
   private apiUrl = `${environment.apiUrl}/sala`;
 
   constructor(
@@ -39,7 +40,7 @@ export class SalaService {
   }
 
   /**
-   * Actualiza una sala existente
+   * Actualiza una sala existente. Se permite actualización parcial de campos.
    */
   actualizarSala(id: number, sala: Partial<Sala>): Observable<Sala> {
     return this.http.put<Sala>(`${this.apiUrl}/editar/${id}`, sala);
@@ -53,14 +54,15 @@ export class SalaService {
   }
 
   /**
-   * Obtiene salas por el ID del cine asociado
+   * Obtiene todas las salas asociadas a un cine específico
    */
   getSalasPorCine(idCine: number): Observable<Sala[]> {
     return this.http.get<Sala[]>(`${this.apiUrl}/cine/${idCine}`);
   }
 
   /**
-   * Obtiene asientos por el ID de la sala
+   * Devuelve los asientos de una sala usando el servicio de asientos.
+   * Este método delega la obtención de asientos al servicio correspondiente.
    */
   getAsientosBySalaId(salaId: number): Observable<Asiento[]> {
     return this.asientoService.getAsientosPorSalaId(salaId);

@@ -7,9 +7,6 @@ import {
 } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthModalComponent } from '../auth-modal/auth-modal.component';
 import { MenuItem } from 'primeng/api';
@@ -25,9 +22,6 @@ import { Subscription } from 'rxjs';
   imports: [
     CommonModule,
     ButtonModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIcon,
     NgOptimizedImage,
     RouterLink,
     RouterLinkActive,
@@ -42,8 +36,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   currentUser: any = null;
 
   isMenuOpen = false;
-  isSearchOpen = false;
 
+  // Opciones del menú de usuario (perfil y cerrar sesión)
   userMenuItems: MenuItem[] = [
     {
       label: 'Mi perfil',
@@ -63,10 +57,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    // Suscripción al estado de autenticación
     this.authSubscription = this.authService.isAuthenticated$.subscribe(
       (isAuth) => (this.isAuthenticated = isAuth)
     );
-
+    // Suscripción al usuario actual
     this.userSubscription = this.authService.currentUser$.subscribe(
       (user) => (this.currentUser = user)
     );
@@ -85,37 +80,28 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  toggleSearch() {
-    this.isSearchOpen = !this.isSearchOpen;
-  }
-
-  onSearchBlur() {
-    this.isSearchOpen = false;
-  }
-
   showLoginModal() {
     this.authModal.show('login');
   }
 
+  // Maneja el evento de login exitoso y cierra el menú móvil si está abierto
   handleLoginSuccess(response: any) {
-    console.log('Usuario logueado:', response);
     this.authService.handleAuthResponse(response);
-    // Cerrar menú móvil si está abierto
     this.isMenuOpen = false;
   }
 
+  // Maneja el evento de registro exitoso y cierra el menú móvil si está abierto
   handleRegisterSuccess(response: any) {
-    console.log('Usuario registrado:', response);
     this.authService.handleAuthResponse(response);
-    // Cerrar menú móvil si está abierto
     this.isMenuOpen = false;
   }
 
+  // Verifica si el usuario tiene rol de administrador
   hasAdminRole(): boolean {
     return this.currentUser?.rol?.nombre === 'ADMIN';
   }
 
-  // Helper for template: get user name
+  // Devuelve el nombre del usuario para mostrar en la barra
   get userName(): string {
     return (
       this.currentUser?.nombre ||
@@ -125,16 +111,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Helper for template: is admin
+  // Devuelve true si el usuario es administrador
   get isAdmin(): boolean {
     return this.hasAdminRole();
   }
 
-  // Show auth modal (login/register)
+  // Abre el modal de autenticación (login o registro)
   openAuthModal(mode: 'login' | 'register' = 'login') {
     this.authModal?.show(mode);
   }
 
+  // Cierra el menú móvil si la pantalla es mayor o igual a 768px
   @HostListener('window:resize', [])
   onResize() {
     if (window.innerWidth >= 768 && this.isMenuOpen) {

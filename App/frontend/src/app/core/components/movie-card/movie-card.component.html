@@ -1,3 +1,7 @@
+<!--
+  El ng-container y el ng-template permiten mostrar dos versiones de la tarjeta:
+  una normal y otra destacada, según el valor de isHighlighted.
+-->
 <ng-container *ngIf="!isHighlighted; else highlightedTemplate">
   <div
     class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl transition hover:shadow-[0_4px_32px_0_rgba(255,255,180,0.15)] w-full mb-8 border border-gray-800 group"
@@ -131,6 +135,9 @@
   </div>
 </ng-template>
 
+<!--
+  Diálogo para mostrar los detalles de la película. Se controla con la variable mostrarModal.
+-->
 <p-dialog
   header="Detalles de la Película"
   [(visible)]="mostrarModal"
@@ -187,6 +194,10 @@
   </div>
 </p-dialog>
 
+<!--
+  Diálogo para mostrar las salas y funciones disponibles para la película.
+  Utiliza la función agruparFuncionesPorSala para organizar las funciones por sala.
+-->
 <p-dialog
   header="Salas y Funciones disponibles"
   [(visible)]="mostrarSalasModal"

@@ -1,4 +1,4 @@
-import {Funcion} from './funcion';
+import { Funcion } from './funcion';
 export interface Pelicula {
   id?: number;
   titulo: string;

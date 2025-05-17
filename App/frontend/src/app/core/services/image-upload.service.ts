@@ -13,8 +13,9 @@ export class ImageUploadService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Sube una imagen al backend y retorna el nombre del archivo guardado.
-   * @param file Archivo de imagen a subir
+   * Sube una imagen al servidor y retorna el nombre del archivo guardado.
+   * Utiliza FormData para enviar el archivo en la petición POST.
+   * Si ocurre un error HTTP, lo propaga para ser manejado externamente.
    */
   uploadImage(file: File): Observable<string> {
     const formData = new FormData();

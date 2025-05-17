@@ -12,16 +12,18 @@ import { assetsLocation } from '../../../../environments/environment';
   imports: [CommonModule, ButtonModule],
 })
 export class CineCardComponent {
-  @Input() cine!: Cine;
-  @Input() isHighlighted: boolean = false;
-  @Output() verDetalles = new EventEmitter<Cine>();
-  @Output() verCartelera = new EventEmitter<Cine>();
-  protected readonly assetsLocation = assetsLocation;
+  @Input() cine!: Cine; // Recibe el objeto cine a mostrar en la tarjeta
+  @Input() isHighlighted: boolean = false; // Indica si la tarjeta debe mostrarse como destacada
+  @Output() verDetalles = new EventEmitter<Cine>(); // Emite evento para ver detalles del cine
+  @Output() verCartelera = new EventEmitter<Cine>(); // Emite evento para ver la cartelera del cine
+  protected readonly assetsLocation = assetsLocation; // Ruta base para los assets
 
+  // Emite el evento para mostrar detalles del cine seleccionado
   mostrarDetalles(): void {
     this.verDetalles.emit(this.cine);
   }
 
+  // Emite el evento para mostrar la cartelera del cine seleccionado
   mostrarCartelera(): void {
     this.verCartelera.emit(this.cine);
   }

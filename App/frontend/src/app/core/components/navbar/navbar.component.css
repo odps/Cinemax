@@ -1,11 +1,12 @@
 /*
- * Modern Cinemax Navbar: glassmorphism, yellow accent, elegant spacing, shadow, and responsive.
+ * Estilos principales para la barra de navegación de Cinemax.
+ * Incluye acentos amarillos, espaciado elegante, sombra y diseño responsivo.
  */
 .navbar-container {
   width: 100%;
   background: rgba(24, 24, 27, 0.85);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid #facc15; /* Thinner yellow line */
+  border-bottom: 1px solid #facc15; /* Línea amarilla delgada */
   box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.18);
   color: #f3f4f6;
   position: sticky;
@@ -129,7 +130,7 @@
   background: rgba(250, 204, 21, 0.12) !important;
 }
 
-/* Add margin to user dropdown menu */
+/* Margen para el menú desplegable del usuario */
 :host ::ng-deep .p-menu-overlay {
   margin-top: 1.2rem !important;
 }

@@ -8,33 +8,35 @@ import { Asiento } from '../interfaces/asiento';
   providedIn: 'root',
 })
 export class AsientoService {
+  // URL base para las peticiones relacionadas con asientos
   private apiUrl = `${environment.apiUrl}/asiento`;
 
   constructor(private http: HttpClient) {}
 
   /**
-   * Obtiene la lista completa de asientos
+   * Obtiene la lista completa de asientos desde el backend
    */
   getListaAsientos(): Observable<Asiento[]> {
     return this.http.get<Asiento[]>(`${this.apiUrl}/lista`);
   }
 
   /**
-   * Obtiene detalles de un asiento por su ID
+   * Obtiene los detalles de un asiento específico por su ID
    */
   getAsientoPorId(id: number): Observable<Asiento> {
     return this.http.get<Asiento>(`${this.apiUrl}/${id}`);
   }
 
   /**
-   * Crea un nuevo asiento
+   * Crea un nuevo asiento enviando el objeto asiento al backend
    */
   crearAsiento(asiento: Asiento): Observable<Asiento> {
     return this.http.post<Asiento>(`${this.apiUrl}/crear`, asiento);
   }
 
   /**
-   * Actualiza un asiento existente
+   * Actualiza los datos de un asiento existente identificado por su ID.
+   * Se utiliza Partial<Asiento> para permitir actualizar solo algunos campos.
    */
   actualizarAsiento(
     id: number,
@@ -44,14 +46,14 @@ export class AsientoService {
   }
 
   /**
-   * Elimina un asiento por su ID
+   * Elimina un asiento específico por su ID
    */
   eliminarAsiento(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/eliminar/${id}`);
   }
 
   /**
-   * Obtiene asientos por el ID de la sala
+   * Obtiene todos los asientos asociados a una sala específica por su ID
    */
   getAsientosPorSalaId(idSala: number): Observable<Asiento[]> {
     return this.http.get<Asiento[]>(`${this.apiUrl}/sala/${idSala}`);

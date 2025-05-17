@@ -6,6 +6,7 @@ export const loggedinGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
+  // Verifica si el usuario tiene un token válido antes de permitir el acceso
   if (authService['hasValidToken']()) {
     return true;
   }

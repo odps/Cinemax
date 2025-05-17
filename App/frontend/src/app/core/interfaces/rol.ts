@@ -1,4 +1,4 @@
-import { Permiso } from "./permiso";
+import { Permiso } from './permiso';
 
 export interface Rol {
   id: number;

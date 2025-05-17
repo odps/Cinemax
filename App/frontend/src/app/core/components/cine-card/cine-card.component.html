@@ -1,4 +1,10 @@
+<!--
+  Comentario: El ng-container alterna entre la tarjeta normal y la destacada según la variable isHighlighted.
+  El uso de assetsLocation y cine?.imagenUrl permite mostrar la imagen del cine o un placeholder si no existe.
+  Los botones emiten eventos para ver cartelera o detalles del cine.
+-->
 <ng-container *ngIf="!isHighlighted; else highlightedTemplate">
+  <!-- Tarjeta de cine normal -->
   <div
     class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-2xl overflow-hidden shadow-xl transition hover:shadow-[0_4px_32px_0_rgba(255,255,180,0.15)] w-full mb-8 border border-gray-800 group"
   >
@@ -64,6 +70,7 @@
 </ng-container>
 
 <ng-template #highlightedTemplate>
+  <!-- Tarjeta de cine destacada -->
   <div
     class="relative bg-gradient-to-br from-yellow-900 via-gray-900 to-gray-900 rounded-2xl overflow-hidden shadow-xl transition hover:shadow-[0_4px_32px_0_rgba(255,255,180,0.18)] w-full mb-10 border border-yellow-400 group"
   >

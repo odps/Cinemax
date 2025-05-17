@@ -8,6 +8,7 @@ import { Review } from '../interfaces/review';
   providedIn: 'root',
 })
 export class ReviewService {
+  // URL base para las peticiones relacionadas a reviews
   private apiUrl = `${environment.apiUrl}/review`;
 
   constructor(private http: HttpClient) {}
@@ -48,14 +49,15 @@ export class ReviewService {
   }
 
   /**
-   * Actualiza una review existente
+   * Actualiza una review existente.
+   * Se utiliza Partial<Review> para permitir la actualización parcial de los campos de la review.
    */
   updateReview(id: number, review: Partial<Review>): Observable<Review> {
     return this.http.put<Review>(`${this.apiUrl}/editar/${id}`, review);
   }
 
   /**
-   * Elimina una review
+   * Elimina una review por su ID
    */
   deleteReview(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/eliminar/${id}`);

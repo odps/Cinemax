@@ -27,9 +27,9 @@ import { MessageService } from 'primeng/api';
     IconField,
     InputIcon,
     HttpClientModule,
-    ToastModule
+    ToastModule,
   ],
-  providers: [MessageService]
+  providers: [MessageService],
 })
 export class AuthModalComponent {
   @Output() loginSuccess = new EventEmitter<any>();
@@ -41,14 +41,14 @@ export class AuthModalComponent {
 
   loginForm = {
     correo: '',
-    contrasena: ''
+    contrasena: '',
   };
 
   registerForm = {
     nombre: '',
     correo: '',
     contrasena: '',
-    confirmPassword: ''
+    confirmPassword: '',
   };
 
   constructor(
@@ -56,35 +56,46 @@ export class AuthModalComponent {
     private messageService: MessageService
   ) {}
 
+  // Muestra el modal en modo login o registro
   show(mode: 'login' | 'register' = 'login') {
     this.isRegisterMode = mode === 'register';
     this.displayModal = true;
   }
 
+  // Oculta el modal y limpia los formularios
   hide() {
     this.displayModal = false;
     this.resetForms();
   }
 
+  // Cambia a modo registro
   switchToRegister() {
     this.isRegisterMode = true;
   }
 
+  // Cambia a modo login
   switchToLogin() {
     this.isRegisterMode = false;
   }
 
+  // Reinicia los formularios de login y registro
   resetForms() {
     this.loginForm = { correo: '', contrasena: '' };
-    this.registerForm = { nombre: '', correo: '', contrasena: '', confirmPassword: '' };
+    this.registerForm = {
+      nombre: '',
+      correo: '',
+      contrasena: '',
+      confirmPassword: '',
+    };
   }
 
+  // Lógica de inicio de sesión
   login() {
     if (!this.loginForm.correo || !this.loginForm.contrasena) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Por favor completa todos los campos'
+        detail: 'Por favor completa todos los campos',
       });
       return;
     }
@@ -97,7 +108,7 @@ export class AuthModalComponent {
         this.messageService.add({
           severity: 'success',
           summary: 'Éxito',
-          detail: 'Inicio de sesión exitoso'
+          detail: 'Inicio de sesión exitoso',
         });
         this.hide();
       },
@@ -106,79 +117,87 @@ export class AuthModalComponent {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: error.error?.message || 'Error al iniciar sesión'
+          detail: error.error?.message || 'Error al iniciar sesión',
         });
-      }
+      },
     });
   }
 
-register() {
-  if (this.registerForm.contrasena !== this.registerForm.confirmPassword) {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'Las contraseñas no coinciden'
-    });
-    return;
-  }
-
-  if (!this.registerForm.nombre || !this.registerForm.correo || !this.registerForm.contrasena) {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'Por favor completa todos los campos'
-    });
-    return;
-  }
-
-  const registerData = {
-    nombre: this.registerForm.nombre,
-    correo: this.registerForm.correo,
-    contrasena: this.registerForm.contrasena
-  };
-
-  this.loading = true;
-  this.authService.register(registerData).subscribe({
-    next: (response) => {
-      this.loading = false;
-      // Después del registro exitoso, iniciar sesión automáticamente
-      this.authService.login({
-        correo: this.registerForm.correo,
-        contrasena: this.registerForm.contrasena
-      }).subscribe({
-        next: (loginResponse) => {
-          this.registerSuccess.emit(loginResponse);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Éxito',
-            detail: 'Registro exitoso'
-          });
-          this.hide();
-        },
-        error: (loginError) => {
-          this.messageService.add({
-            severity: 'warning',
-            summary: 'Atención',
-            detail: 'Usuario registrado pero no se pudo iniciar sesión automáticamente'
-          });
-          this.switchToLogin();
-        }
-      });
-    },
-    error: (error) => {
-      this.loading = false;
-      let errorMessage = 'Error al registrarse';
-
-      if (error.error === 'Email ya registrado') {
-        errorMessage = 'Este correo ya está registrado';
-      }
-
+  // Lógica de registro de usuario, incluye registro y login automático
+  register() {
+    if (this.registerForm.contrasena !== this.registerForm.confirmPassword) {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: errorMessage
+        detail: 'Las contraseñas no coinciden',
       });
+      return;
     }
-  });
-}
+
+    if (
+      !this.registerForm.nombre ||
+      !this.registerForm.correo ||
+      !this.registerForm.contrasena
+    ) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor completa todos los campos',
+      });
+      return;
+    }
+
+    const registerData = {
+      nombre: this.registerForm.nombre,
+      correo: this.registerForm.correo,
+      contrasena: this.registerForm.contrasena,
+    };
+
+    this.loading = true;
+    this.authService.register(registerData).subscribe({
+      next: (response) => {
+        this.loading = false;
+        // Tras registro exitoso, se intenta login automático
+        this.authService
+          .login({
+            correo: this.registerForm.correo,
+            contrasena: this.registerForm.contrasena,
+          })
+          .subscribe({
+            next: (loginResponse) => {
+              this.registerSuccess.emit(loginResponse);
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Registro exitoso',
+              });
+              this.hide();
+            },
+            error: () => {
+              this.messageService.add({
+                severity: 'warning',
+                summary: 'Atención',
+                detail:
+                  'Usuario registrado pero no se pudo iniciar sesión automáticamente',
+              });
+              this.switchToLogin();
+            },
+          });
+      },
+      error: (error) => {
+        this.loading = false;
+        let errorMessage = 'Error al registrarse';
+
+        if (error.error === 'Email ya registrado') {
+          errorMessage = 'Este correo ya está registrado';
+        }
+
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: errorMessage,
+        });
+      },
+    });
+  }
 }
