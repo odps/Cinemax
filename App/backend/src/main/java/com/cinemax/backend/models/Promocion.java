@@ -35,7 +35,6 @@ public class Promocion {
     @com.fasterxml.jackson.annotation.JsonIgnoreProperties("promociones")
     private List<Cine> cines;
 
-    // Constructors
     public Promocion() {
     }
 
@@ -49,7 +48,6 @@ public class Promocion {
         this.imagenUrl = imagenUrl;
     }
 
-    // Getters and setters
     public long getId() {
         return id;
     }

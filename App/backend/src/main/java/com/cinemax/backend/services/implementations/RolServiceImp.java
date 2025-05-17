@@ -37,6 +37,7 @@ public class RolServiceImp implements RolService {
 
     @Override
     public ResponseEntity<?> createRol(Rol rol) {
+        // Se valida que no exista un rol con el mismo nombre antes de crearlo
         Rol checkRol = rolRepo.findByNombre(rol.getNombre());
         if (checkRol != null) {
             return ResponseEntity.badRequest().body("Este rol ya existe");
@@ -52,6 +53,7 @@ public class RolServiceImp implements RolService {
         if (rolOld == null) {
             return ResponseEntity.badRequest().body("Rol no encontrado");
         } else {
+            // Solo se actualizan los campos que vienen con datos válidos
             if (rol.getNombre() != null) {
                 rolOld.setNombre(rol.getNombre());
             }

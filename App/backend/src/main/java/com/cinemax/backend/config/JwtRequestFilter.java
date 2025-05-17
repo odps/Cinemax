@@ -1,6 +1,5 @@
 package com.cinemax.backend.config;
 
-
 import com.cinemax.backend.services.implementations.CustomUserDetailsService;
 import com.cinemax.backend.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
@@ -19,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-
+// Filtro de seguridad que intercepta cada petición HTTP para validar el JWT y autenticar al usuario
 @Component
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -31,6 +30,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    // Método principal que intercepta la petición, extrae y valida el JWT
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {

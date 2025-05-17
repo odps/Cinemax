@@ -14,15 +14,14 @@ import java.util.Collections;
 @RequestMapping("/api")
 public class ImageUploadController {
 
-    // Endpoint para subir una imagen. Guarda la imagen en static/assets y retorna
-    // el nombre del archivo.
+    // Sube una imagen al servidor y retorna el nombre del archivo guardado
     @PostMapping("/upload")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("No file selected");
+            return ResponseEntity.badRequest().body("No se seleccionó ningún archivo");
         }
         try {
-            // Directorio absoluto donde se guardarán las imágenes (frontend/assets)
+            // Ruta absoluta donde se guardan las imágenes cargadas
             String uploadDir = "/home/odps/Documents/Cinemax/App/frontend/src/assets/";
             File dir = new File(uploadDir);
             if (!dir.exists()) {
@@ -33,11 +32,10 @@ public class ImageUploadController {
             if (dest.exists()) {
                 return ResponseEntity.status(409).body("El archivo ya existe");
             }
-            file.transferTo(dest);
-            // Retorna el nombre del archivo para que el frontend lo use
+            file.transferTo(dest); // Guarda el archivo en el sistema de archivos
             return ResponseEntity.ok(Collections.singletonMap("filename", filename));
         } catch (IOException e) {
-            return ResponseEntity.status(500).body("Error saving file: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error al guardar el archivo: " + e.getMessage());
         }
     }
 }

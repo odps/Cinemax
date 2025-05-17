@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @EnableMethodSecurity
 @RequestMapping("/cine")
+// Controlador REST para la gestión de cines
 public class CineController {
 
     @Autowired

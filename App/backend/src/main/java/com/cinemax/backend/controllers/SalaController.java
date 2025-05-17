@@ -4,13 +4,13 @@ import com.cinemax.backend.models.Sala;
 import com.cinemax.backend.services.implementations.SalaServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @EnableMethodSecurity
 @RequestMapping("/sala")
+// Controlador REST para la gestión de salas de cine
 public class SalaController {
 
     @Autowired

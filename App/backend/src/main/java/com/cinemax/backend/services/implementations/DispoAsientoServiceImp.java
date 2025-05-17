@@ -35,6 +35,7 @@ public class DispoAsientoServiceImp implements DispoAsientoService {
 
     @Override
     public ResponseEntity<?> createDisponibilidadAsiento(DisponibilidadAsiento disponibilidadAsiento) {
+        // Validación de datos obligatorios
         if (disponibilidadAsiento.getIdAsiento() == null || disponibilidadAsiento.getIdFuncion() == null ||
                 disponibilidadAsiento.getEstado() == null || disponibilidadAsiento.getEstado().isEmpty()) {
             return ResponseEntity.badRequest().body("Datos de disponibilidad de asiento inválidos");
@@ -49,14 +50,13 @@ public class DispoAsientoServiceImp implements DispoAsientoService {
         if (asientoOld == null) {
             return ResponseEntity.badRequest().body("Disponibilidad de asiento no encontrada");
         }
-
+        // Solo se actualizan los campos que vienen con datos válidos
         if (disponibilidadAsiento.getEstado() != null && !disponibilidadAsiento.getEstado().isEmpty()) {
             asientoOld.setEstado(disponibilidadAsiento.getEstado());
         }
         if (disponibilidadAsiento.getBloqueadoHasta() != null) {
             asientoOld.setBloqueadoHasta(disponibilidadAsiento.getBloqueadoHasta());
         }
-
         disponibilidadAsientoRepo.save(asientoOld);
         return ResponseEntity.ok(asientoOld);
     }
@@ -94,10 +94,12 @@ public class DispoAsientoServiceImp implements DispoAsientoService {
         if (disponibilidad == null) {
             return ResponseEntity.badRequest().body("Disponibilidad de asiento no encontrada");
         }
+        // Solo se puede reservar si el estado es 'disponible'
         if (!"disponible".equalsIgnoreCase(disponibilidad.getEstado())) {
             return ResponseEntity.badRequest().body("El asiento no está disponible para reservar");
         }
         disponibilidad.setEstado("reservado");
+        // Se bloquea el asiento por el tiempo indicado
         disponibilidad.setBloqueadoHasta(java.time.LocalDateTime.now().plusMinutes(minutosBloqueo));
         disponibilidadAsientoRepo.save(disponibilidad);
         return ResponseEntity.ok(disponibilidad);
@@ -109,6 +111,7 @@ public class DispoAsientoServiceImp implements DispoAsientoService {
         if (disponibilidad == null) {
             return ResponseEntity.badRequest().body("Disponibilidad de asiento no encontrada");
         }
+        // Solo se libera si el estado es 'reservado'
         if ("reservado".equalsIgnoreCase(disponibilidad.getEstado())) {
             disponibilidad.setEstado("disponible");
             disponibilidad.setBloqueadoHasta(null);

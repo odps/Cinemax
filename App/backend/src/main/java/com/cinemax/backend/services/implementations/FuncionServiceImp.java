@@ -32,6 +32,7 @@ public class FuncionServiceImp implements FuncionService {
 
     @Override
     public ResponseEntity<?> createFuncion(Funcion funcion) {
+        // Validación de datos obligatorios para crear una función
         if (funcion.getIdPelicula() == null || funcion.getIdSala() == null || funcion.getFechaHora() == null
                 || funcion.getPrecio() <= 0) {
             return ResponseEntity.badRequest().body("Datos de función inválidos");
@@ -46,7 +47,7 @@ public class FuncionServiceImp implements FuncionService {
         if (funcionOld == null) {
             return ResponseEntity.badRequest().body("Función no encontrada");
         }
-
+        // Solo se actualizan los campos que vienen con datos válidos
         if (funcion.getIdPelicula() != null) {
             funcionOld.setIdPelicula(funcion.getIdPelicula());
         }
@@ -59,7 +60,6 @@ public class FuncionServiceImp implements FuncionService {
         if (funcion.getPrecio() > 0) {
             funcionOld.setPrecio(funcion.getPrecio());
         }
-
         funcionRepo.save(funcionOld);
         return ResponseEntity.ok(funcionOld);
     }
@@ -75,12 +75,14 @@ public class FuncionServiceImp implements FuncionService {
 
     @Override
     public ResponseEntity<?> getFuncionesByIdPeliculaId(long idPeliculaId) {
+        // Devuelve todas las funciones asociadas a una película específica
         List<Funcion> funciones = funcionRepo.findByIdPeliculaId(idPeliculaId);
         return ResponseEntity.ok(funciones);
     }
 
     @Override
     public ResponseEntity<?> getFuncionesByIdSalaId(long idSalaId) {
+        // Devuelve todas las funciones asociadas a una sala específica
         List<Funcion> funciones = funcionRepo.findByIdSalaId(idSalaId);
         return ResponseEntity.ok(funciones);
     }

@@ -38,17 +38,16 @@ public class PromocionServiceImp implements PromocionService {
 
     @Override
     public ResponseEntity<?> createPromocion(Promocion promocion) {
+        // Validación de datos obligatorios y fechas
         if (promocion.getTitulo() == null || promocion.getTitulo().isEmpty() ||
                 promocion.getDescripcion() == null || promocion.getDescripcion().isEmpty() ||
                 promocion.getTipo() == null || promocion.getTipo().isEmpty() ||
                 promocion.getFechaInicio() == null || promocion.getFechaFin() == null) {
             return ResponseEntity.badRequest().body("Datos de promoción inválidos");
         }
-
         if (promocion.getFechaFin().isBefore(promocion.getFechaInicio())) {
             return ResponseEntity.badRequest().body("La fecha de fin debe ser posterior a la fecha de inicio");
         }
-
         promocionRepo.save(promocion);
         return ResponseEntity.ok(promocion);
     }
@@ -59,7 +58,7 @@ public class PromocionServiceImp implements PromocionService {
         if (promocionOld == null) {
             return ResponseEntity.badRequest().body("Promoción no encontrada");
         }
-
+        // Solo se actualizan los campos que vienen con datos válidos
         if (promocion.getTitulo() != null && !promocion.getTitulo().isEmpty()) {
             promocionOld.setTitulo(promocion.getTitulo());
         }
@@ -78,12 +77,10 @@ public class PromocionServiceImp implements PromocionService {
         if (promocion.getImagenUrl() != null) {
             promocionOld.setImagenUrl(promocion.getImagenUrl());
         }
-
         // Validar que la fecha fin sea posterior a la fecha inicio
         if (promocionOld.getFechaFin().isBefore(promocionOld.getFechaInicio())) {
             return ResponseEntity.badRequest().body("La fecha de fin debe ser posterior a la fecha de inicio");
         }
-
         promocionRepo.save(promocionOld);
         return ResponseEntity.ok(promocionOld);
     }
@@ -120,22 +117,18 @@ public class PromocionServiceImp implements PromocionService {
     public ResponseEntity<?> asignarCineAPromocion(long promocionId, long cineId) {
         Promocion promocion = promocionRepo.findById(promocionId).orElse(null);
         Cine cine = cineRepo.findById(cineId).orElse(null);
-
         if (promocion == null) {
             return ResponseEntity.badRequest().body("Promoción no encontrada");
         }
         if (cine == null) {
             return ResponseEntity.badRequest().body("Cine no encontrado");
         }
-
-        // Verificar si ya existe la relación
+        // Verifica si ya existe la relación entre cine y promoción
         if (promocion.getCines().contains(cine)) {
             return ResponseEntity.badRequest().body("El cine ya está asignado a esta promoción");
         }
-
         promocion.getCines().add(cine);
         promocionRepo.save(promocion);
-
         return ResponseEntity.ok("Cine asignado correctamente a la promoción");
     }
 
@@ -143,22 +136,18 @@ public class PromocionServiceImp implements PromocionService {
     public ResponseEntity<?> eliminarCineDePromocion(long promocionId, long cineId) {
         Promocion promocion = promocionRepo.findById(promocionId).orElse(null);
         Cine cine = cineRepo.findById(cineId).orElse(null);
-
         if (promocion == null) {
             return ResponseEntity.badRequest().body("Promoción no encontrada");
         }
         if (cine == null) {
             return ResponseEntity.badRequest().body("Cine no encontrado");
         }
-
-        // Verificar si existe la relación
+        // Verifica si existe la relación antes de eliminar
         if (!promocion.getCines().contains(cine)) {
             return ResponseEntity.badRequest().body("El cine no está asignado a esta promoción");
         }
-
         promocion.getCines().remove(cine);
         promocionRepo.save(promocion);
-
         return ResponseEntity.ok("Cine eliminado correctamente de la promoción");
     }
 }

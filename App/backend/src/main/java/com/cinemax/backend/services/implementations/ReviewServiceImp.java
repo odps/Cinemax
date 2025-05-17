@@ -37,8 +37,9 @@ public class ReviewServiceImp implements ReviewService {
 
     @Override
     public ResponseEntity<?> createReview(Review review) {
-        reviewRepo.save(review);
+        // Se asegura que el usuario asociado exista antes de guardar la review
         review.setUsuario(usuarioRepo.findById(review.getUsuario().getId()).orElse(null));
+        reviewRepo.save(review);
         return ResponseEntity.ok(review);
     }
 
@@ -48,14 +49,16 @@ public class ReviewServiceImp implements ReviewService {
         if (reviewOld == null) {
             return ResponseEntity.badRequest().body("Review no encontrada");
         } else {
+            // Solo se actualizan los campos que vienen con datos válidos
             if (review.getComentario() != null) {
                 reviewOld.setComentario(review.getComentario());
             }
             if (review.getPuntuacion() != 0) {
                 reviewOld.setPuntuacion(review.getPuntuacion());
             }
-            reviewRepo.save(reviewOld);
+            // Se actualiza la referencia al usuario por si hubo cambios
             reviewOld.setUsuario(usuarioRepo.findById(reviewOld.getUsuario().getId()).orElse(null));
+            reviewRepo.save(reviewOld);
             return ResponseEntity.ok(reviewOld);
         }
     }

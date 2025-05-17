@@ -8,6 +8,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador REST para la gestión de permisos de usuario
+ */
 @RestController
 @EnableMethodSecurity
 @RequestMapping("/permiso")

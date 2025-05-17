@@ -33,6 +33,7 @@ public class PeliculaServiceImp implements PeliculaService {
 
     @Override
     public ResponseEntity<?> createPelicula(Pelicula pelicula) {
+        // Validación de datos obligatorios antes de crear la película
         if (pelicula.getTitulo() == null || pelicula.getGenero() == null || pelicula.getDuracion() <= 0) {
             return ResponseEntity.badRequest().body("Datos de película inválidos");
         }
@@ -49,6 +50,7 @@ public class PeliculaServiceImp implements PeliculaService {
         if (peliculaOld == null) {
             return ResponseEntity.badRequest().body("Película no encontrada");
         } else {
+            // Solo se actualizan los campos que vienen con datos válidos
             if (pelicula.getTitulo() != null) {
                 peliculaOld.setTitulo(pelicula.getTitulo());
             }

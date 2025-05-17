@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @EnableMethodSecurity
 @RequestMapping("/review")
+// Controlador REST para la gestión de reviews de usuarios
 public class ReviewController {
 
     @Autowired

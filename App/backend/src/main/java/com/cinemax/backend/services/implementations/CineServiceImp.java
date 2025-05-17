@@ -35,22 +35,19 @@ public class CineServiceImp implements CineService {
 
     @Override
     public ResponseEntity<?> createCine(Cine cine) {
+        // Validación de datos obligatorios y unicidad de NIF
         if (cine.getNif() == null || cine.getNif().isEmpty() || cine.getNombre() == null || cine.getNombre().isEmpty()
-                ||
-                cine.getDireccion() == null || cine.getDireccion().isEmpty() || cine.getCiudad() == null
+                || cine.getDireccion() == null || cine.getDireccion().isEmpty() || cine.getCiudad() == null
                 || cine.getCiudad().isEmpty()) {
             return ResponseEntity.badRequest().body("Datos de cine inválidos");
         }
-
         Cine existingCine = cineRepo.findByNif(cine.getNif());
         if (existingCine != null) {
             return ResponseEntity.badRequest().body("NIF ya registrado");
         }
-
         if (cine.getImagenUrl() == null) {
             cine.setImagenUrl("cine_placeholder.jpg");
         }
-
         cineRepo.save(cine);
         return ResponseEntity.ok(cine);
     }
@@ -61,7 +58,8 @@ public class CineServiceImp implements CineService {
         if (cineOld == null) {
             return ResponseEntity.badRequest().body("Cine no encontrado");
         }
-
+        // Solo se actualizan los campos que vienen con datos válidos y se valida
+        // unicidad de NIF
         if (cine.getNombre() != null && !cine.getNombre().isEmpty()) {
             cineOld.setNombre(cine.getNombre());
         }
@@ -84,15 +82,12 @@ public class CineServiceImp implements CineService {
         if (cine.getTelefono() != null) {
             cineOld.setTelefono(cine.getTelefono());
         }
-
         if (cine.getDescripcion() != null) {
             cineOld.setDescripcion(cine.getDescripcion());
         }
-
         if (cine.getHorario() != null) {
             cineOld.setHorario(cine.getHorario());
         }
-
         cineRepo.save(cineOld);
         return ResponseEntity.ok(cineOld);
     }

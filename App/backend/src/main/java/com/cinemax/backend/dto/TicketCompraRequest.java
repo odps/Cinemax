@@ -1,10 +1,16 @@
 package com.cinemax.backend.dto;
 
+// DTO para encapsular los datos necesarios para la compra de un ticket
 public class TicketCompraRequest {
+    // Identificador del usuario que realiza la compra
     private Long usuarioId;
+    // Identificador de la función seleccionada
     private Long funcionId;
+    // Identificador del asiento seleccionado
     private Long asientoId;
+    // Método de pago elegido (por ejemplo: tarjeta, PayPal, etc.)
     private String metodoPago;
+    // Monto total de la compra
     private Long montoTotal;
 
     public Long getUsuarioId() {

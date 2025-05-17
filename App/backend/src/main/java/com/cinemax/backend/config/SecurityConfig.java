@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+// Configuración de seguridad para la aplicación, define filtros, CORS, autenticación y autorización
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -30,22 +31,26 @@ public class SecurityConfig {
     @Autowired
     private JwtUtil jwtUtil;
 
+    // Bean para codificar contraseñas usando BCrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Bean para el AuthenticationManager de Spring Security
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    // Bean para el filtro JWT personalizado
     @Bean
     public JwtRequestFilter jwtRequestFilter() {
         return new JwtRequestFilter(jwtUtil, customUserDetailsService);
     }
 
+    // Configuración de CORS para permitir peticiones desde cualquier origen
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -58,6 +63,7 @@ public class SecurityConfig {
         return source;
     }
 
+    // Configuración principal de la cadena de filtros de seguridad
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http

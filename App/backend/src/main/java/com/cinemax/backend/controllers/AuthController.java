@@ -1,5 +1,6 @@
 package com.cinemax.backend.controllers;
 
+// Controlador REST para la autenticación y registro de usuarios
 import com.cinemax.backend.models.AuthUser;
 import com.cinemax.backend.models.Usuario;
 import com.cinemax.backend.services.implementations.CustomUserDetailsService;

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,6 +49,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Log> logs;
 
+    // Constructor para crear usuario con datos mínimos
     public Usuario(String nombre, String correo, String contrasena, Rol rol) {
         this.nombre = nombre;
         this.correo = correo;

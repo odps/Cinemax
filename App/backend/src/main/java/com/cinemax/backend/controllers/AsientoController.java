@@ -8,6 +8,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador REST para la gestión de asientos
+ */
 @RestController
 @EnableMethodSecurity
 @RequestMapping("/asiento")
@@ -18,14 +21,12 @@ public class AsientoController {
 
     // Obtener todos los asientos
     @GetMapping("/lista")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> listaAsientos() {
         return this.asientoService.getAsientos();
     }
 
     // Obtener un asiento por ID
     @GetMapping("/{id}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getAsientoById(@PathVariable long id) {
         return this.asientoService.getAsiento(id);
     }
@@ -53,7 +54,6 @@ public class AsientoController {
 
     // Obtener asientos por ID de sala
     @GetMapping("/sala/{idSala}")
-//    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     public ResponseEntity<?> getAsientosBySalaId(@PathVariable long idSala) {
         return this.asientoService.getAsientosBySalaId(idSala);
     }

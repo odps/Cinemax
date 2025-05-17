@@ -65,6 +65,7 @@ public class TicketServiceImp implements TicketService {
         if (ticketOld == null) {
             return ResponseEntity.badRequest().body("Ticket no encontrado");
         } else {
+            // Solo se actualizan los campos que vienen con datos válidos
             if (ticket.getUsuario() != null) {
                 ticketOld.setUsuario(ticket.getUsuario());
             }
@@ -112,12 +113,14 @@ public class TicketServiceImp implements TicketService {
     @Transactional
     @Override
     public ResponseEntity<?> comprarTicket(TicketCompraRequest request) {
+        // Validación de existencia de usuario, función y asiento
         Usuario usuario = usuarioRepo.findById(request.getUsuarioId()).orElse(null);
         Funcion funcion = funcionRepo.findById(request.getFuncionId()).orElse(null);
         Asiento asiento = asientoRepo.findById(request.getAsientoId()).orElse(null);
         if (usuario == null || funcion == null || asiento == null) {
             return ResponseEntity.badRequest().body("Datos de usuario, función o asiento inválidos");
         }
+        // Verifica que el asiento esté disponible o reservado antes de comprar
         DisponibilidadAsiento disponibilidad = disponibilidadAsientoRepo
                 .findByIdAsientoIdAndIdFuncionId(asiento.getId(), funcion.getId());
         if (disponibilidad == null ||
@@ -133,6 +136,7 @@ public class TicketServiceImp implements TicketService {
         ticket.setAsiento(asiento);
         ticketRepo.save(ticket);
         ticketRepo.flush();
+        // Determina el monto total a cobrar
         long montoTotal = (request.getMontoTotal() != null && request.getMontoTotal() > 0)
                 ? request.getMontoTotal()
                 : (funcion.getPrecio() > 0 ? funcion.getPrecio() : 0);
@@ -144,6 +148,7 @@ public class TicketServiceImp implements TicketService {
         factura.setEstado("pagada");
         factura.setFechaEmision(java.time.LocalDateTime.now());
         facturaRepo.save(factura);
+        // Respuesta con ticket y factura generados
         Map<String, Object> response = new java.util.HashMap<>();
         response.put("ticket", ticket);
         response.put("factura", factura);

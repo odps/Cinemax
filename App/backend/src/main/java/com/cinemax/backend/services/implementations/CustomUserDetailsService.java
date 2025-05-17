@@ -20,8 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UsuarioRepo usuarioRepo;
 
-    //     Método para mapear las autoridades del rol del usuario
-
+    // Mapea el nombre del rol del usuario a la autoridad de Spring Security
     public Collection<GrantedAuthority> mapToAuthorities(String role) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role));
@@ -30,25 +29,21 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
-        System.out.println("=== Entrada en controlador de login");
         Usuario usuario = usuarioRepo.findByCorreo(correo);
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
-
+        // Si el usuario no tiene rol asignado, retorna sin autoridades
         if (usuario.getRol() == null) {
-            System.out.println("Este usuario no tiene rol asignado");
             return new org.springframework.security.core.userdetails.User(
                     usuario.getCorreo(),
                     usuario.getContrasena(),
-                    new ArrayList<>()
-            );
+                    new ArrayList<>());
         }
-
+        // Retorna el usuario con las autoridades correspondientes a su rol
         return new org.springframework.security.core.userdetails.User(
                 usuario.getCorreo(),
                 usuario.getContrasena(),
-                mapToAuthorities(usuario.getRol().getNombre())
-        );
+                mapToAuthorities(usuario.getRol().getNombre()));
     }
 }

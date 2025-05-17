@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @EnableMethodSecurity
 @RequestMapping("/log")
+// Controlador REST para la gestión de logs del sistema
 public class LogController {
 
     @Autowired

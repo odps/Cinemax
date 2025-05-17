@@ -19,6 +19,7 @@ import java.util.Set;
 @Service
 public class UsuarioServiceImp implements UsuarioService {
 
+    // Inyección del servicio de roles para crear roles si no existen
     private final RolServiceImp rolServiceImp;
 
     @Autowired
@@ -60,17 +61,19 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Override
     public ResponseEntity<?> createUsuario(Usuario usuario) {
+        // Verifica si el correo ya está registrado
         Usuario checkUsuario = usuarioRepo.findByCorreo(usuario.getCorreo());
         if (checkUsuario != null) {
             return ResponseEntity.badRequest().body("Email ya registrado");
         } else {
+            // Si el rol CLIENT no existe, lo crea junto con el permiso CLIENT
             Rol userRol = rolRepo.findByNombre("CLIENT");
             if (userRol == null) {
 
-                Permiso userPermiso = permisoRepo.findByNombre("USER");
+                Permiso userPermiso = permisoRepo.findByNombre("CLIENT");
                 if (userPermiso == null) {
                     userPermiso = new Permiso();
-                    userPermiso.setNombre("USER");
+                    userPermiso.setNombre("CLIENT");
                     permisoRepo.save(userPermiso);
                 }
 
@@ -95,6 +98,7 @@ public class UsuarioServiceImp implements UsuarioService {
         if (userOld == null) {
             return ResponseEntity.badRequest().body("Usuario no encontrado");
         } else {
+            // Actualiza solo los campos que vienen con datos válidos
             if (usuario.getCorreo() != null) {
                 userOld.setCorreo(usuario.getCorreo());
             }
@@ -137,7 +141,7 @@ public class UsuarioServiceImp implements UsuarioService {
         }
 
         usuario.setId(usuarioExistente.getId());
-
+        // Validación para evitar duplicidad de correo
         if (usuario.getCorreo() == null || usuario.getCorreo().isEmpty()) {
             usuario.setCorreo(usuarioExistente.getCorreo());
         } else {
@@ -146,16 +150,14 @@ public class UsuarioServiceImp implements UsuarioService {
                 return ResponseEntity.badRequest().body("El correo ya está en uso por otro usuario");
             }
         }
-
         usuario.setRol(usuarioExistente.getRol());
         usuario.setFechaRegistro(usuarioExistente.getFechaRegistro());
-
+        // Si se cambia la contraseña, se codifica; si no, se mantiene la anterior
         if (usuario.getContrasena() != null && !usuario.getContrasena().isEmpty()) {
             usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
         } else {
             usuario.setContrasena(usuarioExistente.getContrasena());
         }
-
         usuarioRepo.save(usuario);
         return ResponseEntity.ok(usuario);
     }

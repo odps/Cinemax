@@ -8,6 +8,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controlador REST para la gestión de facturas
+ */
 @RestController
 @EnableMethodSecurity
 @RequestMapping("/factura")
@@ -53,7 +56,6 @@ public class FacturaController {
 
     // Obtener facturas por ID de usuario
     @GetMapping("/usuario/{usuarioId}")
-    //@PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> getFacturasByUsuarioId(@PathVariable long usuarioId) {
         return this.facturaService.getFacturasByUsuarioId(usuarioId);
     }

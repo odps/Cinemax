@@ -37,6 +37,7 @@ public class PermisoServiceImp implements PermisoService {
 
     @Override
     public ResponseEntity<?> createPermiso(Permiso permiso) {
+        // Validación para evitar duplicados por nombre
         Permiso checkPermiso = permisoRepo.findByNombre(permiso.getNombre());
         if (checkPermiso != null) {
             return ResponseEntity.badRequest().body("Nombre de permiso existente");
@@ -52,6 +53,7 @@ public class PermisoServiceImp implements PermisoService {
         if (permisoOld == null) {
             return ResponseEntity.badRequest().body("Permiso no encontrado");
         } else {
+            // Solo se actualiza el nombre si es válido
             if (permiso.getNombre() != null) {
                 permisoOld.setNombre(permiso.getNombre());
             }

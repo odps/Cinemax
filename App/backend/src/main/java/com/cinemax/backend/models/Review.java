@@ -5,7 +5,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity

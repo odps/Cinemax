@@ -40,15 +40,14 @@ public class LogServiceImp implements LogService {
 
     @Override
     public ResponseEntity<?> createLog(Log log) {
+        // Validación de datos obligatorios y existencia de usuario
         if (log.getUsuario() == null || log.getAccion() == null || log.getAccion().isEmpty()) {
             return ResponseEntity.badRequest().body("Datos de log inválidos");
         }
-
         Usuario usuario = usuarioRepo.findById(log.getUsuario().getId()).orElse(null);
         if (usuario == null) {
             return ResponseEntity.badRequest().body("Usuario no encontrado");
         }
-
         log.setUsuario(usuario);
         logRepo.save(log);
         return ResponseEntity.ok(log);
@@ -60,11 +59,10 @@ public class LogServiceImp implements LogService {
         if (logOld == null) {
             return ResponseEntity.badRequest().body("Log no encontrado");
         }
-
+        // Solo se actualiza la acción si se proporciona un valor válido
         if (log.getAccion() != null && !log.getAccion().isEmpty()) {
             logOld.setAccion(log.getAccion());
         }
-
         logRepo.save(logOld);
         return ResponseEntity.ok(logOld);
     }
@@ -80,10 +78,10 @@ public class LogServiceImp implements LogService {
 
     @Override
     public ResponseEntity<?> getLogsByUsuarioId(long usuarioId) {
+        // Se valida la existencia del usuario antes de buscar sus logs
         if (!usuarioRepo.existsById(usuarioId)) {
             return ResponseEntity.badRequest().body("Usuario no encontrado");
         }
-
         List<Log> logs = logRepo.findByUsuarioId(usuarioId);
         if (logs.isEmpty()) {
             return ResponseEntity.noContent().build();

@@ -43,6 +43,7 @@ public class SalaServiceImp implements SalaService {
         if (salaOld == null) {
             return ResponseEntity.badRequest().body("Sala no encontrada");
         } else {
+            // Solo se actualizan los campos que vienen con datos válidos
             if (sala.getNombre() != null) {
                 salaOld.setNombre(sala.getNombre());
             }

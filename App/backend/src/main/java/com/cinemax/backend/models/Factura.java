@@ -3,14 +3,10 @@ package com.cinemax.backend.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "FACTURA")
-// @JsonIgnoreProperties({"usuario", "ticket.funcion.idSala",
-// "ticket.usuario.logs", "ticket.usuario.reviews", "ticket.usuario.tickets"})
 public class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +36,8 @@ public class Factura {
     @Column(name = "ESTADO", nullable = false, length = 20)
     private String estado;
 
+    // Constructor principal para inicializar todos los campos relevantes de la
+    // factura
     public Factura(Ticket ticket, Usuario usuario, LocalDateTime fechaEmision, long montoTotal, String metodoPago,
             String estado) {
         this.ticket = ticket;

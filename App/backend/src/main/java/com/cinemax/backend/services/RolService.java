@@ -4,15 +4,15 @@ import com.cinemax.backend.models.Rol;
 import org.springframework.http.ResponseEntity;
 
 public interface RolService {
-    public ResponseEntity<?> getRoles();
+    ResponseEntity<?> getRoles();
 
-    public ResponseEntity<?> getRol(long id);
+    ResponseEntity<?> getRol(long id);
 
-    public ResponseEntity<?> createRol(Rol rol);
+    ResponseEntity<?> createRol(Rol rol);
 
-    public ResponseEntity<?> updateRol(Rol rol, long id);
+    ResponseEntity<?> updateRol(Rol rol, long id);
 
-    public ResponseEntity<?> deleteRol(long id);
+    ResponseEntity<?> deleteRol(long id);
 
     ResponseEntity<?> getRolByNombre(String nombre);
 

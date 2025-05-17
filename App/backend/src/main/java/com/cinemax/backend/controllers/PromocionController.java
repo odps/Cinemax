@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @EnableMethodSecurity
 @RequestMapping("/promocion")
+// Controlador REST para la gestión de promociones
 public class PromocionController {
 
     @Autowired

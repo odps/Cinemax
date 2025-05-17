@@ -35,7 +35,9 @@ public class AsientoServiceImp implements AsientoService {
 
     @Override
     public ResponseEntity<?> createAsiento(Asiento asiento) {
-        if (asiento.getIdSala() == null || asiento.getFila() == null || asiento.getFila().isEmpty() || asiento.getNumero() <= 0) {
+        // Validación de datos mínimos requeridos para crear un asiento
+        if (asiento.getIdSala() == null || asiento.getFila() == null || asiento.getFila().isEmpty()
+                || asiento.getNumero() <= 0) {
             return ResponseEntity.badRequest().body("Datos de asiento inválidos");
         }
         asientoRepo.save(asiento);
@@ -48,7 +50,7 @@ public class AsientoServiceImp implements AsientoService {
         if (asientoOld == null) {
             return ResponseEntity.badRequest().body("Asiento no encontrado");
         }
-
+        // Solo se actualizan los campos que vienen con datos válidos
         if (asiento.getIdSala() != null) {
             asientoOld.setIdSala(asiento.getIdSala());
         }
@@ -58,7 +60,6 @@ public class AsientoServiceImp implements AsientoService {
         if (asiento.getNumero() > 0) {
             asientoOld.setNumero(asiento.getNumero());
         }
-
         asientoRepo.save(asientoOld);
         return ResponseEntity.ok(asientoOld);
     }
@@ -74,6 +75,7 @@ public class AsientoServiceImp implements AsientoService {
 
     @Override
     public ResponseEntity<?> getAsientosBySalaId(long idSalaId) {
+        // Devuelve todos los asientos asociados a una sala específica
         List<Asiento> asientos = asientoRepo.findByIdSalaId(idSalaId);
         if (asientos.isEmpty()) {
             return ResponseEntity.noContent().build();
