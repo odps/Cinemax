@@ -37,22 +37,16 @@
   <img src="Assets/githubAssets/angular-logo.png" width="150"/>
 </p>
 
-- **Bootstrap**: Para el diseño responsive y la estilización de componentes.
+- **TailwindCSS**: Para el diseño responsive y la estilización de componentes.
 
 <p align="center">
-  <img src="Assets/githubAssets/bootstrap-logo.png" width="80"/>
+  <img src="Assets/githubAssets/tailwind.png" width="240"/>
 </p>
 
 - **PrimeNG**: Para la implementación de componentes UI avanzados y personalizados.
 
 <p align="center">
   <img src="Assets/githubAssets/primeng.png" width="100"/>
-</p>
-
-- **SASS**: Para la escritura de estilos CSS más eficientes y mantenibles.
-
-<p align="center">
-  <img src="Assets/githubAssets/sass.png" width="60"/>
 </p>
 
 ### Despliegue
